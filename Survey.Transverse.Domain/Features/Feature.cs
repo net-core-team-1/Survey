@@ -5,57 +5,43 @@ using System.Collections.Generic;
 
 namespace Survey.Transverse.Domain.Features
 {
-    public class Feature:BaseEntity
+    public class Feature : BaseEntity
     {
-        public String Label { get; set; }
-        public String Description { get; set; }
-        public String Controller { get; set; }
-        public string ControllerActionName { get; set; }
-        public String Action { get; set; }
-        public DateTime? DisabledOn { get; set; }
-        public Guid? DisabledBy { get; set; }
-
-        public bool Disabled { get { return DisabledOn != null; } }
-
-        public virtual ICollection<PermissionFeature> PermissionFeatures { get; protected set; }
+        public virtual FeatureInfo FeatureInfo { get; private set; }
+        public virtual CreateInfo CreateInfo { get; private set; }
+        public virtual DisabeleInfo DisabeleInfo { get; private set; }
+        public virtual DeleteInfo DeleteInfo { get; private set; }
 
 
-        public Feature()
+        protected Feature()
         {
 
         }
-        public Feature(string label, string description, string action, string controller,
-                                 string controllerActionNmae, Guid createdBy)
+        public Feature(FeatureInfo featureInfo, CreateInfo creationInfo)
         {
-            Label = label;
-            Description = description;
-            Action = action;
-            Controller = controller;
-            ControllerActionName = controllerActionNmae;
-            CreatedBy = createdBy;
+            FeatureInfo = featureInfo;
+            CreateInfo = creationInfo;
+            DeleteInfo = DeleteInfo.Create().Value;
+            DisabeleInfo = DisabeleInfo.Create().Value;
         }
 
-        public void Deactivate(Guid disabledby)
+        public void Deactivate(DisabeleInfo disableInfo)
         {
-            DisabledOn = DateTime.Now;
-            DisabledBy = disabledby;
-            SetUpdatedDate();
+            DisabeleInfo = disableInfo;
         }
 
-        public void UpdateInfo(string label, string description, string action, string controller,
-                                 string controllerActionName)
+        public void UpdateInfo(FeatureInfo featureInfo)
         {
-            this.Label = label;
-            this.Description = description;
-            this.Action = action;
-            this.Controller = controller;
-            this.ControllerActionName = controllerActionName;
-            this.SetUpdatedDate();
+            FeatureInfo = featureInfo;
         }
 
-        public void Remove(Guid by,string reason)
+        public void Remove(DeleteInfo deletionObj)
         {
-            MarkAsDeleted(by, reason);
+            MarkAsDeleted(deletionObj);
+        }
+        private void MarkAsDeleted(DeleteInfo deletionObj)
+        {
+            DeleteInfo = deletionObj;
         }
     }
 }

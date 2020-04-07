@@ -19,11 +19,9 @@ namespace Survey.Transverse.Domain.Identity
 
         public bool Invalidated { get; set; }
 
-        public Guid UserId { get; set; }
+        public virtual User User { get; set; }
 
-        public User User { get; set; }
-
-        public RefreshToken() : base()
+        protected RefreshToken() : base()
         {
             Token = GenerateRefreshToken();
         }

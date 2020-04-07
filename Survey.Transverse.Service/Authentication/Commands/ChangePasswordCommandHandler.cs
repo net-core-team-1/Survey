@@ -28,8 +28,12 @@ namespace Survey.Transverse.Service.Authentication.Commands
 
             if (!user.VerifyPassword(command.OldPassword))
                 return Result.Failure("Incorrect password");
-            else
-                user.SetPassword(command.NewPassword);
+
+            Result<Password> passwordResult = Password.Create(command.NewPassword);
+            if (passwordResult.IsFailure)
+                return Result.Failure($"Password invalid ");
+
+            user.SetPassword(passwordResult.Value);
 
             if (!_userRepository.Save())
             {

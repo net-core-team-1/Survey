@@ -15,15 +15,20 @@ namespace Survey.Transverse.Domain.Permissions
         public virtual Feature Feature { get; set; }
         public virtual Permission Permission { get; set; }
 
-        public PermissionFeature(Guid permissionId, Guid featureId)
+        private PermissionFeature(Guid permissionId, Guid featureId)
         {
             PermissionId = permissionId;
             FeatureId = featureId;
             AssociatedOn = DateTime.Now;
         }
-        public PermissionFeature()
+        protected PermissionFeature()
         {
 
+        }
+        public static PermissionFeature Create(Guid permissionId,Guid featureId)
+        {
+            var permissionFeature = new PermissionFeature(permissionId, featureId);
+            return permissionFeature;
         }
     }
 }

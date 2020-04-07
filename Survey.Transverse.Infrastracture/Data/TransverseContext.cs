@@ -4,6 +4,7 @@ using Survey.Transverse.Domain.Identity;
 using Survey.Transverse.Domain.Permissions;
 using Survey.Transverse.Domain.Users;
 using Survey.Transverse.Infrastracture.Data.Mapping;
+using Microsoft.EntityFrameworkCore.Proxies;
 
 namespace Survey.Transverse.Infrastracture.Data
 {
@@ -11,16 +12,18 @@ namespace Survey.Transverse.Infrastracture.Data
     {
         public TransverseContext(DbContextOptions<TransverseContext> options) : base(options)
         {
-
+           
         }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
             modelBuilder.ApplyConfiguration(new UserMap());
             modelBuilder.ApplyConfiguration(new FeatureMap());
             modelBuilder.ApplyConfiguration(new PermissionMap());
-            modelBuilder.ApplyConfiguration(new UserPermissionMap());
-            modelBuilder.ApplyConfiguration(new PermissionFeatureMap());
+            modelBuilder.ApplyConfiguration(new UserPermissionMap()); 
+            modelBuilder.ApplyConfiguration(new PermissionFeatureMap()); 
             modelBuilder.ApplyConfiguration(new RefreshTokenMap());
 
 
@@ -30,10 +33,7 @@ namespace Survey.Transverse.Infrastracture.Data
 
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Feature> Features { get; set; }
-
         public virtual DbSet<Permission> Permissions { get; set; }
-        public virtual DbSet<UserPermission> UserPermissions { get; set; }
-        public virtual DbSet<PermissionFeature> PermissionFeatures { get; set; }
         public virtual DbSet<RefreshToken> RefreshTokens { get; set; }
 
 

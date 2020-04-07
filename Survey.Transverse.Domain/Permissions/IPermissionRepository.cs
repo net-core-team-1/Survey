@@ -11,10 +11,8 @@ namespace Survey.Transverse.Domain.Features
     {
         Permission FindByKey(Guid id);
         void Insert(Permission entity);
-        void UpdateFeatures(Permission entity,bool deleteExisting);
-
-        IEnumerable<Permission> FindByInclude(Expression<Func<Permission, bool>> predicate, params Expression<Func<Permission, object>>[] includeProperties);
         IEnumerable<Permission> FindBy(Expression<Func<Permission, bool>> predicate);
+        IEnumerable<Permission> FindByInclude(Expression<Func<Permission, bool>> predicate, params Expression<Func<Permission, object>>[] includeProperties);
 
         bool Save();
     }

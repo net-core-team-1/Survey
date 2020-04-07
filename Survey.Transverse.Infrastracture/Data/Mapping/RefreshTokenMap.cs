@@ -19,10 +19,9 @@ namespace Survey.Transverse.Infrastracture.Data.Mapping
             builder.Property(a => a.Timestamp).IsRowVersion();
             builder.Property(a => a.JwtId).HasMaxLength(50);
 
-            builder.HasOne(a => a.User)
-                    .WithMany(a => a.RefreshTokens)
-                    .HasForeignKey(a => a.UserId)
-                    .IsRequired();
+            builder.HasOne(a => a.User).WithMany().IsRequired()
+                 .OnDelete(DeleteBehavior.Cascade);
+
         }
     }
 }

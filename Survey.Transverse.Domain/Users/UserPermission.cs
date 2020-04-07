@@ -21,11 +21,16 @@ namespace Survey.Transverse.Domain.Users
         {
 
         }
-        public UserPermission(Guid userId, Guid permissionId)
+        private UserPermission(Guid userId, Guid permissionId)
         {
             UserId = userId;
             PermissionId = permissionId;
             AssociatedOn = DateTime.Now;
+        }
+        public static UserPermission Create(Guid userId, Guid permissionId)
+        {
+            UserPermission userPermission = new UserPermission(userId, permissionId);
+            return userPermission;
         }
     }
 }

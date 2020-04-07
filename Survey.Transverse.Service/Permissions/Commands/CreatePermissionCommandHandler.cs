@@ -1,5 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using Survey.Common.Types;
+using Survey.Transverse.Domain;
 using Survey.Transverse.Domain.Features;
 using Survey.Transverse.Domain.Permissions;
 using Survey.Transverse.Domain.Permissions.Commands;
@@ -12,21 +13,26 @@ namespace Survey.Transverse.Service.Permissions.Commands
 {
     public sealed class CreatePermissionCommandHandler : ICommandHandler<CreatePermissionCommand>
     {
-        private readonly TransverseContext _context;
         private readonly IPermissionRepository _permissionRepository;
 
-        public CreatePermissionCommandHandler(TransverseContext context,
-                                              IPermissionRepository permissionRepository)
+        public CreatePermissionCommandHandler(IPermissionRepository permissionRepository)
         {
-            _context = context;
             _permissionRepository = permissionRepository;
 
         }
         public Result Handle(CreatePermissionCommand command)
         {
-            var permission = new Permission(command.Label, command.Description, command.CreatedBy,command?.Features);
+            Result<CreateInfo> createInfoResult = CreateInfo.Create(command.CreatedBy);
+            if (createInfoResult.IsFailure)
+                return Result.Failure($"Error");
+
+            Result<PermissionInfo> permissionInfoResult = PermissionInfo.Create(command.Label, command.Description);
+            if (permissionInfoResult.IsFailure)
+                return Result.Failure($"Error");
+
+            var permission = new Permission(permissionInfoResult.Value, createInfoResult.Value, command?.Features);
             _permissionRepository.Insert(permission);
-           if(! _permissionRepository.Save())
+            if (!_permissionRepository.Save())
             {
                 return Result.Failure("Permission could not be saved");
             }

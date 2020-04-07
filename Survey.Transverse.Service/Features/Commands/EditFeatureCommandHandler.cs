@@ -26,8 +26,14 @@ namespace Survey.Transverse.Service.Permissions.Commands
         public Result Handle(EditFeatureCommand command)
         {
             var feature = _featureRepository.FindByKey(command.Id);
-            feature.UpdateInfo(command.Label, command.Description, command.Action, command.Controller,
-                               command.ControllerActionName);
+
+            Result<FeatureInfo> featureInfoResult = FeatureInfo.Create(command.Label, command.Description,
+                                                               command.Description, command.ControllerActionName,
+                                                               command.Action);
+            if (featureInfoResult.IsFailure)
+                return Result.Failure($"Error");
+
+            feature.UpdateInfo(featureInfoResult.Value);
 
             if (!_featureRepository.Save())
             {

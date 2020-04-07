@@ -1,5 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using Survey.Common.Types;
+using Survey.Transverse.Domain;
 using Survey.Transverse.Domain.Features;
 using Survey.Transverse.Domain.Features.Commands;
 using Survey.Transverse.Infrastracture.Data;
@@ -22,10 +23,19 @@ namespace Survey.Transverse.Service.Features.Commands
         }
         public Result Handle(CreateFeatureCommand command)
         {
-            var feature = new Feature(command.Label, command.Description, command.Action, command.Controller,
-                                      command.ControllerActionName, command.CreatedBy);
+            Result<CreateInfo> creationObj = CreateInfo.Create(command.CreatedBy);
+            if (creationObj.IsFailure)
+                return Result.Failure($"Error");
+
+            Result<FeatureInfo> featureInfoResult = FeatureInfo.Create(command.Label, command.Description,
+                                                                command.Description, command.ControllerActionName,
+                                                                command.Action);
+            if (featureInfoResult.IsFailure)
+                return Result.Failure($"Error");
+
+            var feature = new Feature(featureInfoResult.Value, creationObj.Value);
             _featureRepository.Insert(feature);
-            if(!_featureRepository.Save())
+            if (!_featureRepository.Save())
             {
                 return Result.Failure("Feature could not be saved");
             }

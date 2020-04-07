@@ -1,7 +1,9 @@
-﻿using Survey.Common.Types;
+﻿using CSharpFunctionalExtensions;
+using Survey.Common.Types;
 using Survey.Transverse.Domain.Identity;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Survey.Transverse.Domain.Users
@@ -10,110 +12,79 @@ namespace Survey.Transverse.Domain.Users
     {
         #region Fields 
 
-        public string FirstName { get; private set; }
-        public string LastName { get; private set; }
-        public string Email { get; private set; }
+        public virtual FullName FullName { get; private set; }
+        public virtual Email Email { get; private set; }
+        public virtual Password Password { get; private set; }
+        public virtual DeleteInfo DeleteInfo { get; private set; }
+        public virtual CreateInfo CreateInfo { get; private set; }
+
         public DateTime? LastConnexionOn { get; private set; }
-        public byte[] PasswordHash { get; private set; }
-        public byte[] PasswordSalt { get; private set; }
 
-
-
-        public virtual ICollection<UserPermission> UserPermissions { get; protected set; }
-        public virtual ICollection<RefreshToken> RefreshTokens { get; protected set; }
+        private readonly List<UserPermission> _userPermissions = new List<UserPermission>();
+        public virtual IReadOnlyList<UserPermission> UserPermissions => _userPermissions.ToList();
 
 
         #endregion
 
         #region Ctor 
-        public User()
+        protected User()
         {
-            UserPermissions = new List<UserPermission>();
-            RefreshTokens = new List<RefreshToken>();
         }
 
-        public User(string firstName, string lastName, string email, string password, List<Guid> permissions)
+        public User(FullName fullName, Email email, Password password, List<Guid> permissions)
         {
-            //if (permissions == null || permissions.Count == 0)
-            //{
-            //    throw new Exception("User should have at least one permission");
-            //}
-            FirstName = firstName;
-            LastName = lastName;
+
+            FullName = fullName;
             Email = email;
-            byte[] passwordHash;
-            byte[] passwordSalt;
-
-            Common.Identity.Authentication.CreatePasswordHash(password, out passwordHash, out passwordSalt);
-
-            this.PasswordHash = passwordHash;
-            this.PasswordSalt = passwordSalt;
-
-
-            if (permissions != null)
-                permissions.ForEach(a =>
-                {
-                    if (UserPermissions == null)
-                        UserPermissions = new List<UserPermission>();
-                    UserPermissions.Add(new UserPermission(this.Id, a));
-                });
+            Password = password;
+            CreateInfo = CreateInfo.Create().Value;
+            DeleteInfo = DeleteInfo.Create().Value;
+            EditPermissions(permissions, true);
         }
 
         #endregion
 
         #region Methods 
 
-        public void Unregister(Guid by, string reason)
+        public void Unregister(DeleteInfo deletionObj)
         {
-            this.MarkAsDeleted(by, reason);
-            this.SetUpdatedDate();
+            this.MarkAsDeleted(deletionObj);
         }
 
-        public void EditUser(string firstName, string lastName, string email, List<Guid> permissions = null, bool deleteExisting = false)
+        public void EditUser(FullName fullName, Email email, List<Guid> permissions = null, bool deleteExisting = false)
         {
-            this.EditPersonalInfo(firstName, lastName, email);
+            this.EditPersonalInfo(fullName, email);
             this.EditPermissions(permissions, deleteExisting);
 
         }
-        private void EditPersonalInfo(string firstName, string lastName, string email)
+        private void EditPersonalInfo(FullName fullName, Email email)
         {
-            this.FirstName = firstName;
-            this.LastName = lastName;
-            this.Email = email;
-            this.SetUpdatedDate();
+            if (this.FullName != fullName)
+                this.FullName = fullName;
+
+            if (this.Email != email)
+                this.Email = email;
         }
         private void EditPermissions(List<Guid> permissions, bool deleteExisting = false)
         {
-            if (deleteExisting)
-                this.UserPermissions.Clear();
-            if (permissions != null)
-                permissions.ForEach(a =>
-                {
-                    if (UserPermissions == null)
-                        UserPermissions = new List<UserPermission>();
-                    UserPermissions.Add(new UserPermission(this.Id, a));
-                });
+            List<Guid> permissionToAdd = permissions.Where(a => _userPermissions.Where(b => b.Permission.Id == a).Count() == 0).ToList();
+            List<UserPermission> userPermissionToDelete = _userPermissions.Where(a => permissions.Where(b => b == a.Permission.Id).Count() == 0)
+                .ToList();
+
+            if (userPermissionToDelete.Count() != 0)
+                userPermissionToDelete.ForEach(a => _userPermissions.Remove(a));
+            if (permissionToAdd.Count() != 0)
+                permissionToAdd.ForEach(a => _userPermissions.Add(UserPermission.Create(this.Id, a)));
         }
 
-        public void SetPassword(string password)
+        public void SetPassword(Password password)
         {
-            if (string.IsNullOrWhiteSpace(password))
-            {
-                throw new Exception("Password can not be empty.");
-            }
-            byte[] passwordHash;
-            byte[] passwordSalt;
-
-            Common.Identity.Authentication.CreatePasswordHash(password, out passwordHash, out passwordSalt);
-
-            this.PasswordHash = passwordHash;
-            this.PasswordSalt = passwordSalt;
-            this.SetUpdatedDate();
+            Password = password;
         }
 
         public bool VerifyPassword(string password)
         {
-            return Common.Identity.Authentication.CompareHashedPassword(password, this.PasswordHash, this.PasswordSalt);
+            return Common.Identity.Authentication.CompareHashedPassword(password, this.Password.PasswordHash, this.Password.PasswordSalt);
         }
 
         public void SetLastConnexionDate()
@@ -121,7 +92,10 @@ namespace Survey.Transverse.Domain.Users
             this.LastConnexionOn = DateTime.Now;
         }
 
-
+        private void MarkAsDeleted(DeleteInfo deletionObj)
+        {
+            DeleteInfo = deletionObj;
+        }
 
 
         #endregion

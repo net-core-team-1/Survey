@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Survey.Transverse.Infrastracture.Data;
 
 namespace Survey.Transverse.Infrastracture.Migrations
 {
     [DbContext(typeof(TransverseContext))]
-    partial class TransverseContextModelSnapshot : ModelSnapshot
+    [Migration("20200406114043_init project 2")]
+    partial class initproject2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -170,81 +172,66 @@ namespace Survey.Transverse.Infrastracture.Migrations
                                 .OnDelete(DeleteBehavior.Cascade);
                         });
 
-                    b.OwnsOne("Survey.Transverse.Domain.CreateInfo", "CreateInfo", b1 =>
+                    b.OwnsOne("Survey.Transverse.Domain.CreateInfo", "CreationInfo", b1 =>
                         {
                             b1.Property<Guid>("FeatureId");
 
                             b1.Property<Guid?>("CreatedBy")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnName("CreatedBy")
-                                .HasDefaultValue(null);
+                                .HasColumnName("CreatedBy");
 
                             b1.Property<DateTime?>("CreatedOn")
-                                .IsRequired()
-                                .ValueGeneratedOnAdd()
-                                .HasColumnName("CreatedOn")
-                                .HasDefaultValue(new DateTime(2020, 4, 6, 19, 43, 14, 221, DateTimeKind.Local).AddTicks(131));
+                                .HasColumnName("CreatedOn");
 
                             b1.HasKey("FeatureId");
 
                             b1.ToTable("FEATURES","Identity");
 
                             b1.HasOne("Survey.Transverse.Domain.Features.Feature")
-                                .WithOne("CreateInfo")
+                                .WithOne("CreationInfo")
                                 .HasForeignKey("Survey.Transverse.Domain.CreateInfo", "FeatureId")
                                 .OnDelete(DeleteBehavior.Cascade);
                         });
 
-                    b.OwnsOne("Survey.Transverse.Domain.DeleteInfo", "DeleteInfo", b1 =>
+                    b.OwnsOne("Survey.Transverse.Domain.DeleteInfo", "DeletionInfo", b1 =>
                         {
                             b1.Property<Guid>("FeatureId");
 
                             b1.Property<string>("DeleteReason")
-                                .ValueGeneratedOnAdd()
                                 .HasColumnName("DeletReason")
-                                .HasMaxLength(250)
-                                .HasDefaultValue(null);
+                                .HasMaxLength(250);
 
                             b1.Property<Guid?>("DeletedBy")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnName("DeletedBy")
-                                .HasDefaultValue(null);
+                                .HasColumnName("DeletedBy");
 
                             b1.Property<DateTime?>("DeletedOn")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnName("DeletedOn")
-                                .HasDefaultValue(null);
+                                .HasColumnName("DeletedOn");
 
                             b1.HasKey("FeatureId");
 
                             b1.ToTable("FEATURES","Identity");
 
                             b1.HasOne("Survey.Transverse.Domain.Features.Feature")
-                                .WithOne("DeleteInfo")
+                                .WithOne("DeletionInfo")
                                 .HasForeignKey("Survey.Transverse.Domain.DeleteInfo", "FeatureId")
                                 .OnDelete(DeleteBehavior.Cascade);
                         });
 
-                    b.OwnsOne("Survey.Transverse.Domain.DisabeleInfo", "DisabeleInfo", b1 =>
+                    b.OwnsOne("Survey.Transverse.Domain.DisabeleInfo", "DisabelInfo", b1 =>
                         {
                             b1.Property<Guid>("FeatureId");
 
                             b1.Property<Guid?>("DisabledBy")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnName("DisabledBy")
-                                .HasDefaultValue(null);
+                                .HasColumnName("DisabledBy");
 
                             b1.Property<DateTime?>("DisabledOn")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnName("DisabledOn")
-                                .HasDefaultValue(null);
+                                .HasColumnName("DisabledOn");
 
                             b1.HasKey("FeatureId");
 
                             b1.ToTable("FEATURES","Identity");
 
                             b1.HasOne("Survey.Transverse.Domain.Features.Feature")
-                                .WithOne("DisabeleInfo")
+                                .WithOne("DisabelInfo")
                                 .HasForeignKey("Survey.Transverse.Domain.DisabeleInfo", "FeatureId")
                                 .OnDelete(DeleteBehavior.Cascade);
                         });
@@ -288,15 +275,10 @@ namespace Survey.Transverse.Infrastracture.Migrations
                             b1.Property<Guid>("PermissionId");
 
                             b1.Property<Guid?>("CreatedBy")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnName("CreatedBy")
-                                .HasDefaultValue(null);
+                                .HasColumnName("CreatedBy");
 
                             b1.Property<DateTime?>("CreatedOn")
-                                .IsRequired()
-                                .ValueGeneratedOnAdd()
-                                .HasColumnName("CreatedOn")
-                                .HasDefaultValue(new DateTime(2020, 4, 6, 19, 43, 14, 235, DateTimeKind.Local).AddTicks(8001));
+                                .HasColumnName("CreatedOn");
 
                             b1.HasKey("PermissionId");
 
@@ -313,20 +295,14 @@ namespace Survey.Transverse.Infrastracture.Migrations
                             b1.Property<Guid>("PermissionId");
 
                             b1.Property<string>("DeleteReason")
-                                .ValueGeneratedOnAdd()
                                 .HasColumnName("DeletReason")
-                                .HasMaxLength(250)
-                                .HasDefaultValue(null);
+                                .HasMaxLength(250);
 
                             b1.Property<Guid?>("DeletedBy")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnName("DeletedBy")
-                                .HasDefaultValue(null);
+                                .HasColumnName("DeletedBy");
 
                             b1.Property<DateTime?>("DeletedOn")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnName("DeletedOn")
-                                .HasDefaultValue(null);
+                                .HasColumnName("DeletedOn");
 
                             b1.HasKey("PermissionId");
 
@@ -343,14 +319,10 @@ namespace Survey.Transverse.Infrastracture.Migrations
                             b1.Property<Guid>("PermissionId");
 
                             b1.Property<Guid?>("DisabledBy")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnName("DisabledBy")
-                                .HasDefaultValue(null);
+                                .HasColumnName("DisabledBy");
 
                             b1.Property<DateTime?>("DisabledOn")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnName("DisabledOn")
-                                .HasDefaultValue(null);
+                                .HasColumnName("DisabledOn");
 
                             b1.HasKey("PermissionId");
 
@@ -444,15 +416,12 @@ namespace Survey.Transverse.Infrastracture.Migrations
                             b1.Property<Guid>("UserId");
 
                             b1.Property<Guid?>("CreatedBy")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnName("CreatedBy")
-                                .HasDefaultValue(null);
+                                .HasColumnName("CreatedBy");
 
                             b1.Property<DateTime?>("CreatedOn")
-                                .IsRequired()
                                 .ValueGeneratedOnAdd()
                                 .HasColumnName("CreatedOn")
-                                .HasDefaultValue(new DateTime(2020, 4, 6, 19, 43, 14, 188, DateTimeKind.Local).AddTicks(7000));
+                                .HasDefaultValue(new DateTime(2020, 4, 6, 11, 40, 43, 490, DateTimeKind.Local).AddTicks(9935));
 
                             b1.HasKey("UserId");
 
@@ -469,20 +438,14 @@ namespace Survey.Transverse.Infrastracture.Migrations
                             b1.Property<Guid>("UserId");
 
                             b1.Property<string>("DeleteReason")
-                                .ValueGeneratedOnAdd()
                                 .HasColumnName("DeletReason")
-                                .HasMaxLength(250)
-                                .HasDefaultValue(null);
+                                .HasMaxLength(250);
 
                             b1.Property<Guid?>("DeletedBy")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnName("DeletedBy")
-                                .HasDefaultValue(null);
+                                .HasColumnName("DeletedBy");
 
                             b1.Property<DateTime?>("DeletedOn")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnName("DeletedOn")
-                                .HasDefaultValue(null);
+                                .HasColumnName("DeletedOn");
 
                             b1.HasKey("UserId");
 
@@ -499,7 +462,7 @@ namespace Survey.Transverse.Infrastracture.Migrations
                 {
                     b.HasOne("Survey.Transverse.Domain.Permissions.Permission", "Permission")
                         .WithMany()
-                        .HasForeignKey("PermissionId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Survey.Transverse.Domain.Users.User", "User")

@@ -1,4 +1,7 @@
-﻿using Survey.Transverse.Domain.Users;
+﻿using CSharpFunctionalExtensions;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Survey.Transverse.Domain.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,31 +9,49 @@ using System.Linq.Expressions;
 
 namespace Survey.Transverse.Infrastracture.Data.Repositories
 {
-    public class UserRepository : GenericRepository<User>,IUserRepository
+    public class UserRepository : IUserRepository
     {
         private readonly TransverseContext _context;
 
-        public UserRepository(TransverseContext context):base(context)
+
+        public UserRepository(TransverseContext context)
         {
             _context = context;
         }
 
-        public bool DoesUserHaveAccessTo(Guid userId,string actionName)
+        public bool DoesUserHaveAccessTo(Guid userId, string actionName)
         {
-            return (from x in _context.Features
-                    join y in _context.PermissionFeatures on x.Id equals y.FeatureId
-                    join z in _context.UserPermissions on y.PermissionId equals z.PermissionId
-                    where z.UserId == userId && x.Action == actionName
-                    select new
-                    {
-                        x.Id
-                    }).Count() > 0;
+           
+            var data = (from x in _context.Users
+                        from y in _context.Permissions
+                        from xx in x.UserPermissions
+                        from yy in y.PermissionFeatures
+                        where x.Id == userId && yy.Feature.FeatureInfo.Action == actionName && xx.PermissionId == y.Id
+                        select new
+                        {
+                            x.Id
+                        });
+
+            
+            return data.Count() > 0;
+
         }
 
+        public IEnumerable<User> FindBy(Expression<Func<User, bool>> predicate)
+        {
+            IQueryable<User> results = _context.Users
+                                               .Where(predicate);
+            return results;
+        }
 
         public User FindByKey(Guid id)
         {
-            return _context.Users.Find(id);
+            var user = _context.Users.Find(id);
+            if (user == null)
+                return null;
+            _context.Entry(user).Collection(a => a.UserPermissions).Load();
+
+            return user;
 
         }
 
@@ -44,37 +65,7 @@ namespace Survey.Transverse.Infrastracture.Data.Repositories
             return _context.SaveChanges() > 0;
         }
 
-        public void UpdatePermissions(User entity, bool deleteExisting)
-        {
-            var existingPermissions = _context.UserPermissions.Where(a => a.PermissionId == entity.Id).ToList();
 
-            List<UserPermission> itemsToRemove = new List<UserPermission>();
-            List<UserPermission> itemsToInsert = new List<UserPermission>();
-
-            itemsToInsert = entity.UserPermissions.Where(a => existingPermissions.
-                Where(x => x.PermissionId == a.PermissionId).Count() == 0).ToList();
-
-
-            if (deleteExisting)
-            {
-                itemsToRemove = existingPermissions.Where(a => entity.UserPermissions.
-                      Where(x => x.PermissionId == a.PermissionId).Count() == 0).ToList();
-            }
-            if (itemsToRemove.Count > 0 || itemsToInsert.Count > 0)
-            {
-                _context.UserPermissions.RemoveRange(itemsToRemove);
-                _context.UserPermissions.AddRange(itemsToInsert);
-            }
-        }
-        IEnumerable<User> IUserRepository.FindBy(Expression<Func<User, bool>> predicate)
-        {
-            return base.FindBy(predicate);
-        }
-
-        IEnumerable<User> IUserRepository.FindByInclude(Expression<Func<User, bool>> predicate, params Expression<Func<User, object>>[] includeProperties)
-        {
-            return base.FindByInclude(predicate, includeProperties);
-        }
 
     }
 }

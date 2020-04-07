@@ -1,11 +1,9 @@
 ﻿using CSharpFunctionalExtensions;
 using Survey.Common.Types;
+using Survey.Transverse.Domain;
 using Survey.Transverse.Domain.Features;
 using Survey.Transverse.Domain.Features.Commands;
 using Survey.Transverse.Infrastracture.Data;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Survey.Transverse.Service.Features.Commands
 {
@@ -25,7 +23,13 @@ namespace Survey.Transverse.Service.Features.Commands
             var feature = _featureRepository.FindByKey(command.Id);
             if (feature == null)
                 return Result.Failure($"No feature found for Id= {command.Id}");
-            feature.Remove(command.DeletedBy, command.Reason);
+
+            Result<DeleteInfo> deletionObj = DeleteInfo.Create(command.DeletedBy, command.Reason);
+            if (deletionObj.IsFailure)
+                return Result.Failure($"Could not disable user");
+
+
+            feature.Remove(deletionObj.Value);
             if (!_featureRepository.Save())
             {
                 return Result.Failure("Feature could not be deactivated");

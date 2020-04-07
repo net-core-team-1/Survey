@@ -9,6 +9,7 @@ using Survey.Common.Messages;
 using Survey.Transverse.Contract;
 using Survey.Transverse.Contract.Users.Requests;
 using Survey.Transverse.Contract.Users.Responses;
+using Survey.Transverse.Domain.Users;
 using Survey.Transverse.Domain.Users.Commands;
 using Survey.Transverse.Domain.Users.Queries;
 using System;
@@ -24,14 +25,17 @@ namespace Survey.Transverse.API.Controllers
         private readonly IMapper _mapper;
         private readonly Dispatcher _dispatcher;
         private readonly LinkGenerator _linkGenerator;
+        private readonly IUserRepository _userRepository;
 
         public UsersController(Dispatcher dispatcher,
                                IMapper mapper,
-                               LinkGenerator linkGenerator)
+                               LinkGenerator linkGenerator,
+                               IUserRepository userRepository)
         {
             _mapper = mapper;
             _dispatcher = dispatcher;
             _linkGenerator = linkGenerator;
+            _userRepository = userRepository;
         }
 
 
@@ -47,6 +51,7 @@ namespace Survey.Transverse.API.Controllers
         [HttpGet(ApiRoutes.Users.QueryAll)]
         public IActionResult GetList()
         {
+            bool isAuthorized = _userRepository.DoesUserHaveAccessTo(Guid.Parse("7E7335D2-F275-4CC2-BA00-35D83F9C5203"), "QuerryAllUsers");
             List<UserListResponse> list = _dispatcher.Dispatch(new GetListUsersQuery());
             return Ok(list);
         }

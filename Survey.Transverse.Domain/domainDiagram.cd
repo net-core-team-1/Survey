@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Survey.Transverse.Domain.Features.Feature">
+    <Position X="10" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEBABAAAAAAEBAgAAAAAAAgAAAAAAAAAAgA=</HashCode>
+      <FileName>Features\Feature.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Survey.Transverse.Domain.Identity.RefreshToken">
+    <Position X="7.75" Y="2" Width="1.5" />
+    <AssociationLine Name="User" Type="Survey.Transverse.Domain.Users.User" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="8.562" Y="2" />
+        <Point X="8.562" Y="0.5" />
+        <Point X="6.562" Y="0.5" />
+        <Point X="6.562" Y="1" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>QAAVAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAACBAEA=</HashCode>
+      <FileName>Identity\RefreshToken.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="User" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Survey.Transverse.Domain.Permissions.Permission">
+    <Position X="0.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAEBABAEQAAAApAAAAAAAAgAAAAAAQAAAAAA=</HashCode>
+      <FileName>Permissions\Permission.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Survey.Transverse.Domain.Permissions.PermissionFeature">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <AssociationLine Name="Permission" Type="Survey.Transverse.Domain.Permissions.Permission" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="1.188" Y="2.672" />
+        <Point X="1.188" Y="2.831" />
+        <Point X="1.188" Y="2.831" />
+        <Point X="1.188" Y="3" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAGAAQAAAAgAAAAAAAACAAAEAA=</HashCode>
+      <FileName>Permissions\PermissionFeature.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Feature" />
+      <Property Name="Permission" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Survey.Transverse.Domain.Users.User">
+    <Position X="5.25" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQIAAAAAKAABIAAAAACAAAAAAAAAAACwAABgACAEgA=</HashCode>
+      <FileName>Users\User.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Survey.Transverse.Domain.Users.UserPermission">
+    <Position X="3.5" Y="2" Width="1.5" />
+    <AssociationLine Name="User" Type="Survey.Transverse.Domain.Users.User" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="4" Y="2" />
+        <Point X="4" Y="0.517" />
+        <Point X="5.438" Y="0.517" />
+        <Point X="5.438" Y="1" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="Permission" Type="Survey.Transverse.Domain.Permissions.Permission" FixedFromPoint="true">
+      <Path>
+        <Point X="3.5" Y="3.192" />
+        <Point X="2" Y="3.192" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAAAAGAAgAAAAgAAAAAAAAAAAAEAA=</HashCode>
+      <FileName>Users\UserPermission.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="User" />
+      <Property Name="Permission" />
+    </ShowAsAssociation>
+  </Class>
+  <Font Name="Segoe UI" Size="9.22" />
+</ClassDiagram>

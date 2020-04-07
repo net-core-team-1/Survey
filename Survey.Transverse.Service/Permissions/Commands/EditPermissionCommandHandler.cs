@@ -13,13 +13,11 @@ namespace Survey.Transverse.Service.Permissions.Commands
 {
     public sealed class EditPermissionCommandHandler : ICommandHandler<EditPermissionCommand>
     {
-        private readonly TransverseContext _context;
         private readonly IPermissionRepository _permissionRepository;
 
-        public EditPermissionCommandHandler(TransverseContext context,
+        public EditPermissionCommandHandler(
                                               IPermissionRepository permissionRepository)
         {
-            _context = context;
             _permissionRepository = permissionRepository;
 
         }
@@ -29,8 +27,14 @@ namespace Survey.Transverse.Service.Permissions.Commands
             if (permission == null)
                 return Result.Failure($"Could not fetch the permission");
 
-            permission.Update(command.Label, command.Description, command?.Features, command.DeleteExistingFeatures);
-            _permissionRepository.UpdateFeatures(permission, command.DeleteExistingFeatures);
+            Result<PermissionInfo> permissionInfoResult = PermissionInfo.Create(command.Label, command.Description);
+            if (permissionInfoResult.IsFailure)
+                return Result.Failure($"Error");
+
+
+            permission.Update(permissionInfoResult.Value, command?.Features, command.DeleteExistingFeatures);
+
+           // _permissionRepository.UpdateFeatures(permission, command.DeleteExistingFeatures);
             if (!_permissionRepository.Save())
             {
                 return Result.Failure("Permission could not be saved");

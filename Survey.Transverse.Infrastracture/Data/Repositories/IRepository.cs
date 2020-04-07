@@ -1,4 +1,5 @@
 ﻿using Survey.Common.Types;
+using Survey.Transverse.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;

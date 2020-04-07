@@ -12,21 +12,39 @@ namespace Survey.Transverse.Infrastracture.Data.Mapping
             builder.ToTable("PERMISSIONS",schema:DbSchemaNames.Identity);
             builder.HasKey(a => a.Id);
 
-
-            builder.Property(a => a.Label).HasMaxLength(50);
-            builder.Property(a => a.Description).HasMaxLength(500);
             builder.Property(a => a.Timestamp).IsRowVersion();
-            builder.Ignore(a => a.Deleted);
-            builder.Property(a => a.CreatedOn).HasDefaultValue(DateTime.Now);
-            builder.Property(a => a.CreatedBy).HasDefaultValue(Guid.Parse("13A22305-1767-4167-A680-03DAFDF1A260"));
 
-            builder.Ignore(a => a.Disabled);
+            builder.OwnsOne(a => a.CreateInfo, a =>
+            {
+
+                a.Property(aa => aa.CreatedOn).HasColumnName("CreatedOn").HasDefaultValue(DateTime.Now).IsRequired(true);
+                a.Property(aa => aa.CreatedBy).HasColumnName("CreatedBy").HasDefaultValue(null).IsRequired(false);
+            });
+
+            builder.OwnsOne(a => a.PermissionInfo, a =>
+            {
+
+                a.Property(aa => aa.Label).HasColumnName("Label").HasMaxLength(50).IsRequired();
+                a.Property(aa => aa.Description).HasColumnName("Description").HasMaxLength(250);
+            });
+            builder.OwnsOne(a => a.DisabeleInfo, a =>
+            {
+                a.Ignore(aa => aa.Disabled);
+                a.Property(aa => aa.DisabledBy).HasColumnName("DisabledBy").HasDefaultValue(null).IsRequired(false);
+                a.Property(aa => aa.DisabledOn).HasColumnName("DisabledOn").HasDefaultValue(null).IsRequired(false);
+
+            });
 
 
-            builder.HasMany(a => a.PermissionFeatures)
-                    .WithOne(a => a.Permission)
-                    .HasForeignKey(a => a.PermissionId)
-                    .IsRequired();
+            builder.OwnsOne(a => a.DeleteInfo, a =>
+            {
+
+                a.Ignore(aa => aa.Deleted);
+                a.Property(aa => aa.DeleteReason).HasColumnName("DeletReason").HasDefaultValue(null).HasMaxLength(250).IsRequired(false);
+                a.Property(aa => aa.DeletedBy).HasColumnName("DeletedBy").HasDefaultValue(null).IsRequired(false);
+                a.Property(aa => aa.DeletedOn).HasColumnName("DeletedOn").HasDefaultValue(null).IsRequired(false);
+            });
+
 
         }
     }

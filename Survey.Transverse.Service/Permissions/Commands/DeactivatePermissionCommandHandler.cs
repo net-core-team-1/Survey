@@ -1,5 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using Survey.Common.Types;
+using Survey.Transverse.Domain;
 using Survey.Transverse.Domain.Features;
 using Survey.Transverse.Domain.Permissions.Commands;
 using Survey.Transverse.Infrastracture.Data;
@@ -11,19 +12,22 @@ namespace Survey.Transverse.Service.Permissions.Commands
 {
     public sealed class DeactivatePermissionCommandHandler : ICommandHandler<DeactivatePermissionCommand>
     {
-        private readonly TransverseContext _context;
         private readonly IPermissionRepository _permissionRepository;
 
-        public DeactivatePermissionCommandHandler(TransverseContext context,
+        public DeactivatePermissionCommandHandler(
                                                   IPermissionRepository permissionRepository)
         {
-            _context = context;
             _permissionRepository = permissionRepository;
         }
         public Result Handle(DeactivatePermissionCommand command)
         {
             var permission = _permissionRepository.FindByKey(command.Id);
-            permission.Deactivate(command.DisabledBy);
+
+            Result<DisabeleInfo> disableInfoResult = DisabeleInfo.Create(command.DisabledBy);
+            if (disableInfoResult.IsFailure)
+                return Result.Failure($"Error");
+
+            permission.Deactivate(disableInfoResult.Value);
             if (!_permissionRepository.Save())
             {
                 return Result.Failure("Permission could not be deactivated");

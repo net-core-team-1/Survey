@@ -8,73 +8,70 @@ namespace Survey.Transverse.Domain.Permissions
 {
     public class Permission : BaseEntity
     {
-        public String Label { get; set; }
-        public String Description { get; set; }
+        public virtual CreateInfo CreateInfo { get; private set; }
 
-        public DateTime? DisabledOn { get; set; }
-        public Guid? DisabledBy { get; set; }
+        public virtual PermissionInfo PermissionInfo { get; private set; }
 
-        public bool Disabled { get { return DisabledOn != null; } }
+        public virtual DisabeleInfo DisabeleInfo { get; private set; }
+
+        public virtual DeleteInfo DeleteInfo { get; private set; }
 
 
-        public virtual ICollection<PermissionFeature> PermissionFeatures { get; protected set; }
+        private readonly List<PermissionFeature> _permissionFeatures = new List<PermissionFeature>();
+        public virtual IReadOnlyList<PermissionFeature> PermissionFeatures => _permissionFeatures.ToList();
 
-        public virtual ICollection<UserPermission> UserPermissions { get; protected set; }
 
-        public Permission()
+        protected Permission()
         {
-            PermissionFeatures = new List<PermissionFeature>();
 
         }
 
-        public Permission(string label, string description, Guid createdBy, List<Guid> features = null)
+        public Permission(PermissionInfo permissionInfo, CreateInfo creationInfo, List<Guid> features = null)
         {
-            Label = label;
-            Description = label;
-            CreatedBy = createdBy;
-            if (features != null)
-                features.Distinct().ToList().ForEach(a =>
-                {
-                    if (PermissionFeatures == null)
-                        PermissionFeatures = new List<PermissionFeature>();
-                    PermissionFeatures.Add(new PermissionFeature(this.Id, a));
-                });
+
+            PermissionInfo = permissionInfo;
+            CreateInfo = creationInfo;
+            DeleteInfo = DeleteInfo.Create().Value;
+            DisabeleInfo = DisabeleInfo.Create().Value;
+
+            UpdateFeatures(features, true);
         }
 
-        public void Deactivate(Guid disabledby)
+        public void Deactivate(DisabeleInfo disableInfo)
         {
-            DisabledOn = DateTime.Now;
-            DisabledBy = disabledby;
-            SetUpdatedDate();
+            DisabeleInfo = disableInfo;
         }
 
-        public void Update(string label, string description, List<Guid> features = null, bool deleteExisting = false)
+        public void Update(PermissionInfo permissionInfo, List<Guid> features = null, bool deleteExisting = false)
         {
-            UpdateInfo(label, description);
+            UpdateInfo(permissionInfo);
             UpdateFeatures(features, deleteExisting);
         }
-        private void UpdateInfo(string label, string description)
+        private void UpdateInfo(PermissionInfo permissionInfo)
         {
-            this.Label = label;
-            this.Description = description;
-            this.SetUpdatedDate();
+            if (PermissionInfo != permissionInfo)
+                PermissionInfo = permissionInfo;
         }
         private void UpdateFeatures(List<Guid> features, bool deleteExisting = false)
         {
-            if (deleteExisting)
-                this.PermissionFeatures.Clear();
-            features.Distinct().ToList().ForEach(a =>
-            {
-                if (PermissionFeatures == null)
-                    PermissionFeatures = new List<PermissionFeature>();
-                PermissionFeatures.Add(new PermissionFeature(this.Id, a));
-            });
+            List<Guid> toAdd = features.Where(a => _permissionFeatures.Where(b => b.Feature.Id == a).Count() == 0).ToList();
+            List<PermissionFeature> toDelete = _permissionFeatures.Where(a => features.Where(b => b == a.Feature.Id).Count() == 0)
+                .ToList();
+
+            if (toDelete.Count() != 0)
+                toDelete.ForEach(a => _permissionFeatures.Remove(a));
+            if (toAdd.Count() != 0)
+                toAdd.ForEach(a => _permissionFeatures.Add(PermissionFeature.Create(this.Id, a)));
 
         }
 
-        public void Remove(Guid by, string reason)
+        public void Remove(DeleteInfo deletionInfo)
         {
-            MarkAsDeleted(by, reason);
+            MarkAsDeleted(deletionInfo);
+        }
+        private void MarkAsDeleted(DeleteInfo deletionInfo)
+        {
+            DeleteInfo = deletionInfo;
         }
     }
 }

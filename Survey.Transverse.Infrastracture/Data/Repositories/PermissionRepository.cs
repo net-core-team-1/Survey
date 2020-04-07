@@ -1,4 +1,5 @@
-﻿using Survey.Transverse.Domain.Features;
+﻿using Microsoft.EntityFrameworkCore;
+using Survey.Transverse.Domain.Features;
 using Survey.Transverse.Domain.Permissions;
 using System;
 using System.Collections.Generic;
@@ -7,11 +8,11 @@ using System.Linq.Expressions;
 
 namespace Survey.Transverse.Infrastracture.Data.Repositories
 {
-    public class PermissionRepository : GenericRepository<Permission>, IPermissionRepository
+    public class PermissionRepository : IPermissionRepository
     {
         private readonly TransverseContext _context;
 
-        public PermissionRepository(TransverseContext context) :base(context)
+        public PermissionRepository(TransverseContext context) 
         {
             _context = context;
         }
@@ -19,7 +20,13 @@ namespace Survey.Transverse.Infrastracture.Data.Repositories
 
         public Permission FindByKey(Guid id)
         {
-           return  _context.Permissions.Find(id);
+            var permission = _context.Permissions.Find(id);
+            if (permission == null)
+                return null;
+            _context.Entry(permission).Collection(a => a.PermissionFeatures).Load();
+
+            return permission;
+
         }
 
         public void Insert(Permission entity)
@@ -32,37 +39,24 @@ namespace Survey.Transverse.Infrastracture.Data.Repositories
             return _context.SaveChanges()>0;
         }
 
-        public void UpdateFeatures(Permission entity,bool deleteExisting=false)
+        public IEnumerable<Permission> FindBy(Expression<Func<Permission, bool>> predicate)
         {
-            var existingFeatures = _context.PermissionFeatures.Where(a => a.PermissionId == entity.Id).ToList();
-
-            List<PermissionFeature> itemsToRemove = new List<PermissionFeature>();
-            List<PermissionFeature> itemsToInsert = new List<PermissionFeature>();
-
-            itemsToInsert = entity.PermissionFeatures.Where(a => existingFeatures.
-                Where(x => x.FeatureId == a.FeatureId).Count() == 0).ToList();
-
-
-            if (deleteExisting)
-            {
-                itemsToRemove = existingFeatures.Where(a => entity.PermissionFeatures.
-                      Where(x => x.FeatureId == a.FeatureId).Count() == 0).ToList();
-            }
-            if (itemsToRemove.Count > 0 || itemsToInsert.Count > 0)
-            {
-                _context.PermissionFeatures.RemoveRange(itemsToRemove);
-                _context.PermissionFeatures.AddRange(itemsToInsert);
-            }
+            IQueryable<Permission> results = _context.Permissions
+                                               .Where(predicate);
+            return results;
         }
-
-        IEnumerable<Permission> IPermissionRepository.FindBy(Expression<Func<Permission, bool>> predicate)
+        public IEnumerable<Permission> FindByInclude(Expression<Func<Permission, bool>> predicate, params Expression<Func<Permission, object>>[] includeProperties)
         {
-            return base.FindBy(predicate);
+            var query = GetAllIncluding(includeProperties);
+            IQueryable<Permission> results = query.Where(predicate);
+            return results;
         }
-
-        IEnumerable<Permission> IPermissionRepository.FindByInclude(Expression<Func<Permission, bool>> predicate, params Expression<Func<Permission, object>>[] includeProperties)
+        private IQueryable<Permission> GetAllIncluding(params Expression<Func<Permission, object>>[] includeProperties)
         {
-            return base.FindByInclude(predicate, includeProperties);
+            IQueryable<Permission> queryable = _context.Permissions;
+
+            return includeProperties.Aggregate
+              (queryable, (current, includeProperty) => current.Include(includeProperty));
         }
     }
 }
