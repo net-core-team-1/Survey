@@ -3,6 +3,7 @@ using Survey.Common.Types;
 using Survey.Transverse.Domain;
 using Survey.Transverse.Domain.Users;
 using Survey.Transverse.Domain.Users.Commands;
+using System.Threading.Tasks;
 
 namespace Survey.Transverse.Service.Users.Commands
 {
@@ -15,22 +16,22 @@ namespace Survey.Transverse.Service.Users.Commands
             _userRepository = userRepository;
         }
 
-        public Result Handle(UnregisterUserCommand command)
+        public Task<Result> Handle(UnregisterUserCommand command)
         {
             var user = _userRepository.FindByKey(command.Id);
             if (user == null)
-                return Result.Failure($"No user found for Id= {command.Id}");
+                return Task<Result>.FromResult(Result.Failure($"No user found for Id= {command.Id}"));
 
             Result<DeleteInfo> deletionResult = DeleteInfo.Create(command.By, command.Reason);
             if (deletionResult.IsFailure)
-                return Result.Failure($"Deletion reason error");
+                return Task<Result>.FromResult(Result.Failure($"Deletion reason error"));
 
             user.Unregister(deletionResult.Value);
             if (!_userRepository.Save())
             {
-                return Result.Failure("User could not be unregistred");
+                return Task<Result>.FromResult(Result.Failure("User could not be unregistred"));
             }
-            return Result.Ok();
+            return Task<Result>.FromResult(Result.Ok());
         }
     }
 }

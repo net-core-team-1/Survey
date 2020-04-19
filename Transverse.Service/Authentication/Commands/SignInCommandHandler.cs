@@ -4,6 +4,7 @@ using Survey.Common.Types;
 using Survey.Transverse.Domain.Users;
 using Survey.Transverse.Domain.Users.Authentication.Commands;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Survey.Transverse.Service.Authentication.Commands
 {
@@ -19,17 +20,17 @@ namespace Survey.Transverse.Service.Authentication.Commands
             _encrypter = encrypter;
         }
 
-        public Result Handle(SignInCommand command)
+        public Task<Result> Handle(SignInCommand command)
         {
             var user = _userRepository.FindBy(a => a.Email == command.Email).FirstOrDefault();
             if (user == null)
-                return Result.Failure("No user found for Email/Password");
+                return Task<Result>.FromResult(Result.Failure("No user found for Email/Password"));
             else
             {
                 if (!user.VerifyPassword(command.Password, _encrypter))
-                    return Result.Failure("Incorrect password");
+                    return Task<Result>.FromResult(Result.Failure("Incorrect password"));
             }
-            return Result.Ok();
+            return Task<Result>.FromResult(Result.Ok());
         }
     }
 }

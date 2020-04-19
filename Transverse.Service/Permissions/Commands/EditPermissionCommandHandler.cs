@@ -4,6 +4,7 @@ using Survey.Transverse.Domain.Features;
 using Survey.Transverse.Domain.Permissions;
 using Survey.Transverse.Domain.Permissions.Commands;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Survey.Transverse.Service.Permissions.Commands
 {
@@ -17,15 +18,15 @@ namespace Survey.Transverse.Service.Permissions.Commands
             _permissionRepository = permissionRepository;
 
         }
-        public Result Handle(EditPermissionCommand command)
+        public Task<Result> Handle(EditPermissionCommand command)
         {
             var permission = _permissionRepository.FindByInclude(a => a.Id == command.Id, a => a.PermissionFeatures).FirstOrDefault();
             if (permission == null)
-                return Result.Failure($"Could not fetch the permission");
+                return Task<Result>.FromResult(Result.Failure($"Could not fetch the permission"));
 
             Result<PermissionInfo> permissionInfoResult = PermissionInfo.Create(command.Label, command.Description);
             if (permissionInfoResult.IsFailure)
-                return Result.Failure($"Error");
+                return Task<Result>.FromResult(Result.Failure($"Error"));
 
 
             permission.Update(permissionInfoResult.Value, command?.Features, command.DeleteExistingFeatures);
@@ -33,9 +34,9 @@ namespace Survey.Transverse.Service.Permissions.Commands
            // _permissionRepository.UpdateFeatures(permission, command.DeleteExistingFeatures);
             if (!_permissionRepository.Save())
             {
-                return Result.Failure("Permission could not be saved");
+                return Task<Result>.FromResult(Result.Failure("Permission could not be saved"));
             }
-            return Result.Ok();
+            return Task<Result>.FromResult(Result.Ok());
         }
     }
 }

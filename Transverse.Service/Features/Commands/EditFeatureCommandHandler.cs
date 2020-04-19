@@ -2,6 +2,7 @@
 using Survey.Common.Types;
 using Survey.Transverse.Domain.Features;
 using Survey.Transverse.Domain.Features.Commands;
+using System.Threading.Tasks;
 
 namespace Survey.Transverse.Service.Permissions.Commands
 {
@@ -15,7 +16,7 @@ namespace Survey.Transverse.Service.Permissions.Commands
             _featureRepository = featureRepository;
 
         }
-        public Result Handle(EditFeatureCommand command)
+        public Task<Result> Handle(EditFeatureCommand command)
         {
             var feature = _featureRepository.FindByKey(command.Id);
 
@@ -23,15 +24,15 @@ namespace Survey.Transverse.Service.Permissions.Commands
                                                                command.Description, command.ControllerActionName,
                                                                command.Action);
             if (featureInfoResult.IsFailure)
-                return Result.Failure($"Error");
+                return Task<Result>.FromResult(Result.Failure($"Error"));
 
             feature.UpdateInfo(featureInfoResult.Value);
 
             if (!_featureRepository.Save())
             {
-                return Result.Failure("Feature could not be updated");
+                return Task<Result>.FromResult(Result.Failure("Feature could not be updated"));
             }
-            return Result.Ok();
+            return Task<Result>.FromResult(Result.Ok());
         }
     }
 }

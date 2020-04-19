@@ -1,6 +1,7 @@
 ﻿using Common.Types.CQRS.ServiceBus.RabbitMQ;
 using Common.Types.Types.Events;
 using Common.Types.Types.ServiceBus.RabbitMQ;
+using CSharpFunctionalExtensions;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -68,22 +69,24 @@ namespace Common.Types.Types.ServiceBus
             var consumer = new AsyncEventingBasicConsumer(_channel);
             consumer.Received += async (model, args) =>
             {
-                var scope = _serviceScopeFactory.CreateScope();
                 try
                 {
-                    var handler = scope.ServiceProvider.GetService<ICommandHandler<TCommand>>();
+                    var test = _serviceProvider.GetServices<ICommandHandler<TCommand>>();
+                    var handler = _serviceProvider.GetService<ICommandHandler<TCommand>>();
+                    
                     if (handler != null)
                     {
                         var payload = Encoding.UTF8.GetString(args.Body);
                         var message = JsonConvert.DeserializeObject(payload, typeof(TCommand));
                         var conreteType = typeof(ICommandHandler<>).MakeGenericType(typeof(TCommand));
-                        await (Task)conreteType.GetMethod("Handle").Invoke(handler, new object[] { message });
+                        await (Task<Result>)conreteType.GetMethod("Handle").Invoke(handler, new object[] { message });
+
                     }
 
                 }
                 catch (Exception ex)
                 {
-                    _channel.BasicAck(args.DeliveryTag, false);
+                    _channel.BasicNack(args.DeliveryTag, false, true);
                     throw;
                 }
             };
@@ -139,20 +142,20 @@ namespace Common.Types.Types.ServiceBus
                     var subscriptions = _handlers[eventName];
                     foreach (var subscription in subscriptions)
                     {
-                        var handler = scope.ServiceProvider.GetService<IEventHandler<TEvent>>();
+                        var handler = _serviceProvider.GetService<THandler>();
                         if (handler == null) continue;
 
                         var payload = Encoding.UTF8.GetString(args.Body);
                         var eventType = _eventTypes.SingleOrDefault(t => t.Name == eventName);
                         var @event = JsonConvert.DeserializeObject(payload, eventType);
                         var conreteType = typeof(IEventHandler<>).MakeGenericType(eventType);
-                        await (Task)conreteType.GetMethod("Handle").Invoke(handler, new object[] { @event });
+                        await (Task<Result>)conreteType.GetMethod("Handle").Invoke(handler, new object[] { @event });
                     }
 
                 }
                 catch (Exception ex)
                 {
-                    _channel.BasicAck(args.DeliveryTag, false);
+                    _channel.BasicNack(args.DeliveryTag, false, true);
                     throw;
                 }
             };

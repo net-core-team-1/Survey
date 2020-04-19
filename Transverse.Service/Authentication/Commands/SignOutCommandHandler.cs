@@ -2,7 +2,7 @@
 using Survey.Common.Types;
 using Survey.Transverse.Domain.Users.Authentication.Commands;
 using Survey.Transverse.Domain.Users;
-
+using System.Threading.Tasks;
 
 namespace Survey.Transverse.Service.Authentication.Commands
 {
@@ -15,14 +15,14 @@ namespace Survey.Transverse.Service.Authentication.Commands
         {
             _userRepository = userRepository;
         }
-        public Result Handle(SignOutCommand command)
+        public Task<Result> Handle(SignOutCommand command)
         {
             var user = _userRepository.FindByKey(command.Id);
             if (user == null)
-                return Result.Failure($"No user found for {command.Id}");
+                return Task<Result>.FromResult(Result.Failure($"No user found for {command.Id}"));
             user.SetLastConnexionDate();
             _userRepository.Save();
-            return Result.Ok();
+            return Task<Result>.FromResult(Result.Ok());
         }
     }
 }

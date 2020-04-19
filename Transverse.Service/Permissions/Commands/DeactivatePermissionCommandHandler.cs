@@ -3,6 +3,7 @@ using Survey.Common.Types;
 using Survey.Transverse.Domain;
 using Survey.Transverse.Domain.Features;
 using Survey.Transverse.Domain.Permissions.Commands;
+using System.Threading.Tasks;
 
 namespace Survey.Transverse.Service.Permissions.Commands
 {
@@ -15,20 +16,20 @@ namespace Survey.Transverse.Service.Permissions.Commands
         {
             _permissionRepository = permissionRepository;
         }
-        public Result Handle(DeactivatePermissionCommand command)
+        public Task<Result> Handle(DeactivatePermissionCommand command)
         {
             var permission = _permissionRepository.FindByKey(command.Id);
 
             Result<DisabeleInfo> disableInfoResult = DisabeleInfo.Create(command.DisabledBy);
             if (disableInfoResult.IsFailure)
-                return Result.Failure($"Error");
+                return Task<Result>.FromResult(Result.Failure($"Error"));
 
             permission.Deactivate(disableInfoResult.Value);
             if (!_permissionRepository.Save())
             {
-                return Result.Failure("Permission could not be deactivated");
+                return Task<Result>.FromResult(Result.Failure("Permission could not be deactivated"));
             }
-            return Result.Ok();
+            return Task<Result>.FromResult(Result.Ok());
         }
     }
 }
