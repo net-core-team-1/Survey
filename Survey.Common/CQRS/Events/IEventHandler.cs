@@ -9,6 +9,6 @@ namespace Common.Types.Types.Events
     public interface IEventHandler<TEvent>
          where TEvent : IEvent
     {
-        Task Handle(TEvent @event);
+        Task<Result> Handle(TEvent @event);
     }
 }

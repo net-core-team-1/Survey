@@ -10,7 +10,7 @@ namespace Common.Types.CQRS.ServiceBus.RabbitMQ
         public string VirtualHost { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
-        public int RequestedConnectionTimeout { get; set; } = 300000;
+        public int RequestedConnectionTimeout { get; set; } = 30000;
 
         public string ConventionsCasing { get; set; }
         public ExchangeOptions Exchange { get; set; }

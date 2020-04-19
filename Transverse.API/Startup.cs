@@ -50,6 +50,7 @@ namespace Survey.Identity.API
                     .AddAuth(Configuration)
                     .AddAuthFilters()
                     .AddHttpContextHelper()
+                    .ConfigureServiceBus(Configuration)
                     ;
 
 
@@ -97,7 +98,6 @@ namespace Survey.Identity.API
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            services.ConfigureServiceBus(Configuration);
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

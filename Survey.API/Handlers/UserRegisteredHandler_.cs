@@ -10,11 +10,11 @@ namespace Survey.Api.Handlers
 {
     public sealed class UserRegisteredHandler_ : IEventHandler<UserRegistered>
     {
-        public Task Handle(UserRegistered @event)
+        public Task<Result> Handle(UserRegistered @event)
         {
             Console.WriteLine($"Activity created: {@event.FirstName} {@event.LastName}");
 
-            return Task.CompletedTask;
+            return Task<Result>.FromResult(Result.Ok());
         }
     }
 }

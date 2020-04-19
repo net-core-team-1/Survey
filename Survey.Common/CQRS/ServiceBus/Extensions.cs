@@ -41,7 +41,7 @@ namespace Common.Types.Types.ServiceBus
             services.AddSingleton<IBusPublisher, BusPublisher>(sp =>
             {
                 var scopeFactory = sp.GetRequiredService<IServiceScopeFactory>();
-                return new BusPublisher(scopeFactory,connection);
+                return new BusPublisher(scopeFactory);
             });
 
             services.AddSingleton<IBusSubscriber, BusSubscriber>(sp =>

@@ -9,8 +9,7 @@ namespace Common.Types.Types.ServiceBus
             where TCommand : ICommand
             ;
 
-        void SubscribeEvent<TEvent, THandler>()
-            where TEvent : IEvent
-            where THandler : IEventHandler<TEvent>;
+        void SubscribeEvent<TEvent>()
+            where TEvent : IEvent;
     }
 }

@@ -31,12 +31,13 @@ namespace Survey.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.ConfigureServiceBus(Configuration)
-                    .AddAutoMapper()
-                    .AddAuth(Configuration);
 
             services.AddScoped<IEventHandler<UserRegistered>, UserRegisteredHandler>();
             services.AddScoped<IEventHandler<UserRegistered>, UserRegisteredHandler_>();
+
+            services.ConfigureServiceBus(Configuration)
+                    .AddAutoMapper()
+                    .AddAuth(Configuration);
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
@@ -53,9 +54,7 @@ namespace Survey.Api
             var exchangeInitializer = app.ApplicationServices.GetRequiredService<ExchangeInitializer>();
             exchangeInitializer.Initialize();
 
-            subscriberBus.SubscribeEvent<UserRegistered, UserRegisteredHandler>();
-            subscriberBus.SubscribeEvent<UserRegistered, UserRegisteredHandler_>();
-
+            subscriberBus.SubscribeEvent<UserRegistered>();
 
             app.UseMvc();
         }
