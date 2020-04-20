@@ -48,6 +48,7 @@ namespace Survey.Common.CQRS.ServiceBus.RabbitMQ
                     }
 
                     channel.ExchangeDeclare(exchange, DefaultType, true);
+                    
                 }
 
                 channel.Close();

@@ -22,7 +22,7 @@ namespace Common.Types.Types.ServiceBus
     public class BusSubscriber : IBusSubscriber
     {
         private readonly IServiceScopeFactory _serviceScopeFactory;
-        private  IModel _channel;
+        private IModel _channel;
         private readonly IConventionsProvider _conventionsProvider;
         private readonly RabbitMqOptions _options;
         private readonly QosOptions _qosOptions;
@@ -33,7 +33,7 @@ namespace Common.Types.Types.ServiceBus
         {
 
             _serviceScopeFactory = serviceScopeFactory;
-            _serviceProvider = serviceScopeFactory.CreateScope().ServiceProvider;           
+            _serviceProvider = serviceScopeFactory.CreateScope().ServiceProvider;
             _conventionsProvider = _serviceProvider.GetRequiredService<IConventionsProvider>();
             _options = _serviceProvider.GetService<RabbitMqOptions>();
             _qosOptions = _options?.Qos ?? new RabbitMqOptions.QosOptions();
@@ -77,8 +77,8 @@ namespace Common.Types.Types.ServiceBus
                         var message = JsonConvert.DeserializeObject(payload, typeof(TCommand));
                         var conreteType = typeof(ICommandHandler<>).MakeGenericType(typeof(TCommand));
                         await (Task<Result>)conreteType.GetMethod("Handle").Invoke(handler, new object[] { message });
-                        
-                            }
+                        _channel.BasicAck(args.DeliveryTag, false);
+                    }
 
                 }
                 catch (Exception ex)
@@ -124,8 +124,10 @@ namespace Common.Types.Types.ServiceBus
                         var @event = JsonConvert.DeserializeObject(payload, typeof(TEvent));
                         var conreteType = typeof(IEventHandler<>).MakeGenericType(typeof(TEvent));
                         await (Task<Result>)conreteType.GetMethod("Handle").Invoke(handler, new object[] { @event });
-                       
                     }
+                    if (handlers != null)
+                        _channel.BasicAck(args.DeliveryTag, false);
+
 
                 }
                 catch (Exception ex)
