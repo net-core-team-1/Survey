@@ -1,10 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
-using Survey.Transverse.API.Automapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Survey.Api.Automapper;
 
 namespace Survey.Api.Utility
 {
@@ -14,7 +10,7 @@ namespace Survey.Api.Utility
         {
             var mappingConfig = new MapperConfiguration(mc =>
             {
-                mc.AddProfile(new MappingProfile());
+                mc.AddProfile(new TransverseMapper());
             });
 
             IMapper mapper = mappingConfig.CreateMapper();

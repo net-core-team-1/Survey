@@ -32,12 +32,13 @@ namespace Survey.Api
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddScoped<IEventHandler<UserRegistered>, UserRegisteredHandler>();
-            services.AddScoped<IEventHandler<UserRegistered>, UserRegisteredHandler_>();
 
             services.ConfigureServiceBus(Configuration)
                     .AddAutoMapper()
                     .AddAuth(Configuration);
+            services.AddScoped<IEventHandler<UserRegistered>, UserRegisteredHandler>();
+            services.AddScoped<IEventHandler<UserRegistered>, UserRegisteredHandler_>();
+
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }

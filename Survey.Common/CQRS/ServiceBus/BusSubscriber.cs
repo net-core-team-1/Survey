@@ -79,7 +79,6 @@ namespace Common.Types.Types.ServiceBus
                         await (Task<Result>)conreteType.GetMethod("Handle").Invoke(handler, new object[] { message });
                         _channel.BasicAck(args.DeliveryTag, false);
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -87,7 +86,7 @@ namespace Common.Types.Types.ServiceBus
                     throw;
                 }
             };
-            _channel.BasicConsume(conventions.Queue, false, consumer);
+            _channel.BasicConsume(conventions.Queue, true, consumer);
         }
 
         public void SubscribeEvent<TEvent>()

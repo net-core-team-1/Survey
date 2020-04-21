@@ -8,30 +8,31 @@ using System.Text;
 
 namespace Survey.Common.CQRS.ServiceBus.RabbitMQ
 {
-    public class RabbitMqConnectionFactory
+    public class RabbitMqConnectionFactory:IDisposable
     {
-        public RabbitMqConnectionFactory()
+    
+        public static IModel Create(IServiceProvider serviceProvider)
         {
-            
-        }
-        public static IModel Create(IServiceScopeFactory serviceScopeFactory)
-        {
-            var _options = serviceScopeFactory.CreateScope().ServiceProvider.GetRequiredService<RabbitMqOptions>();
+            var options = serviceProvider.GetRequiredService<RabbitMqOptions>();
 
             var connection = new ConnectionFactory
             {
-                Port = _options.Port,
-                VirtualHost = _options.VirtualHost,
-                UserName = _options.Username,
-                Password = _options.Password,
-                RequestedConnectionTimeout = _options.RequestedConnectionTimeout,
+                Port = options.Port,
+                VirtualHost = options.VirtualHost,
+                UserName = options.Username,
+                Password = options.Password,
+                RequestedConnectionTimeout = options.RequestedConnectionTimeout,
                 DispatchConsumersAsync = true
 
-            }.CreateConnection(_options.HostNames.ToList(), _options.ConnectionName);
+            }.CreateConnection(options.HostNames.ToList(), options.ConnectionName);
+
 
             return connection.CreateModel();
         }
 
-    
+        public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

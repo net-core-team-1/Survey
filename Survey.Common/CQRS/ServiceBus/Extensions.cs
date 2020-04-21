@@ -26,7 +26,7 @@ namespace Common.Types.Types.ServiceBus
                 VirtualHost = options.VirtualHost,
                 UserName = options.Username,
                 Password = options.Password,
-                RequestedConnectionTimeout=options.RequestedConnectionTimeout,
+                RequestedConnectionTimeout = options.RequestedConnectionTimeout,
                 DispatchConsumersAsync = true
 
             }.CreateConnection(options.HostNames.ToList(), options.ConnectionName);
@@ -38,17 +38,10 @@ namespace Common.Types.Types.ServiceBus
             services.AddSingleton<IConventionsRegistry, ConventionsRegistry>();
             services.AddSingleton<ExchangeInitializer>();
 
-            services.AddSingleton<IBusPublisher, BusPublisher>(sp =>
-            {
-                var scopeFactory = sp.GetRequiredService<IServiceScopeFactory>();
-                return new BusPublisher(scopeFactory);
-            });
 
-            services.AddSingleton<IBusSubscriber, BusSubscriber>(sp =>
-            {
-                var scopeFactory = sp.GetRequiredService<IServiceScopeFactory>();
-                return new BusSubscriber(scopeFactory);
-            });
+
+            services.AddSingleton<IBusPublisher, BusPublisher>();
+            services.AddSingleton<IBusSubscriber, BusSubscriber>();
 
             return services;
         }

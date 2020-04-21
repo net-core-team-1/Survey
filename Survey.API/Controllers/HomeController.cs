@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Survey.Api.Controllers
+namespace Survey.Transverse.API.Controllers
 {
     [Route("")]
-    public class HomeController : Controller
+    public class HomeController : ControllerBase
     {
-        [HttpGet("")]
-        public IActionResult Get() => Content("Hello from Actio.Services.Identity API!");
+        [HttpGet]
+        public IActionResult Get() => Ok("Survey API Service is online");
     }
 }

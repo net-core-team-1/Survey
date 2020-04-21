@@ -114,6 +114,16 @@ namespace Survey.Identity.API
             exchangeInitializer.Initialize();
 
             subscriberBus.SubscribeCommand<RegisterUserCommand>();
+            subscriberBus.SubscribeCommand<UnregisterUserCommand>();
+            subscriberBus.SubscribeCommand<EditUserCommand>();
+            subscriberBus.SubscribeCommand<CreatePermissionCommand>();
+            subscriberBus.SubscribeCommand<DeactivatePermissionCommand>();
+            subscriberBus.SubscribeCommand<EditPermissionCommand>();
+            subscriberBus.SubscribeCommand<RemovePermissionCommand>();
+            subscriberBus.SubscribeCommand<CreateFeatureCommand>();
+            subscriberBus.SubscribeCommand<DeactivateFeatureCommand>();
+            subscriberBus.SubscribeCommand<EditFeatureCommand>();
+            subscriberBus.SubscribeCommand<RemoveFeatureCommand>();
 
         }
     }
