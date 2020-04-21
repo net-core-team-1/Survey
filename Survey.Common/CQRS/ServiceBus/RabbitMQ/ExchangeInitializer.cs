@@ -13,13 +13,15 @@ namespace Survey.Common.CQRS.ServiceBus.RabbitMQ
     public class ExchangeInitializer : IExchangeInitializer
     {
         private const string DefaultType = "topic";
-        private readonly IConnection _connection;
+        //private readonly IConnection _connection;
         private readonly RabbitMqOptions _options;
+        private readonly IServiceProvider _serviceProvider;
 
-        public ExchangeInitializer(IConnection connection, RabbitMqOptions options)
+        public ExchangeInitializer(RabbitMqOptions options,IServiceProvider serviceProvider)
         {
-            _connection = connection;
+            //_connection = connection;
             _options = options;
+            _serviceProvider = serviceProvider;
         }
 
         public Task Initialize()
@@ -32,7 +34,7 @@ namespace Survey.Common.CQRS.ServiceBus.RabbitMQ
                 .Distinct()
                 .ToList();
 
-            using (var channel = _connection.CreateModel())
+            using (var channel = RabbitMqConnectionFactory.Create(_serviceProvider))
             {
                 if (_options.Exchange?.Declare == true)
                 {

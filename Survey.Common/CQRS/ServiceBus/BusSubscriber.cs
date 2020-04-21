@@ -22,12 +22,11 @@ namespace Common.Types.Types.ServiceBus
     public class BusSubscriber : IBusSubscriber
     {
         private readonly IServiceScopeFactory _serviceScopeFactory;
-        private IModel _channel;
         private readonly IConventionsProvider _conventionsProvider;
         private readonly RabbitMqOptions _options;
         private readonly QosOptions _qosOptions;
         private readonly IServiceProvider _serviceProvider;
-
+        private readonly IConnection _connection;
 
         public BusSubscriber(IServiceScopeFactory serviceScopeFactory)
         {
@@ -41,13 +40,13 @@ namespace Common.Types.Types.ServiceBus
             {
                 _qosOptions.PrefetchCount = 1;
             }
-
+            _connection = _serviceProvider.GetRequiredService<IConnection>();
         }
 
         public void SubscribeCommand<TCommand>()
             where TCommand : ICommand
         {
-            _channel = _serviceProvider.GetRequiredService<IConnection>().CreateModel();
+            var channel = _connection.CreateModel();
 
             var conventions = _conventionsProvider.Get<TCommand>();
             var declare = _options.Queue?.Declare ?? true;
@@ -57,13 +56,13 @@ namespace Common.Types.Types.ServiceBus
 
             if (declare)
             {
-                _channel.QueueDeclare(conventions.Queue, durable, exclusive, autoDelete);
+                channel.QueueDeclare(conventions.Queue, durable, exclusive, autoDelete);
             }
 
-            _channel.QueueBind(conventions.Queue, conventions.Exchange, conventions.RoutingKey);
-            _channel.BasicQos(_qosOptions.PrefetchSize, _qosOptions.PrefetchCount, _qosOptions.Global);
+            channel.QueueBind(conventions.Queue, conventions.Exchange, conventions.RoutingKey);
+            channel.BasicQos(_qosOptions.PrefetchSize, _qosOptions.PrefetchCount, _qosOptions.Global);
 
-            var consumer = new AsyncEventingBasicConsumer(_channel);
+            var consumer = new AsyncEventingBasicConsumer(channel);
             consumer.Received += async (model, args) =>
             {
                 try
@@ -77,22 +76,22 @@ namespace Common.Types.Types.ServiceBus
                         var message = JsonConvert.DeserializeObject(payload, typeof(TCommand));
                         var conreteType = typeof(ICommandHandler<>).MakeGenericType(typeof(TCommand));
                         await (Task<Result>)conreteType.GetMethod("Handle").Invoke(handler, new object[] { message });
-                        _channel.BasicAck(args.DeliveryTag, false);
+                        channel.BasicAck(args.DeliveryTag, false);
                     }
                 }
                 catch (Exception ex)
                 {
-                    _channel.BasicAck(args.DeliveryTag, false);
+                    channel.BasicAck(args.DeliveryTag, false);
                     throw;
                 }
             };
-            _channel.BasicConsume(conventions.Queue, true, consumer);
+            channel.BasicConsume(conventions.Queue, false, consumer);
         }
 
         public void SubscribeEvent<TEvent>()
             where TEvent : IEvent
         {
-            _channel = _serviceProvider.GetRequiredService<IConnection>().CreateModel();
+            var channel = _connection.CreateModel();
             var conventions = _conventionsProvider.Get<TEvent>();
             var declare = _options.Queue?.Declare ?? true;
             var durable = _options.Queue?.Durable ?? true;
@@ -101,13 +100,13 @@ namespace Common.Types.Types.ServiceBus
 
             if (declare)
             {
-                _channel.QueueDeclare(conventions.Queue, durable, exclusive, autoDelete);
+                channel.QueueDeclare(conventions.Queue, durable, exclusive, autoDelete);
             }
 
-            _channel.QueueBind(conventions.Queue, conventions.Exchange, conventions.RoutingKey);
-            _channel.BasicQos(_qosOptions.PrefetchSize, _qosOptions.PrefetchCount, _qosOptions.Global);
+            channel.QueueBind(conventions.Queue, conventions.Exchange, conventions.RoutingKey);
+            channel.BasicQos(_qosOptions.PrefetchSize, _qosOptions.PrefetchCount, _qosOptions.Global);
 
-            var consumer = new AsyncEventingBasicConsumer(_channel);
+            var consumer = new AsyncEventingBasicConsumer(channel);
             consumer.Received += async (model, args) =>
             {
                 var scope = _serviceScopeFactory.CreateScope();
@@ -125,18 +124,18 @@ namespace Common.Types.Types.ServiceBus
                         await (Task<Result>)conreteType.GetMethod("Handle").Invoke(handler, new object[] { @event });
                     }
                     if (handlers != null)
-                        _channel.BasicAck(args.DeliveryTag, false);
+                        channel.BasicAck(args.DeliveryTag, false);
 
 
                 }
                 catch (Exception ex)
                 {
-                    _channel.BasicAck(args.DeliveryTag, false);
+                    channel.BasicAck(args.DeliveryTag, false);
                     throw;
                 }
             };
 
-            _channel.BasicConsume(conventions.Queue, false, consumer);
+            channel.BasicConsume(conventions.Queue, false, consumer);
         }
 
     }
