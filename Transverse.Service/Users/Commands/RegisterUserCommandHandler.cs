@@ -47,7 +47,8 @@ namespace Survey.Transverse.Service.Users.Commands
                 return Task<Result>.FromResult(Result.Failure("User could not be saved"));
             }
 
-            _bus.PublishAsync(new UserRegistered(command.FirstName, command.LastName, command.Email));
+            _bus.PublishAsync(new UserRegistered(user.Id,command.FirstName, command.LastName, 
+                                                 command.Email,user.CreateInfo.CreatedOn));
 
             return Task<Result>.FromResult(Result.Ok());
         }
