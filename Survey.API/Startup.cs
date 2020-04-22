@@ -11,11 +11,15 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Survey.Api.Domain.Repositories;
 using Survey.Api.Events;
 using Survey.Api.Handlers;
+using Survey.Api.Repositories;
+using Survey.Api.Services;
 using Survey.Api.Utility;
 using Survey.Common.Auth;
 using Survey.Common.CQRS.ServiceBus.RabbitMQ;
+using Survey.Common.MongoDb;
 
 namespace Survey.Api
 {
@@ -35,9 +39,13 @@ namespace Survey.Api
 
             services.ConfigureServiceBus(Configuration)
                     .AddAutoMapper()
-                    .AddAuth(Configuration);
+                    .AddAuth(Configuration)
+                    .AddMongo(Configuration);
+
             services.AddScoped<IEventHandler<UserRegistered>, UserRegisteredHandler>();
-            services.AddScoped<IEventHandler<UserRegistered>, UserRegisteredHandler_>();
+
+            services.AddTransient<IUserDtoRepository, UserDtoRepository>();
+            services.AddTransient<IUserDtoService, UserDtoService>();
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
