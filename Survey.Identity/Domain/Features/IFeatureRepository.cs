@@ -8,8 +8,7 @@ namespace Survey.Identity.Domain.Features
     {
         Feature FindByKey(Guid id);
         void Insert(Feature entity);
-        IEnumerable<Feature> FindByInclude(Expression<Func<Feature, bool>> predicate, params Expression<Func<Feature, object>>[] includeProperties);
-        IEnumerable<Feature> FindBy(Expression<Func<Feature, bool>> predicate);
+        bool DoesUserHaveAccessTo(Guid userId, string actionName);
 
         bool Save();
     }

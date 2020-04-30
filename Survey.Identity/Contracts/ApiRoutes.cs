@@ -17,6 +17,7 @@
             public const string EditeInfo = Base + "/users/{id:Guid}";
             public const string Unregister = Base + "/users/{id:Guid}/unregister";
             public const string Register = Base + "/users";
+            public const string ChangeEmail = Base + "/users/{id:Guid}/change_email";
         }
 
         public static class Identity

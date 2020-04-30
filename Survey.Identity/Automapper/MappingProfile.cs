@@ -9,7 +9,10 @@ namespace Survey.Identity.API.Automapper
         public MappingProfile()
         {
             CreateMap<UserRegistrationRequest, RegisterUserCommand>();
-            CreateMap<EditUserInfoRequest,     EditUserInfoCommand>();
+            CreateMap<EditUserInfoRequest, EditUserInfoCommand>();
+            CreateMap<ChangeEmailRequest, ChangeEmailCommand>();
+
+
         }
     }
 }

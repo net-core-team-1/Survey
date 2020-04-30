@@ -1,5 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.AspNetCore.Identity;
+using Survey.Identity.Domain;
 using Survey.Identity.Domain.Users;
 using System;
 using System.Collections.Generic;
@@ -37,12 +38,21 @@ namespace Survey.Identity.Services.Users
         }
 
 
-        public Task<Result> ChangeEmail(Guid userId, string email)
+        public async Task<Result> ChangeEmail(Guid userId, string email)
         {
-            throw new NotImplementedException();
+            var user = await _userManager.FindByIdAsync(userId.ToString());
+            if (user == null)
+                return await Task<Result>.FromResult(Result.Failure($"User_not_exist "));
+            string token = await _userManager.GenerateChangeEmailTokenAsync(user, email);
+            var result = await _userManager.ChangeEmailAsync(user, email, token);
+
+            if (!result.Succeeded)
+                return await Task<Result>.FromResult(Result.Failure("User could not be saved"));
+
+            return await Task<Result>.FromResult(Result.Ok());
         }
 
-        public async Task<Result> EdiInfo(Guid userId, string firstName, string lastName, List<Guid> roles = null, bool deleteExisting = false)
+        public async Task<Result> EditInfo(Guid userId, string firstName, string lastName, List<Guid> roles = null, bool deleteExisting = false)
         {
             var user = await _userManager.FindByIdAsync(userId.ToString());
             if (user == null)
@@ -62,9 +72,23 @@ namespace Survey.Identity.Services.Users
         }
 
 
-        public Task<Result> UnregisterUser(Guid userId, Guid by, string reason)
+        public async Task<Result> UnregisterUser(Guid userId, Guid by, string reason)
         {
-            throw new NotImplementedException();
+            var user = await _userManager.FindByIdAsync(userId.ToString());
+            if (user == null)
+                return await Task<Result>.FromResult(Result.Failure($"No user found for Id= {userId}"));
+
+            Result<DeleteInfo> deletionResult = DeleteInfo.Create(by, reason);
+            if (deletionResult.IsFailure)
+                return await Task<Result>.FromResult(Result.Failure($"Deletion reason error"));
+
+            user.Unregister(deletionResult.Value);
+            var result = await _userManager.UpdateAsync(user);
+            if (!result.Succeeded)
+            {
+                return await Task<Result>.FromResult(Result.Failure("User could not be unregistred"));
+            }
+            return await Task<Result>.FromResult(Result.Ok());
         }
     }
 }

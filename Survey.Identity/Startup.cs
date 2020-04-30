@@ -44,6 +44,7 @@ namespace Survey.Identity
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ICommandHandler<RegisterUserCommand>, RegisterUserHandler>();
             services.AddScoped<ICommandHandler<EditUserInfoCommand>, EditUserInfoHandler>();
+            services.AddScoped<ICommandHandler<ChangeEmailCommand>, ChangeEmailHandler>();
 
             services.AddScoped<AsyncDispatcher>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);

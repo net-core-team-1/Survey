@@ -15,5 +15,7 @@ namespace Survey.Transverse.Domain.Users
 
         bool Save();
         bool DoesUserHaveAccessTo(Guid userId,string actionName);
+
+
     }
 }

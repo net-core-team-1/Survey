@@ -15,9 +15,10 @@ namespace Survey.Identity.Extensions
         public static IServiceCollection AddSurveyIdentity(this IServiceCollection services)
         {
             
-            services.AddIdentity<User, Role>().AddEntityFrameworkStores<SurveyIdentityContext>();
-
-            //services.AddScoped<IUserStore<User>, UserStore<User, Role, SurveyIdentityContext, Guid>>();
+            services.AddIdentity<User, Role>()
+                    .AddEntityFrameworkStores<SurveyIdentityContext>()
+                    .AddDefaultTokenProviders();
+      
             services.AddScoped<IUserStore<User>, UserStore<User, Role, SurveyIdentityContext, Guid, UserClaim, UserRole, UserLogin, UserToken, RoleClaim>>();
 
             return services;

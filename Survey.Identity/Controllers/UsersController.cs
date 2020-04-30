@@ -54,5 +54,16 @@ namespace Survey.Identity.Controllers
             return Ok();
         }
 
+
+        [HttpPost(ApiRoutes.Users.ChangeEmail)]
+        public async Task<IActionResult> ChangeEmail(Guid id, ChangeEmailRequest request)
+        {
+            request.Id = id;
+            var command = _mapper.Map<ChangeEmailCommand>(request);
+            var result = await _dispatcher.Dispatch(command);
+            return Ok();
+        }
+
+
     }
 }

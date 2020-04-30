@@ -1,17 +1,17 @@
 ﻿using Survey.Identity.Data;
-using Survey.Identity.Data.Repositories;
 using Survey.Identity.Domain.Features;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Linq;
 
 namespace Survey.Identity.Infrastracture.Data.Repositories
 {
-    public class FeatureRepository : GenericRepository<Feature>,IFeatureRepository
+    public class FeatureRepository : IFeatureRepository
     {
         private readonly SurveyIdentityContext _context;
 
-        public FeatureRepository(SurveyIdentityContext context):base(context)
+        public FeatureRepository(SurveyIdentityContext context)
         {
             _context = context;
         }
@@ -30,16 +30,24 @@ namespace Survey.Identity.Infrastracture.Data.Repositories
         {
             return _context.SaveChanges() > 0;
         }
-
-        IEnumerable<Feature> IFeatureRepository.FindBy(Expression<Func<Feature, bool>> predicate)
+        public bool DoesUserHaveAccessTo(Guid userId, string actionName)
         {
-            return base.FindBy(predicate);
+
+            var data =  from x in _context.Users
+                        from y in _context.Roles
+                        from xx in x.UserRoles
+                        from yy in y.RoleFeatures
+                        where x.Id == userId && yy.Feature.FeatureInfo.Action == actionName && xx.RoleId == y.Id
+                        select new
+                        {
+                            x.Id
+                        };
+
+
+            return data.Count() > 0;
+
         }
 
-        IEnumerable<Feature> IFeatureRepository.FindByInclude(Expression<Func<Feature, bool>> predicate, params Expression<Func<Feature, object>>[] includeProperties)
-        {
-            return base.FindByInclude(predicate, includeProperties);
-        }
 
 
     }
