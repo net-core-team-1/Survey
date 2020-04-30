@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Survey.Transverse.Infrastracture.Data;
 
 namespace Survey.Transverse.Infrastracture.Migrations
 {
     [DbContext(typeof(TransverseContext))]
-    partial class TransverseContextModelSnapshot : ModelSnapshot
+    [Migration("20200422161515_test")]
+    partial class test
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -109,6 +111,8 @@ namespace Survey.Transverse.Infrastracture.Migrations
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate();
 
+                    b.Property<int>("test_migration");
+
                     b.HasKey("Id");
 
                     b.ToTable("USERS","Identity");
@@ -183,7 +187,7 @@ namespace Survey.Transverse.Infrastracture.Migrations
                                 .IsRequired()
                                 .ValueGeneratedOnAdd()
                                 .HasColumnName("CreatedOn")
-                                .HasDefaultValue(new DateTime(2020, 4, 22, 16, 26, 35, 151, DateTimeKind.Local).AddTicks(7804));
+                                .HasDefaultValue(new DateTime(2020, 4, 22, 16, 15, 14, 888, DateTimeKind.Local).AddTicks(9722));
 
                             b1.HasKey("FeatureId");
 
@@ -296,7 +300,7 @@ namespace Survey.Transverse.Infrastracture.Migrations
                                 .IsRequired()
                                 .ValueGeneratedOnAdd()
                                 .HasColumnName("CreatedOn")
-                                .HasDefaultValue(new DateTime(2020, 4, 22, 16, 26, 35, 168, DateTimeKind.Local).AddTicks(714));
+                                .HasDefaultValue(new DateTime(2020, 4, 22, 16, 15, 14, 903, DateTimeKind.Local).AddTicks(2092));
 
                             b1.HasKey("PermissionId");
 
@@ -452,7 +456,7 @@ namespace Survey.Transverse.Infrastracture.Migrations
                                 .IsRequired()
                                 .ValueGeneratedOnAdd()
                                 .HasColumnName("CreatedOn")
-                                .HasDefaultValue(new DateTime(2020, 4, 22, 16, 26, 35, 115, DateTimeKind.Local).AddTicks(9939));
+                                .HasDefaultValue(new DateTime(2020, 4, 22, 16, 15, 14, 856, DateTimeKind.Local).AddTicks(738));
 
                             b1.HasKey("UserId");
 

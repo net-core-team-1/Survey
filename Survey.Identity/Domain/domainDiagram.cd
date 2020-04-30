@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Survey.Identity.Domain.Users.User">
+    <Position X="7.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAACAIAABIAQAAACAAAAAAAAAAgAAAABwACAEgA=</HashCode>
+      <FileName>Domain\Users\User.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Survey.Identity.Domain.Roles.Role" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAABABAEQAAAAJAAAAAQAAAQAAAAAQAAAAAA=</HashCode>
+      <FileName>Domain\Roles\Role.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Survey.Identity.Domain.Users.UserRole">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAEAACAAAAAAAAAEAAAAAAAAAAEAA=</HashCode>
+      <FileName>Domain\Users\UserRole.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Role" />
+      <Property Name="User" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Survey.Identity.Domain.Features.Feature">
+    <Position X="5.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAEBABAAQAAAAJAAAAAAAAAgAAAAAQAAAAAA=</HashCode>
+      <FileName>Domain\Features\Feature.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Survey.Identity.Domain.Identity.RefreshToken" Collapsed="true">
+    <Position X="9.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAXAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAACBAEA=</HashCode>
+      <FileName>Domain\Authentication\RefreshToken.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Survey.Identity.Domain.Roles.RoleFeature">
+    <Position X="1.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAEAACAAQAAAAAAEAAAAAACAAAEAA=</HashCode>
+      <FileName>Domain\Roles\RoleFeature.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Feature" />
+      <Property Name="Role" />
+    </ShowAsAssociation>
+  </Class>
+  <Font Name="Segoe UI" Size="9.22" />
+</ClassDiagram>
