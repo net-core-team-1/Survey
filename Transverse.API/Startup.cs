@@ -54,8 +54,6 @@ namespace Survey.Identity.API
                     ;
 
 
-
-
             var queriesConnectionString = new QueriesConnectionString(Configuration.GetConnectionString("QueriesConnectionString"));
             services.AddSingleton(queriesConnectionString);
 
@@ -93,8 +91,6 @@ namespace Survey.Identity.API
             services.AddTransient<IQueryHandler<GetFeatureByIdQuery, FeatureResponse>, GetFeatureByIdQueryHandler>();
 
             services.AddScoped<Dispatcher>();
-
-
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 

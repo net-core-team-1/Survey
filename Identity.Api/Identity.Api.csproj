@@ -1,0 +1,46 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.4" />
+    <PackageReference Include="RabbitMQ.Client" Version="5.1.2" />
+    <PackageReference Include="AutoMapper" Version="9.0.0" />
+    <PackageReference Include="CSharpFunctionalExtensions" Version="2.2.2" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Folder Include="Identity\Contrat\Features\Responses\" />
+    <Folder Include="Identity\Contrat\Features\Requests\" />
+    <Folder Include="Identity\Data\Repositories\Features\" />
+    <Folder Include="Identity\Domain\Civilities\Commands\" />
+    <Folder Include="Identity\Domain\Civilities\Queries\" />
+    <Folder Include="Identity\Domain\Features\Commands\" />
+    <Folder Include="Identity\Domain\Features\Queries\" />
+    <Folder Include="Identity\Domain\Roles\Commands\" />
+    <Folder Include="Identity\Domain\Roles\Queries\" />
+    <Folder Include="Identity\Domain\Users\Exceptions\" />
+    <Folder Include="Identity\Domain\Users\Queries\" />
+    <Folder Include="Identity\Services\Civilities\" />
+    <Folder Include="Services\Authentications\CommandHandlers\" />
+    <Folder Include="Services\Authentications\Queries\" />
+    <Folder Include="Services\Features\CommandHandlers\" />
+    <Folder Include="Services\Features\Queries\" />
+    <Folder Include="Services\Roles\CommandHandlers\" />
+    <Folder Include="Services\Roles\Queries\" />
+    <Folder Include="Services\Users\Queries\" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\Survey.Common\Survey.Common.csproj" />
+  </ItemGroup>
+
+</Project>

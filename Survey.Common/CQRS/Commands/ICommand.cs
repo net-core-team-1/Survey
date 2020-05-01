@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Survey.Common.Types
 {
-    public interface ICommand:IMessage
+    public interface ICommand : IMessage
     {
     }
 }
