@@ -82,7 +82,7 @@ namespace Common.Types.Types.ServiceBus
                 catch (Exception ex)
                 {
                     channel.BasicAck(args.DeliveryTag, false);
-                    throw;
+                    throw ex;
                 }
             };
             channel.BasicConsume(conventions.Queue, false, consumer);
@@ -125,13 +125,11 @@ namespace Common.Types.Types.ServiceBus
                     }
                     if (handlers != null)
                         channel.BasicAck(args.DeliveryTag, false);
-
-
                 }
                 catch (Exception ex)
                 {
                     channel.BasicAck(args.DeliveryTag, false);
-                    throw;
+                    throw ex;
                 }
             };
 
