@@ -22,37 +22,27 @@ namespace Identity.Api.Services.Users.CommandHandlers
     {
         private readonly IUserService _userService;
         private readonly IBusPublisher _bus;
-        private readonly IResultValidator _resultValidation;
-        private readonly IResultIdentityValidation _identityResultValidator;
 
-        public RegisterUserCommandHandler(IUserService userService, IBusPublisher bus,
-              IResultValidator resultValidation, IResultIdentityValidation identityResultValidator)
+        public RegisterUserCommandHandler(IUserService userService, IBusPublisher bus)
         {
             _userService = userService;
             _bus = bus;
-            _resultValidation = resultValidation;
-            _identityResultValidator = identityResultValidator;
         }
 
         public async Task<Result> Handle(RegisterUserCommand command)
         {
-            var fullNameResult = FullName.Create(command.FirstName, command.LastName);
-            var Civility = new Civility(command.CivilityId);
-            var passwordResult = UserPassword.Create(command.Password);
-            var rolesResult = AppUserRoleCollection.Create(command.Permissions);
-            var userNameResult = UserName.Create(command.UserName);
-            var emailResult = UserEmail.Create(command.Email);
+            var fullNameResult = FullName.Create(command.FirstName, command.LastName).Validate();
 
-            _resultValidation.Validate<FullName>(fullNameResult);
-            _resultValidation.Validate<AppUserRoleCollection>(rolesResult);
-            _resultValidation.Validate<UserPassword>(passwordResult);
-            _resultValidation.Validate<UserEmail>(emailResult);
-            _resultValidation.Validate<UserName>(userNameResult);
+            var Civility = new Civility(command.CivilityId);
+            var passwordResult = UserPassword.Create(command.Password).Validate();
+            var rolesResult = AppUserRoleCollection.Create(command.Permissions).Validate();
+            var userNameResult = UserName.Create(command.UserName).Validate();
+            var emailResult = UserEmail.Create(command.Email).Validate();
 
             var user = new AppUser(userNameResult.Value, fullNameResult.Value,
                 emailResult.Value, rolesResult.Value, Civility);
             var result = await _userService.RegisterNewAsync(user, passwordResult.Value);
-            _identityResultValidator.Validate(result);
+            result.Validate();
 
             _bus.PublishAsync<UserRegistered>(new UserRegistered(user.Id, user.FullName.FirstName, user.FullName.LastName, user.Email));
 

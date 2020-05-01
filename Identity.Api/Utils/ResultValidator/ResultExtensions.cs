@@ -7,12 +7,14 @@ using System.Threading.Tasks;
 
 namespace Identity.Api.Utils.ResultValidator
 {
-    public class ResultValidation : IResultValidator
+    public static class ResultExtensions
     {
-        public void Validate<T>(Result<T> result)
+        public static Result<T> Validate<T>(this Result<T> result)
         {
             if (result.IsFailure)
                 throw new IdentityException($"INVALID_FORMAT_FOR_{result.GetType().ToString()}", result.Error);
+            else
+                return result;
         }
     }
 }

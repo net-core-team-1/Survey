@@ -46,8 +46,6 @@ namespace Identity.Api
             services.AddAutoMapper();
             services.ConfigureServiceBus(Configuration);
             
-            services.AddSingleton<IResultValidator, ResultValidation>();
-            services.AddSingleton<IResultIdentityValidation, IdentityResultValidator>();
             services.RegisterHandlers();
         }
 
