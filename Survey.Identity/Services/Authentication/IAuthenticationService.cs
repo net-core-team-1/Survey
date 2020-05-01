@@ -11,6 +11,8 @@ namespace Survey.Identity.Services.Authentication
     {
         Task<Result> LoginAsync(string email, string password);
 
-        Task<Result> LogOut(string email);
+        Task<Result> LogOut(Guid id);
+
+        Task<Result> ChangePassowrd(Guid id, string newPassword, string oldPassword);
     }
 }

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Survey.Transverse.Domain.Users.Authentication.Commands
+namespace Survey.Identity.Domain.Authentication.Commands
 {
     public sealed class ChangePasswordCommand:ICommand
     {

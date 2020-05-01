@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace Survey.Identity.Contracts
-{ 
-    public class DeactivatePermissionRequest
+{
+    public class SignOutRequest
     {
-        public Guid DeletedBy { get; set; }
+        public string Id { get; set; }
+
     }
 }

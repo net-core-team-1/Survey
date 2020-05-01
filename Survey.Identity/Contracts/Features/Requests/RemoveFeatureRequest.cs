@@ -6,6 +6,7 @@ namespace Survey.Identity.Contracts
 {
    public  class RemoveFeatureRequest
     {
+        public Guid Id { get; set; }
         public string Reason { get; set; }
         public Guid DeletedBy { get; set; }
     }

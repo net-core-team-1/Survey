@@ -51,6 +51,8 @@
 
             public const string Edit = Base + "/roles/{id:Guid}";
 
+            public const string UpdateFeatures = Base + "/roles/{id:Guid}/features";
+
             public const string Remove = Base + "/roles/{id:Guid}/remove";
 
             public const string QueryById = Base + "/roles/{id:Guid}";

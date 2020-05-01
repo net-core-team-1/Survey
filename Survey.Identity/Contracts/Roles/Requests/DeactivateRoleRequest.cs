@@ -4,9 +4,9 @@ using System.Text;
 
 namespace Survey.Identity.Contracts
 { 
-    public sealed class RemovePermissionRequest
+    public class DeactivateRoleRequest
     {
-        public string Reason { get; set; }
+        public Guid Id { get; set; }
         public Guid DeletedBy { get; set; }
     }
 }

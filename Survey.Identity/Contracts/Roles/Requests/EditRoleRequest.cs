@@ -4,9 +4,11 @@ using System.Text;
 
 namespace Survey.Identity.Contracts
 {
-    public class DeactivateFeatureRequest
+   public sealed class EditRoleRequest
     {
         public Guid Id { get; set; }
-        public Guid DeletedBy { get; set; }
+        public string Name { get; set; }
+
+
     }
 }

@@ -5,7 +5,7 @@ using Survey.Identity.Services.Users;
 using System;
 using System.Threading.Tasks;
 
-namespace Survey.Identity.Handlers.Handlers
+namespace Survey.Identity.Handlers.Users
 {
     public class EditUserInfoHandler : ICommandHandler<EditUserInfoCommand>
     {

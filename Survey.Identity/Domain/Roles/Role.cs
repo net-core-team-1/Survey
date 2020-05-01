@@ -24,9 +24,9 @@ namespace Survey.Identity.Domain.Roles
 
         }
 
-        public Role(CreateInfo creationInfo, List<Guid> features = null)
+        public Role(string name,CreateInfo creationInfo, List<Guid> features = null)
         {
-
+            Name = name;
             CreateInfo = creationInfo;
             DeleteInfo = DeleteInfo.Create().Value;
             DisabeleInfo = DisabeleInfo.Create().Value;
@@ -39,16 +39,11 @@ namespace Survey.Identity.Domain.Roles
             DisabeleInfo = disableInfo;
         }
 
-        public void Update(/*PermissionInfo permissionInfo,*/ List<Guid> features = null, bool deleteExisting = false)
+        public void Update( List<Guid> features = null, bool deleteExisting = false)
         {
-            //   UpdateInfo(permissionInfo);
             UpdateFeatures(features, deleteExisting);
         }
-        //private void UpdateInfo(PermissionInfo permissionInfo)
-        //{
-        //    if (PermissionInfo != permissionInfo)
-        //        PermissionInfo = permissionInfo;
-        //}
+     
         private void UpdateFeatures(List<Guid> features, bool deleteExisting = false)
         {
             List<Guid> toAdd = features.Where(a => _roleFeatures.Where(b => b.Feature.Id == a).Count() == 0).ToList();

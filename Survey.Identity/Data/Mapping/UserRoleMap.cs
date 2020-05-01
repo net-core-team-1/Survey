@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Survey.Identity.Domain.Users;
-using Survey.Transverse.Domain.Users;
 
 namespace Survey.Identity.Data.Mapping
 {

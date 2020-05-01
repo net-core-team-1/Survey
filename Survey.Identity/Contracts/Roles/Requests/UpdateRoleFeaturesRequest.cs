@@ -4,17 +4,18 @@ using System.Text;
 
 namespace Survey.Identity.Contracts
 {
-    public sealed class CreatePermissionRequest
+   public sealed class UpdateRoleFeaturesRequest
     {
-        public string Label { get; set; }
-        public string Description { get; set; }
-        public Guid CreatedBy { get; set; }
+        public Guid Id { get; set; }
 
         public List<Guid> Features { get; set; }
 
-        public CreatePermissionRequest()
+        public bool DeleteExistingFeatures { get; set; }
+
+        public UpdateRoleFeaturesRequest()
         {
             Features = new List<Guid>();
+            DeleteExistingFeatures = false;
         }
     }
 }

@@ -1,6 +1,4 @@
-﻿using Survey.Common.Types;
-using Survey.Identity.Domain.Users;
-using Survey.Transverse.Domain.Users;
+﻿using Survey.Identity.Domain.Users;
 using System;
 using System.Security.Cryptography;
 

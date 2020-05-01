@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Survey.Transverse.Domain.Roles.Commands
+namespace Survey.Indentity.Domain.Roles.Commands
 {
     public sealed class RemoveRoleCommand : ICommand
     {
