@@ -6,7 +6,11 @@ namespace Survey.Identity.Contracts
 {
     public class SignOutRequest
     {
-        public string Id { get; set; }
+        public Guid Id { get; set; }
+        public SignOutRequest(Guid id)
+        {
+            Id = id;
+        }
 
     }
 }

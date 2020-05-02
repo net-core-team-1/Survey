@@ -1,5 +1,6 @@
 ﻿
 using CSharpFunctionalExtensions;
+using Survey.Common.Auth;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,8 @@ namespace Survey.Identity.Services.Authentication
 
         Task<Result> LogOut(Guid id);
 
-        Task<Result> ChangePassowrd(Guid id, string newPassword, string oldPassword);
+        Task<Result> ChangePassword(Guid id, string newPassword, string oldPassword);
+
+        Task<JsonWebToken> IssueWebToken(string email);
     }
 }

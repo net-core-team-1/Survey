@@ -37,10 +37,7 @@ namespace Survey.Identity.Data
             builder.ApplyConfiguration(new RefreshTokenMap());
         }
 
-        private object UserClaim<T>()
-        {
-            throw new NotImplementedException();
-        }
+
 
         public virtual DbSet<Feature> Features { get; set; }
         public virtual DbSet<RefreshToken> RefreshTokens { get; set; }

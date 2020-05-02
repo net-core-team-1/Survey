@@ -13,7 +13,7 @@ namespace Survey.Identity.Controllers
 {
     //[Route("[controller]")]
     [ApiController]
-    public class FeaturesController : ControllerBase
+    public class FeaturesController : BaseController
     {
         private readonly IMapper _mapper;
         private readonly LinkGenerator _linkGenerator;
@@ -33,8 +33,9 @@ namespace Survey.Identity.Controllers
         public async Task<IActionResult> Create(CreateFeatureRequest request)
         {
             var command = _mapper.Map<CreateFeatureCommand>(request);
+        
             var result = await _dispatcher.Dispatch(command);
-            return Ok();
+            return FromResult(result);
         }
 
         [HttpPost(ApiRoutes.Features.EditInfo)]
@@ -43,7 +44,7 @@ namespace Survey.Identity.Controllers
             request.Id = id;
             var command = _mapper.Map<EditFeatureCommand>(request);
             var result = await _dispatcher.Dispatch(command);
-            return Ok();
+            return FromResult(result);
         }
 
 
@@ -53,7 +54,7 @@ namespace Survey.Identity.Controllers
             request.Id = id;
             var command = _mapper.Map<DeactivateFeatureCommand>(request);
             var result = await _dispatcher.Dispatch(command);
-            return Ok();
+            return FromResult(result);
         }
 
         [HttpPost(ApiRoutes.Features.Remove)]
@@ -62,7 +63,7 @@ namespace Survey.Identity.Controllers
             request.Id = id;
             var command = _mapper.Map<RemoveFeatureCommand>(request);
             var result = await _dispatcher.Dispatch(command);
-            return Ok();
+            return FromResult(result);
         }
 
 

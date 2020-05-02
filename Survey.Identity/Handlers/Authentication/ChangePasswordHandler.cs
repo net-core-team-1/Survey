@@ -16,7 +16,7 @@ namespace Survey.Identity.Handlers.Authentication
         }
         public async Task<Result> Handle(ChangePasswordCommand command)
         {
-            return await _authenticationService.ChangePassowrd(command.Id, command.NewPassword, command.OldPassword);
+            return await _authenticationService.ChangePassword(command.Id, command.NewPassword, command.OldPassword);
         }
     }
 }

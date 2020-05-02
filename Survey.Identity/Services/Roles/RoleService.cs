@@ -65,6 +65,11 @@ namespace Survey.Identity.Services.Roles
 
             if (!result.Succeeded)
                 return await Task<Result>.FromResult(Result.Failure("Role could not be updated"));
+
+            result = await _roleManager.UpdateAsync(role);
+            if (!result.Succeeded)
+                return await Task<Result>.FromResult(Result.Failure("Role could not be updated"));
+
             return await Task<Result>.FromResult(Result.Ok());
         }
 
@@ -74,7 +79,7 @@ namespace Survey.Identity.Services.Roles
             if (role == null)
                 return await Task<Result>.FromResult(Result.Failure($"Role_does_not_exist"));
 
-            Result<DeleteInfo> deleteInfoResult = DeleteInfo.Create(by);
+            Result<DeleteInfo> deleteInfoResult = DeleteInfo.Create(by,reason);
             if (deleteInfoResult.IsFailure)
                 return await Task<Result>.FromResult(Result.Failure($"Role_delete_info_invalid"));
 
@@ -90,6 +95,7 @@ namespace Survey.Identity.Services.Roles
         public async Task<Result> UpdateFeatures(Guid id, List<Guid> features, bool deleteExisting)
         {
             var role = await _roleManager.FindByIdAsync(id.ToString());
+              
             if (role == null)
                 return await Task<Result>.FromResult(Result.Failure($"Role_does_not_exist"));
 

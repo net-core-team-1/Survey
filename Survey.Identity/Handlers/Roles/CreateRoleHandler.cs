@@ -2,6 +2,7 @@
 using Survey.Common.Types;
 using Survey.Identity.Services.Roles;
 using Survey.Indentity.Domain.Roles.Commands;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Survey.Identity.Handlers.Roles

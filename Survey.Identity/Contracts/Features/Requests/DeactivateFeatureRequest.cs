@@ -7,6 +7,6 @@ namespace Survey.Identity.Contracts
     public class DeactivateFeatureRequest
     {
         public Guid Id { get; set; }
-        public Guid DeletedBy { get; set; }
+        public Guid DisabledBy { get; set; }
     }
 }

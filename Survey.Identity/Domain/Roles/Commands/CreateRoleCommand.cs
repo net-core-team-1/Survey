@@ -1,7 +1,9 @@
 ﻿using Survey.Common.Types;
+using Survey.Identity.Contracts.Features;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace Survey.Indentity.Domain.Roles.Commands
 {
@@ -9,7 +11,7 @@ namespace Survey.Indentity.Domain.Roles.Commands
     {
         public string Name { get; }
         public Guid CreatedBy { get; }
-        public List<Guid> Features { get; }
+        public List<Guid> Features { get; set; }
 
 
         public CreateRoleCommand(string name,  Guid createdBy, List<Guid> features = null)

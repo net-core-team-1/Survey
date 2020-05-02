@@ -7,8 +7,8 @@ namespace Survey.Indentity.Domain.Roles.Commands
     public sealed class UpdateRoleFeaturesCommand : ICommand
     {
         public Guid Id { get; }
-        public List<Guid> Features { get; }
-        public bool DeleteExisting { get; set; }
+        public List<Guid> Features { get; set; }
+        public bool DeleteExisting { get;  }
 
 
         public UpdateRoleFeaturesCommand(Guid id, List<Guid> features = null, bool deleteExisting = false)

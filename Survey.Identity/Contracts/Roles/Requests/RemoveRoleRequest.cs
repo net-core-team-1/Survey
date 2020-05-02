@@ -8,6 +8,6 @@ namespace Survey.Identity.Contracts
     {
         public Guid Id { get; set; }
         public string Reason { get; set; }
-        public Guid DeletedBy { get; set; }
+        public Guid By { get; set; }
     }
 }

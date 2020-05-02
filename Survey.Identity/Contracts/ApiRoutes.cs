@@ -28,7 +28,7 @@
 
             public const string SignOut = Base + "/authentication/{id:Guid}/signout";
 
-            public const string ChangePassword = Base + "/authentication/{id:Guid}/changepassword";
+            public const string ChangePassword = Base + "/authentication/{id:Guid}/change_password";
         }
         public static class Features
         {

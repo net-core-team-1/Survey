@@ -12,5 +12,7 @@ namespace Survey.Identity.Contracts
         public string Action { get; set; }
         public string ControllerActionName { get; set; }
         public Guid CreatedBy { get; set; }
+
+
     }
 }

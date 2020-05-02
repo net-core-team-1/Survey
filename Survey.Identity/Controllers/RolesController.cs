@@ -12,7 +12,7 @@ namespace Survey.Identity.Controllers
 {
     //[Route("[controller]")]
     [ApiController]
-    public class RolesController : ControllerBase
+    public class RolesController : BaseController
     {
         private readonly IMapper _mapper;
         private readonly LinkGenerator _linkGenerator;
@@ -32,18 +32,19 @@ namespace Survey.Identity.Controllers
         [HttpPost(ApiRoutes.Roles.Create)]
         public async Task<IActionResult> Create(CreateRoleRequest request)
         {
-            var command = _mapper.Map<RegisterUserCommand>(request);
+            var command = _mapper.Map<CreateRoleRequest,CreateRoleCommand>(request);
+            command.Features = request.Features;// to fix after
             var result = await _dispatcher.Dispatch(command);
-            return Ok();
+            return FromResult(result);
         }
 
-        [HttpPost(ApiRoutes.Roles.Edit)]
+        [HttpPost(ApiRoutes.Roles.Edit)] 
         public async Task<IActionResult> Edit(Guid id, EditRoleRequest request)
         {
             request.Id = id;
             var command = _mapper.Map<EditRoleCommand>(request);
             var result = await _dispatcher.Dispatch(command);
-            return Ok();
+            return FromResult(result);
         }
 
 
@@ -52,8 +53,9 @@ namespace Survey.Identity.Controllers
         {
             request.Id = id;
             var command = _mapper.Map<UpdateRoleFeaturesCommand>(request);
+            command.Features = request.Features;// to fix after
             var result = await _dispatcher.Dispatch(command);
-            return Ok();
+            return FromResult(result);
         }
 
         [HttpPost(ApiRoutes.Roles.Deactivate)]
@@ -62,7 +64,7 @@ namespace Survey.Identity.Controllers
             request.Id = id;
             var command = _mapper.Map<DeactivateRoleCommand>(request);
             var result = await _dispatcher.Dispatch(command);
-            return Ok();
+            return FromResult(result);
         }
 
         [HttpPost(ApiRoutes.Roles.Remove)]
@@ -71,7 +73,7 @@ namespace Survey.Identity.Controllers
             request.Id = id;
             var command = _mapper.Map<RemoveRoleCommand>(request);
             var result = await _dispatcher.Dispatch(command);
-            return Ok();
+            return FromResult(result);
         }
 
     }

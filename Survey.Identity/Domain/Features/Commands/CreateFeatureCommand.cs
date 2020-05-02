@@ -14,13 +14,13 @@ namespace Survey.Identity.Domain.Features.Commands
         public string ControllerActionName { get; }
         public Guid CreatedBy { get; }
         public CreateFeatureCommand(string label, string description, string action, string controller,
-                                 string controllerActionNmae, Guid createdBy)
+                                 string controllerActionName, Guid createdBy)
         {
             Label = label;
             Description = description;
             Action = action;
             Controller = controller;
-            ControllerActionName = controllerActionNmae;
+            ControllerActionName = controllerActionName;
             CreatedBy = createdBy;
         }
     }

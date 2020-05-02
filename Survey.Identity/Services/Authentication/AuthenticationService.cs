@@ -28,12 +28,12 @@ namespace Survey.Identity.Services.Authentication
             if (!result)
                 return await Task<Result>.FromResult(Result.Failure($"Invalid_credentials"));
 
-            JsonWebToken token = _jwtHandler.Create(user.Id);
-            return await Task<Result>.FromResult(Result.Ok(token));
+
+            return await Task<Result>.FromResult(Result.Ok());
         }
 
 
-        public async Task<Result> ChangePassowrd(Guid id, string newPassword, string oldPassword)
+        public async Task<Result> ChangePassword(Guid id, string newPassword, string oldPassword)
         {
 
             var user = await _userManager.FindByIdAsync(id.ToString());
@@ -60,6 +60,13 @@ namespace Survey.Identity.Services.Authentication
                 return await Task<Result>.FromResult(Result.Failure($"User_Could_not_be_updated"));
 
             return await Task<Result>.FromResult(Result.Ok());
+        }
+
+        public async Task<JsonWebToken> IssueWebToken(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            JsonWebToken token = _jwtHandler.Create(user.Id);
+            return token;
         }
     }
 }

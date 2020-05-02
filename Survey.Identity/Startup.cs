@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -17,6 +17,7 @@ using Survey.Identity.Handlers.Features;
 using Survey.Identity.Handlers.Roles;
 using Survey.Identity.Handlers.Users;
 using Survey.Identity.Infrastracture.Data.Repositories;
+using Survey.Identity.Services.Authentication;
 using Survey.Identity.Services.Features;
 using Survey.Identity.Services.Roles;
 using Survey.Identity.Services.Users;
@@ -41,15 +42,15 @@ namespace Survey.Identity
                     .AddAutoMapper()
                     .AddIdentityOptions()
                     .AddAuth(Configuration);
-           
 
-           
+
+
+            services.AddScoped<IFeatureRepository, FeatureRepository>();
 
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<IFeatureService, FeatureService>();
-            services.AddScoped<IFeatureRepository, FeatureRepository>();
 
             //user commands
             services.AddScoped<ICommandHandler<RegisterUserCommand>, RegisterUserHandler>();
@@ -73,6 +74,9 @@ namespace Survey.Identity
             services.AddScoped<ICommandHandler<DeactivateFeatureCommand>, DeactivateFeatureHandler>();
             services.AddScoped<ICommandHandler<EditFeatureCommand>, EditFeatureHandler>();
             services.AddScoped<ICommandHandler<RemoveFeatureCommand>, RemoveFeatureHandler>();
+
+
+           
 
 
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Survey.Identity.Contracts.Features;
+using System;
 using System.Collections.Generic;
 using System.Text;
 

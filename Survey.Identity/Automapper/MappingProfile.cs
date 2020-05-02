@@ -4,6 +4,9 @@ using Survey.Identity.Domain.Authentication.Commands;
 using Survey.Identity.Domain.Features.Commands;
 using Survey.Identity.Domain.Users.Commands;
 using Survey.Indentity.Domain.Roles.Commands;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace Survey.Identity.API.Automapper
 {
@@ -23,6 +26,9 @@ namespace Survey.Identity.API.Automapper
 
             //Roles 
             CreateMap<CreateRoleRequest, CreateRoleCommand>();
+
+
+            CreateMap<CreateRoleRequest, CreateRoleCommand>();
             CreateMap<EditRoleRequest, EditRoleCommand>();
             CreateMap<DeactivateRoleRequest, DeactivateRoleCommand>();
             CreateMap<RemoveRoleRequest, RemoveRoleCommand>();
@@ -33,7 +39,6 @@ namespace Survey.Identity.API.Automapper
             CreateMap<EditFeatureRequest, EditFeatureCommand>();
             CreateMap<DeactivateFeatureRequest, DeactivateFeatureCommand>();
             CreateMap<RemoveFeatureRequest, RemoveFeatureCommand>();
-            CreateMap<EditFeatureRequest, EditFeatureCommand>();
 
         }
     }
