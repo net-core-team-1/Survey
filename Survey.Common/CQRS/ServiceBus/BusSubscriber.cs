@@ -40,7 +40,7 @@ namespace Common.Types.Types.ServiceBus
             {
                 _qosOptions.PrefetchCount = 1;
             }
-            _connection = _serviceProvider.GetRequiredService<IConnection>();
+            _connection = RabbitMqConnectionFactory.CreateConnection(_serviceProvider);
         }
 
         public void SubscribeCommand<TCommand>()
@@ -82,7 +82,7 @@ namespace Common.Types.Types.ServiceBus
                 catch (Exception ex)
                 {
                     channel.BasicAck(args.DeliveryTag, false);
-                    throw ex;
+                    //throw ex;
                 }
             };
             channel.BasicConsume(conventions.Queue, false, consumer);
@@ -129,7 +129,7 @@ namespace Common.Types.Types.ServiceBus
                 catch (Exception ex)
                 {
                     channel.BasicAck(args.DeliveryTag, false);
-                    throw ex;
+                    //throw ex;
                 }
             };
 

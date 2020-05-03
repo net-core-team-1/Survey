@@ -14,8 +14,10 @@ namespace Survey.Identity.Services.Users
     {
         Task<IdentityResult> RegisterNewAsync(AppUser user, UserPassword password);
         Task<AppUser> FindUserByUserNameAsync(string userName);
+        Task<AppUser> FindUserByUserIdAsync(Guid userId);
         Task<bool> ValidatePassword(AppUser user, string password);
         Task<Result> AssignRoleAsync(AppUser user, AppRole role);
         Task<Result> AssignRolesAsync(AppUser user, IEnumerable<AppRole> roles);
+        Task<IdentityResult> UpdateAsync(AppUser user);
     }
 }

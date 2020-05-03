@@ -19,8 +19,16 @@ namespace Identity.Api.Identity.Data.Mapping
                 a.Property(aa => aa.LastName).HasColumnName("LastName").HasMaxLength(50);
             });
 
+            builder.OwnsOne(a => a.DeleteInfo, a =>
+             {
+                 a.Property(aa => aa.Deleted).HasColumnName("Deleted").HasColumnName("Deleted").HasDefaultValue(false);
+                 a.Property(aa => aa.DeletedBy).HasColumnName("DeletedBy").HasDefaultValue(null);
+                 a.Property(aa => aa.DeleteReason).HasColumnName("DeleteReason").HasDefaultValue(null).HasMaxLength(50);
+                 a.Property(aa => aa.DeletedOn).HasColumnName("DeletedOn").HasDefaultValue(null);
+             });
+
             builder.HasMany(a => a.UserRoles)
-                .WithOne(a=> a.User);
+                .WithOne(a => a.User);
 
             builder.HasMany(a => a.Claims)
                 .WithOne();

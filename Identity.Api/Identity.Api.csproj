@@ -13,6 +13,8 @@
     <PackageReference Include="RabbitMQ.Client" Version="5.1.2" />
     <PackageReference Include="AutoMapper" Version="9.0.0" />
     <PackageReference Include="CSharpFunctionalExtensions" Version="2.2.2" />
+    <PackageReference Include="Dapper" Version="2.0.30" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.1" />
   </ItemGroup>
 
 
@@ -27,7 +29,6 @@
     <Folder Include="Identity\Domain\Roles\Commands\" />
     <Folder Include="Identity\Domain\Roles\Queries\" />
     <Folder Include="Identity\Domain\Users\Exceptions\" />
-    <Folder Include="Identity\Domain\Users\Queries\" />
     <Folder Include="Identity\Services\Civilities\" />
     <Folder Include="Services\Authentications\CommandHandlers\" />
     <Folder Include="Services\Authentications\Queries\" />
@@ -35,7 +36,6 @@
     <Folder Include="Services\Features\Queries\" />
     <Folder Include="Services\Roles\CommandHandlers\" />
     <Folder Include="Services\Roles\Queries\" />
-    <Folder Include="Services\Users\Queries\" />
   </ItemGroup>
 
 

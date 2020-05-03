@@ -8,6 +8,7 @@ using Identity.Api.Extensions.CommandHandlersRegistration;
 using Identity.Api.Extensions.IdentityServiceRegistration;
 using Identity.Api.Identity.Domain.Users.Commands;
 using Identity.Api.Identity.Domain.Users.Events;
+using Identity.Api.Services;
 using Identity.Api.Utils.ResultValidator;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -17,6 +18,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Survey.Common.CQRS.ServiceBus.RabbitMQ;
+using Survey.Common.Messages;
 
 namespace Identity.Api
 {
@@ -39,13 +41,16 @@ namespace Identity.Api
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            var queriesConnectionString = new QueriesConnectionString(Configuration.GetConnectionString("QueriesConnectionString"));
+            services.AddSingleton(queriesConnectionString);
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             // Custom services injections
             services.AddIdentityServices(Configuration);
             services.AddAutoMapper();
             services.ConfigureServiceBus(Configuration);
-            
+            services.AddScoped<Dispatcher>();
             services.RegisterHandlers();
         }
 
@@ -79,7 +84,12 @@ namespace Identity.Api
             exchangeInitializer.Initialize();
 
             subscriberBus.SubscribeCommand<RegisterUserCommand>();
+            subscriberBus.SubscribeCommand<UnregisterUserCommand>();
+            subscriberBus.SubscribeCommand<EditUserCommand>();
+
             subscriberBus.SubscribeEvent<UserRegistered>();
+            subscriberBus.SubscribeEvent<UserUnregistred>();
+            subscriberBus.SubscribeEvent<UserEdited>();
             subscriberBus.SubscribeEvent<UserRegistrationRejected>();
         }
     }

@@ -33,14 +33,14 @@ namespace Identity.Api.Services.Users.CommandHandlers
         {
             var fullNameResult = FullName.Create(command.FirstName, command.LastName).Validate();
 
-            var Civility = new Civility(command.CivilityId);
+            var civility = new Civility(command.CivilityId);
             var passwordResult = UserPassword.Create(command.Password).Validate();
             var rolesResult = AppUserRoleCollection.Create(command.Permissions).Validate();
             var userNameResult = UserName.Create(command.UserName).Validate();
             var emailResult = UserEmail.Create(command.Email).Validate();
 
             var user = new AppUser(userNameResult.Value, fullNameResult.Value,
-                emailResult.Value, rolesResult.Value, Civility);
+                emailResult.Value, rolesResult.Value, civility);
             var result = await _userService.RegisterNewAsync(user, passwordResult.Value);
             result.Validate();
 

@@ -5,16 +5,15 @@ using System.Threading.Tasks;
 
 namespace Identity.Api.Identity.Contrat.Users.Requests
 {
-    public class EditUserRequest
+    public class UnregisterUserRequest
     {
         public Guid UserId { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public int CivilityId { get; set; }
+        public string Reason { get; set; }
+        public Guid DeletedBy { get; set; }
+        public DateTime DeletedAt { get; set; }
 
-        public EditUserRequest()
+        public UnregisterUserRequest()
         {
-          
         }
     }
 }

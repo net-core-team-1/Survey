@@ -9,27 +9,29 @@ namespace Identity.Api.Identity.Domain
     {
         public Guid? DeletedBy { get; private set; }
         public DateTime? DeletedOn { get; private set; }
-        public bool Deleted { get { return DeletedOn != null; } }
+        public bool? Deleted { get; private set; }
         public string DeleteReason { get; private set; }
 
         protected DeleteInfo()
         {
 
         }
-        private DeleteInfo(Guid? deletedBy, string deleteReason)
+        private DeleteInfo(Guid? deletedBy, string deleteReason, DateTime? deletedOn, bool deleted)
         {
-            if (deletedBy != null)
+            Deleted = deleted;
+            DeletedOn = deletedOn;
+            if (deletedOn == null)
                 DeletedOn = DateTime.Now;
 
             DeletedBy = deletedBy;
             DeleteReason = deleteReason;
         }
-        public static Result<DeleteInfo> Create(Guid? deletedBy = null, string deleteReason = null)
+        public static Result<DeleteInfo> Create(Guid? deletedBy = null, string deleteReason = null, DateTime? deletedOn = null, bool deleted = false)
         {
             if (string.IsNullOrWhiteSpace(deleteReason) && deletedBy != null)
                 return Result.Failure<DeleteInfo>("Delete reason should be supplied");
 
-            return Result.Success(new DeleteInfo(deletedBy, deleteReason));
+            return Result.Success(new DeleteInfo(deletedBy, deleteReason, deletedOn, deleted));
         }
         protected override IEnumerable<object> GetEqualityComponents()
         {

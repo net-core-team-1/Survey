@@ -8,9 +8,9 @@ using System.Text;
 
 namespace Survey.Common.CQRS.ServiceBus.RabbitMQ
 {
-    public class RabbitMqConnectionFactory:IDisposable
+    public class RabbitMqConnectionFactory : IDisposable
     {
-    
+
         public static IModel Create(IServiceProvider serviceProvider)
         {
             var options = serviceProvider.GetRequiredService<RabbitMqOptions>();
@@ -28,6 +28,24 @@ namespace Survey.Common.CQRS.ServiceBus.RabbitMQ
 
 
             return connection.CreateModel();
+        }
+
+        public static IConnection CreateConnection(IServiceProvider serviceProvider)
+        {
+            var options = serviceProvider.GetRequiredService<RabbitMqOptions>();
+
+            var connection = new ConnectionFactory
+            {
+                Port = options.Port,
+                VirtualHost = options.VirtualHost,
+                UserName = options.Username,
+                Password = options.Password,
+                RequestedConnectionTimeout = options.RequestedConnectionTimeout,
+                DispatchConsumersAsync = true
+
+            }.CreateConnection(options.HostNames.ToList(), options.ConnectionName);
+
+            return connection;
         }
 
         public void Dispose()

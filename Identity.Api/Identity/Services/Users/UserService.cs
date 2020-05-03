@@ -2,6 +2,7 @@
 using Identity.Api.Exceptions;
 using Identity.Api.Identity.Data;
 using Identity.Api.Identity.Domain;
+using Identity.Api.Identity.Domain.Civilities;
 using Identity.Api.Identity.Domain.Roles;
 using Identity.Api.Identity.Domain.Users;
 using Microsoft.AspNetCore.Identity;
@@ -87,6 +88,24 @@ namespace Survey.Identity.Services.Users
             {
                 throw new IdentityException(ex, "USER_PASSWORD_VALIDATION_FAILED", ex.Message);
             }
+        }
+
+        public async Task<IdentityResult> UpdateAsync(AppUser user)
+        {
+            try
+            {
+                _transverseIdentityDbContext.Entry<Civility>(user.Civility).State = EntityState.Unchanged;
+                return await _userManager.UpdateAsync(user);
+            }
+            catch (Exception ex)
+            {
+                throw new IdentityException(ex, "UNREGISTER_USER_FAILED", ex.Message);
+            }
+        }
+
+        public async Task<AppUser> FindUserByUserIdAsync(Guid userId)
+        {
+            return await _userManager.FindByIdAsync(userId.ToString());
         }
     }
 }

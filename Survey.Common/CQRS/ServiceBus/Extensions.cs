@@ -18,27 +18,10 @@ namespace Common.Types.Types.ServiceBus
 
             services.AddSingleton(options);
 
-
-            var connection = new ConnectionFactory
-            {
-
-                Port = options.Port,
-                VirtualHost = options.VirtualHost,
-                UserName = options.Username,
-                Password = options.Password,
-                RequestedConnectionTimeout = options.RequestedConnectionTimeout,
-                DispatchConsumersAsync = true
-
-            }.CreateConnection(options.HostNames.ToList(), options.ConnectionName);
-
-            services.AddSingleton(connection);
-
             services.AddSingleton<IConventionsBuilder, ConventionsBuilder>();
             services.AddSingleton<IConventionsProvider, ConventionsProvider>();
             services.AddSingleton<IConventionsRegistry, ConventionsRegistry>();
             services.AddSingleton<ExchangeInitializer>();
-
-
 
             services.AddSingleton<IBusPublisher, BusPublisher>();
             services.AddSingleton<IBusSubscriber, BusSubscriber>();

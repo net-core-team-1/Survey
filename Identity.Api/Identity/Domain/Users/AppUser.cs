@@ -1,4 +1,5 @@
-﻿using Identity.Api.Identity.Domain.Civilities;
+﻿using CSharpFunctionalExtensions;
+using Identity.Api.Identity.Domain.Civilities;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ namespace Identity.Api.Identity.Domain.Users
     {
         public FullName FullName { get; protected set; }
         public Civility Civility { get; protected set; }
+        public DeleteInfo DeleteInfo { get; protected set; }
 
         private readonly List<AppUserRole> _userRoles = new List<AppUserRole>();
         private readonly List<AppUserClaim> _claims = new List<AppUserClaim>();
@@ -26,14 +28,31 @@ namespace Identity.Api.Identity.Domain.Users
         {
 
         }
+        public AppUser(Guid UserId)
+        {
+            this.Id = UserId;
+        }
+
+        internal void EditPersonalInfo(FullName fullName, Civility civility)
+        {
+            this.FullName = fullName;
+            this.Civility = civility;
+        }
 
         public AppUser(UserName userName, FullName name, UserEmail email, AppUserRoleCollection roles, Civility civility)
+            : this()
         {
             this.UserName = userName.Value;
             this.FullName = name;
             this.Email = email.Value;
             this.Civility = civility;
+            DeleteInfo = DeleteInfo.Create().Value;
             EditRoles(roles.Value);
+        }
+
+        internal void MarkAsDeleted(DeleteInfo deleteInfo)
+        {
+            DeleteInfo = deleteInfo;
         }
 
         public void EditRoles(List<AppUserRole> roles)
