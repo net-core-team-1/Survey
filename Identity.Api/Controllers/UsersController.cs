@@ -26,7 +26,7 @@ namespace Identity.Api.Controllers
         private readonly Dispatcher _dispatcher;
 
         public UsersController(IMapper mapper, LinkGenerator linkGenerator,
-            IUserService userService, IBusPublisher busPublisher, Dispatcher dispatcher)
+                             IBusPublisher busPublisher, Dispatcher dispatcher)
         {
             _mapper = mapper;
             _linkGenerator = linkGenerator;

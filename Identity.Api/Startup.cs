@@ -86,6 +86,7 @@ namespace Identity.Api
             subscriberBus.SubscribeCommand<RegisterUserCommand>();
             subscriberBus.SubscribeCommand<UnregisterUserCommand>();
             subscriberBus.SubscribeCommand<EditUserCommand>();
+            subscriberBus.SubscribeCommand<AssignRolesToUserCommad>();
 
             subscriberBus.SubscribeEvent<UserRegistered>();
             subscriberBus.SubscribeEvent<UserUnregistred>();

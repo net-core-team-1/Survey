@@ -1,13 +1,16 @@
 ﻿using CSharpFunctionalExtensions;
 using Identity.Api.Exceptions;
 using Identity.Api.Identity.Data;
+using Identity.Api.Identity.Data.Managers;
 using Identity.Api.Identity.Domain;
 using Identity.Api.Identity.Domain.Civilities;
 using Identity.Api.Identity.Domain.Roles;
 using Identity.Api.Identity.Domain.Users;
+using Identity.Api.Identity.Services.Roles;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
+using Microsoft.EntityFrameworkCore.Query.ExpressionVisitors.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,12 +22,12 @@ namespace Survey.Identity.Services.Users
     public class UserService : IUserService
     {
         private readonly UserManager<AppUser> _userManager;
-        private readonly TransverseIdentityDbContext _transverseIdentityDbContext;
+        private readonly TransverseIdentityDbContext _context;
 
-        public UserService(UserManager<AppUser> userManager, TransverseIdentityDbContext transverseIdentityDbContext)
+        public UserService(UserManager<AppUser> userManager, TransverseIdentityDbContext context)
         {
             _userManager = userManager;
-            _transverseIdentityDbContext = transverseIdentityDbContext;
+            _context = context;
         }
 
         public async Task<AppUser> FindUserByUserNameAsync(string userName)
@@ -36,8 +39,9 @@ namespace Survey.Identity.Services.Users
         {
             try
             {
-                _transverseIdentityDbContext.Attach(user);
-                return await _userManager.CreateAsync(user, password.Value);
+                var result = await _userManager.CreateAsync(user, password.Value);
+                await _userManager.SaveChangesAsync(_context);
+                return result;
             }
             catch (Exception ex)
             {
@@ -45,7 +49,6 @@ namespace Survey.Identity.Services.Users
 
             }
         }
-
         public async Task<Result> AssignRoleAsync(AppUser user, AppRole role)
         {
             try
@@ -61,23 +64,6 @@ namespace Survey.Identity.Services.Users
                 throw new IdentityException(ex, "USER_ASSIGN_ROLE_FAILED", ex.Message);
             }
         }
-
-        public async Task<Result> AssignRolesAsync(AppUser user, IEnumerable<AppRole> roles)
-        {
-            try
-            {
-                var result = await _userManager.AddToRolesAsync(user, roles.Select(x => x.Name).ToList());
-                if (!result.Succeeded)
-                    return Result.Failure("User could not be saved");
-
-                return Result.Ok();
-            }
-            catch (Exception ex)
-            {
-                throw new IdentityException(ex, "USER_ASSIGN_ROLES_FAILED", ex.Message);
-            }
-        }
-
         public async Task<bool> ValidatePassword(AppUser user, string password)
         {
             try
@@ -94,7 +80,6 @@ namespace Survey.Identity.Services.Users
         {
             try
             {
-                _transverseIdentityDbContext.Entry<Civility>(user.Civility).State = EntityState.Unchanged;
                 return await _userManager.UpdateAsync(user);
             }
             catch (Exception ex)
@@ -106,6 +91,21 @@ namespace Survey.Identity.Services.Users
         public async Task<AppUser> FindUserByUserIdAsync(Guid userId)
         {
             return await _userManager.FindByIdAsync(userId.ToString());
+        }
+
+        public async Task<Result> AssignRolesAsync(Guid userId, List<Guid> roles)
+        {
+            var user = await _userManager.FindByIdAsync(userId.ToString());
+            if (user == null)
+                throw new IdentityException("USER_NOT_FOUND", "User not found in database");
+            user.EditRoles(roles);
+
+            var result = await _userManager.UpdateAsync(user);
+            await _userManager.SaveChangesAsync(_context);
+            if (!result.Succeeded)
+                return Result.Failure("User could not be saved");
+
+            return Result.Ok();
         }
     }
 }

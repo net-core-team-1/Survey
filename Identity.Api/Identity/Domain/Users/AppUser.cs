@@ -1,18 +1,20 @@
 ﻿using CSharpFunctionalExtensions;
 using Identity.Api.Identity.Domain.Civilities;
+using Identity.Api.Identity.Domain.Roles;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
 namespace Identity.Api.Identity.Domain.Users
 {
     public class AppUser : IdentityUser<Guid>
     {
-        public FullName FullName { get; protected set; }
-        public Civility Civility { get; protected set; }
-        public DeleteInfo DeleteInfo { get; protected set; }
+        public virtual FullName FullName { get; protected set; }
+        public virtual Civility Civility { get; protected set; }
+        public virtual DeleteInfo DeleteInfo { get; protected set; }
 
         private readonly List<AppUserRole> _userRoles = new List<AppUserRole>();
         private readonly List<AppUserClaim> _claims = new List<AppUserClaim>();
@@ -47,7 +49,7 @@ namespace Identity.Api.Identity.Domain.Users
             this.Email = email.Value;
             this.Civility = civility;
             DeleteInfo = DeleteInfo.Create().Value;
-            EditRoles(roles.Value);
+            EditRoles(roles.Value.Select(x => x.RoleId).ToList());
         }
 
         internal void MarkAsDeleted(DeleteInfo deleteInfo)
@@ -55,10 +57,21 @@ namespace Identity.Api.Identity.Domain.Users
             DeleteInfo = deleteInfo;
         }
 
-        public void EditRoles(List<AppUserRole> roles)
+        public void EditRoles(List<Guid> roles)
         {
             _userRoles.Clear();
-            _userRoles.AddRange(roles);
+            _userRoles.AddRange(roles.Select(x => new AppUserRole(x, this.Id)));
+            //var rolesToAdd = roles
+            //    .Where(r => _userRoles.Where(ur => ur.RoleId == r).Count() == 0)
+            //    .Select(x => new AppUserRole(x, this.Id))
+            //    .ToList();
+
+            //var rolesToDelete = _userRoles
+            // .Where(r => roles.Where(ur => ur == r.RoleId).Count() == 0)
+            // .Select(x => x.RoleId).ToList();
+
+            //_userRoles.AddRange(rolesToAdd);
+            //_userRoles.RemoveAll(x => rolesToDelete.Contains(x.RoleId));
         }
     }
 }

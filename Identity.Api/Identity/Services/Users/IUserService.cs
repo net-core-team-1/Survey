@@ -16,8 +16,7 @@ namespace Survey.Identity.Services.Users
         Task<AppUser> FindUserByUserNameAsync(string userName);
         Task<AppUser> FindUserByUserIdAsync(Guid userId);
         Task<bool> ValidatePassword(AppUser user, string password);
-        Task<Result> AssignRoleAsync(AppUser user, AppRole role);
-        Task<Result> AssignRolesAsync(AppUser user, IEnumerable<AppRole> roles);
+        Task<Result> AssignRolesAsync(Guid userId, List<Guid> roles);
         Task<IdentityResult> UpdateAsync(AppUser user);
     }
 }

@@ -16,6 +16,7 @@ namespace Identity.Api.Utils.AutoMapper
             CreateMap<RegisterUserRequest, RegisterUserCommand>();
             CreateMap<UnregisterUserRequest, UnregisterUserCommand>();
             CreateMap<EditUserRequest, EditUserCommand>();
+            CreateMap<AssignRolesToUserRequest, AssignRolesToUserCommad>();
         }
     }
 }

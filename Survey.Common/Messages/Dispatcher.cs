@@ -1,6 +1,8 @@
 ﻿using Survey.Common.Types;
 using System;
 using CSharpFunctionalExtensions;
+using System.Threading.Tasks;
+
 namespace Survey.Common.Messages
 {
     public sealed class Dispatcher
@@ -19,7 +21,7 @@ namespace Survey.Common.Messages
             Type handlerType = type.MakeGenericType(typeArgs);
 
             dynamic handler = _provider.GetService(handlerType);
-            Result result=handler.Handle((dynamic)command);
+            Result result = handler.Handle((dynamic)command);
             return result;
         }
 

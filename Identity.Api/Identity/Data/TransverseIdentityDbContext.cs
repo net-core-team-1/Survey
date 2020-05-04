@@ -3,11 +3,14 @@ using Identity.Api.Identity.Domain.Civilities;
 using Identity.Api.Identity.Domain.Features;
 using Identity.Api.Identity.Domain.Roles;
 using Identity.Api.Identity.Domain.Users;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Identity.Api.Identity.Data
 {
@@ -38,4 +41,5 @@ namespace Identity.Api.Identity.Data
         public DbSet<Civility> Civilities { get; set; }
         public DbSet<Feature> Features { get; set; }
     }
+
 }

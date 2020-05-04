@@ -1,6 +1,7 @@
 ﻿using Identity.Api.Identity.Domain.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -26,9 +27,6 @@ namespace Identity.Api.Identity.Data.Mapping
                  a.Property(aa => aa.DeleteReason).HasColumnName("DeleteReason").HasDefaultValue(null).HasMaxLength(50);
                  a.Property(aa => aa.DeletedOn).HasColumnName("DeletedOn").HasDefaultValue(null);
              });
-
-            builder.HasMany(a => a.UserRoles)
-                .WithOne(a => a.User);
 
             builder.HasMany(a => a.Claims)
                 .WithOne();

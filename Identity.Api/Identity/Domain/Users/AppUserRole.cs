@@ -18,10 +18,13 @@ namespace Identity.Api.Identity.Domain.Users
         public AppUserRole()
         {
         }
-        protected AppUserRole(AppRole role)
+        public AppUserRole(AppRole role, AppUser user)
             : this()
         {
             Role = role;
+            User = user;
+            RoleId = role.Id;
+            UserId = user.Id;
             Enabled = true;
             AssociatedOn = DateTime.Now.ToUniversalTime();
         }
@@ -30,6 +33,16 @@ namespace Identity.Api.Identity.Domain.Users
              : this()
         {
             Role = new AppRole(roleId);
+            RoleId = roleId;
+            Enabled = true;
+            AssociatedOn = DateTime.Now.ToUniversalTime();
+        }
+
+        public AppUserRole(Guid roleId, Guid userId)
+             : this()
+        {
+            UserId = userId;
+            RoleId = roleId;
             Enabled = true;
             AssociatedOn = DateTime.Now.ToUniversalTime();
         }

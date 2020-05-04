@@ -16,22 +16,23 @@ namespace Identity.Api.Identity.Data.Mapping
         {
             builder.ToTable("UserRoles", DatabaseSchema.IdentitySchema);
             builder.Property(x => x.Enabled)
-                .HasDefaultValue(true)
-                .IsRequired(true);
+                   .HasDefaultValue(true)
+                   .IsRequired(true);
 
             builder.Property(x => x.AssociatedOn)
-                .HasDefaultValue(DateTime.UtcNow.ToUniversalTime())
-                .IsRequired(true);
+                   .HasDefaultValue(DateTime.UtcNow.ToUniversalTime())
+                   .IsRequired(true);
 
             builder.HasOne(x => x.User)
                    .WithMany(x => x.UserRoles)
-            .HasForeignKey(x => x.UserId)
-            .OnDelete(DeleteBehavior.Cascade);
+                   .HasForeignKey(x => x.UserId)
+                   .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(x => x.Role)
                    .WithMany()
                    .HasForeignKey(x => x.RoleId)
                    .OnDelete(DeleteBehavior.Cascade);
+
         }
     }
 }

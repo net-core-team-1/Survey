@@ -1,4 +1,5 @@
 ﻿using Identity.Api.Identity.Data;
+using Identity.Api.Identity.Data.Stores;
 using Identity.Api.Identity.Domain.Roles;
 using Identity.Api.Identity.Domain.Users;
 using Microsoft.AspNetCore.Builder;
@@ -24,7 +25,8 @@ namespace Identity.Api.Extensions.IdentityServiceRegistration
             configuration.GetSection("SurveyIdentity").Bind(configOptions);
 
             services.AddDbContext<TransverseIdentityDbContext>(options =>
-                options.UseSqlServer(configOptions.ConnectionString));
+                options.UseSqlServer(configOptions.ConnectionString).UseLazyLoadingProxies())
+               ;
 
             services.AddIdentityCore<AppUser>()
                 .AddEntityFrameworkStores<TransverseIdentityDbContext>()
@@ -36,7 +38,8 @@ namespace Identity.Api.Extensions.IdentityServiceRegistration
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddScoped<IUserStore<AppUser>, UserStore<AppUser, AppRole, TransverseIdentityDbContext, Guid, AppUserClaim, AppUserRole, AppUserLogin, AppUserToken, AppRoleClaim>>();
+            //services.AddScoped<IUserStore<AppUser>, UserStore<AppUser, AppRole, TransverseIdentityDbContext, Guid, AppUserClaim, AppUserRole, AppUserLogin, AppUserToken, AppRoleClaim>>();            //services.AddScoped<IUserStore<AppUser>, UserStore<AppUser, AppRole, TransverseIdentityDbContext, Guid, AppUserClaim, AppUserRole, AppUserLogin, AppUserToken, AppRoleClaim>>();
+            services.AddScoped<IUserStore<AppUser>, AppUserStore>();
             services.AddScoped<IUserService, UserService>();
         }
     }

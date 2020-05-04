@@ -29,7 +29,12 @@ namespace Identity.Api.Extensions.CommandHandlersRegistration
                 .Register();
             services.AddTransient<ICommandHandler<UnregisterUserCommand>, UnregisterUserCommandHandler>();
             services.AddTransient<ICommandHandler<EditUserCommand>, EditUserCommandHandler>();
+            services.AddTransient<ICommandHandler<AssignRolesToUserCommad>, AssignRolesToUserCommadHandler>();
+
+
             services.AddTransient<IQueryHandler<GetUserByIdQuery, UserResponse>, GetUserByIdQueryHandler>();
+            services.AddTransient<IQueryHandler<GetRolesByUserIdQuery, UserRolesResponse>, GetRolesByUserIdQueryHandler>();
+
         }
     }
 }
