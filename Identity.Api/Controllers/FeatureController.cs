@@ -2,8 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using Common.Types.Types.ServiceBus;
+using CSharpFunctionalExtensions;
+using Identity.Api.Identity.Contrat.Features.Requests;
+using Identity.Api.Identity.Domain.Features.Commands;
+using Identity.Api.Identity.Domain.Features.Queries;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Survey.Common.Messages;
 
 namespace Identity.Api.Controllers
 {
@@ -11,28 +18,60 @@ namespace Identity.Api.Controllers
     [ApiController]
     public class FeatureController : ControllerBase
     {
-        [HttpGet()]
+        private readonly IMapper _mapper;
+        private readonly IBusPublisher _busPublisher;
+        private readonly Dispatcher _dispatcher;
+
+        public FeatureController(IMapper mapper, IBusPublisher busPublisher, Dispatcher dispatcher)
+        {
+            _mapper = mapper;
+            _busPublisher = busPublisher;
+            _dispatcher = dispatcher;
+        }
+
+        [HttpGet("GetFeature")]
         public IActionResult GetFeature(Guid featureId)
         {
-            throw new NotImplementedException();
+            return Ok(_dispatcher.Dispatch(new GetFeatureQuery(featureId)));
+        }
+
+        [HttpGet("GetFeatureList")]
+        public IActionResult GetFeatureList()
+        {
+            return Ok(_dispatcher.Dispatch(new GetListFeaturesQuery()));
         }
 
         [HttpPost()]
-        public IActionResult Register([FromBody] string featureRequest)
+        public IActionResult Register([FromBody] RegisterFeatureRequest request)
         {
-            throw new NotImplementedException();
+            var command = _mapper.Map<RegisterFeatureCommand>(request);
+
+            _busPublisher.SendAsync(command);
+            return Ok(request);
         }
 
         [HttpDelete]
-        public IActionResult Unregister([FromBody] string unregisterUserRequest)
+        public IActionResult Unregister([FromBody] UnregisterFeatureRequest request)
         {
-            throw new NotImplementedException();
+            var command = _mapper.Map<UnRegisterFeatureCommand>(request);
+            _busPublisher.SendAsync(command);
+            return Ok(request);
         }
 
         [HttpPut]
-        public IActionResult Edit([FromBody] string editUserRequest)
+        public IActionResult Edit([FromBody] EditFeatureRequest request)
         {
-            throw new NotImplementedException();
+            var command = _mapper.Map<EditFeatureCommand>(request);
+            _busPublisher.SendAsync(command);
+            return Ok(request);
+        }
+
+        [HttpPatch]
+        public IActionResult Disable([FromBody] DisableFeatureRequest request)
+        {
+            var command = _mapper.Map<DisableFeatureCommand>(request);
+            _busPublisher.SendAsync(command);
+            return Ok(request);
         }
     }
 }

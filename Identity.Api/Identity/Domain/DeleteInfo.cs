@@ -16,9 +16,9 @@ namespace Identity.Api.Identity.Domain
         {
 
         }
-        private DeleteInfo(Guid? deletedBy, string deleteReason, DateTime? deletedOn, bool deleted)
+        private DeleteInfo(Guid? deletedBy, string deleteReason, DateTime? deletedOn)
         {
-            Deleted = deleted;
+            Deleted = true;
             DeletedOn = deletedOn;
             if (deletedOn == null)
                 DeletedOn = DateTime.Now;
@@ -26,12 +26,12 @@ namespace Identity.Api.Identity.Domain
             DeletedBy = deletedBy;
             DeleteReason = deleteReason;
         }
-        public static Result<DeleteInfo> Create(Guid? deletedBy = null, string deleteReason = null, DateTime? deletedOn = null, bool deleted = false)
+        public static Result<DeleteInfo> Create(Guid? deletedBy = null, string deleteReason = null, DateTime? deletedOn = null)
         {
             if (string.IsNullOrWhiteSpace(deleteReason) && deletedBy != null)
                 return Result.Failure<DeleteInfo>("Delete reason should be supplied");
 
-            return Result.Success(new DeleteInfo(deletedBy, deleteReason, deletedOn, deleted));
+            return Result.Success(new DeleteInfo(deletedBy, deleteReason, deletedOn));
         }
         protected override IEnumerable<object> GetEqualityComponents()
         {

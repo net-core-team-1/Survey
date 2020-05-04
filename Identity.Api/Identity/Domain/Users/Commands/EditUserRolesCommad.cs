@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Identity.Api.Identity.Domain.Users.Commands
 {
-    public class AssignRolesToUserCommad : ICommand
+    public class EditUserRolesCommad : ICommand
     {
         public Guid UserId { get; }
         public List<Guid> Roles { get; }
 
-        public AssignRolesToUserCommad(Guid userId, List<Guid> roles)
+        public EditUserRolesCommad(Guid userId, List<Guid> roles)
         {
             UserId = userId;
             Roles = roles;

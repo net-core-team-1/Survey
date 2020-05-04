@@ -36,10 +36,10 @@ namespace Identity.Api.Controllers
         }
 
         [HttpPatch]
-        public IActionResult EditRoles([FromBody] AssignRolesToUserRequest request)
+        public IActionResult EditRoles([FromBody] EditUserRolesRequest request)
         {
-            var command = _mapper.Map<AssignRolesToUserCommad>(request);
-            _busPublisher.SendAsync<AssignRolesToUserCommad>(command);
+            var command = _mapper.Map<EditUserRolesCommad>(request);
+            _busPublisher.SendAsync<EditUserRolesCommad>(command);
             return Ok(request);
         }
     }

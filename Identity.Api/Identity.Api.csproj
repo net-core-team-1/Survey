@@ -20,21 +20,14 @@
 
 
   <ItemGroup>
-    <Folder Include="Identity\Contrat\Features\Responses\" />
-    <Folder Include="Identity\Contrat\Features\Requests\" />
-    <Folder Include="Identity\Data\Repositories\Features\" />
     <Folder Include="Identity\Domain\Civilities\Commands\" />
     <Folder Include="Identity\Domain\Civilities\Queries\" />
-    <Folder Include="Identity\Domain\Features\Commands\" />
-    <Folder Include="Identity\Domain\Features\Queries\" />
     <Folder Include="Identity\Domain\Roles\Commands\" />
     <Folder Include="Identity\Domain\Roles\Queries\" />
     <Folder Include="Identity\Domain\Users\Exceptions\" />
     <Folder Include="Identity\Services\Civilities\" />
     <Folder Include="Services\Authentications\CommandHandlers\" />
     <Folder Include="Services\Authentications\Queries\" />
-    <Folder Include="Services\Features\CommandHandlers\" />
-    <Folder Include="Services\Features\Queries\" />
     <Folder Include="Services\Roles\CommandHandlers\" />
     <Folder Include="Services\Roles\Queries\" />
   </ItemGroup>

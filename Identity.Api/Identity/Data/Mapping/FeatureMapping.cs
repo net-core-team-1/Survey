@@ -35,7 +35,7 @@ namespace Identity.Api.Identity.Data.Mapping
 
             builder.OwnsOne(a => a.DisabeleInfo, a =>
             {
-                a.Ignore(aa => aa.Disabled);
+                a.Property(aa => aa.Disabled).HasColumnName("Disabled").HasDefaultValue(false).IsRequired(false);
                 a.Property(aa => aa.DisabledBy).HasColumnName("DisabledBy").HasDefaultValue(null).IsRequired(false);
                 a.Property(aa => aa.DisabledOn).HasColumnName("DisabledOn").HasDefaultValue(null).IsRequired(false);
 
@@ -43,8 +43,7 @@ namespace Identity.Api.Identity.Data.Mapping
 
             builder.OwnsOne(a => a.DeleteInfo, a =>
             {
-
-                a.Ignore(aa => aa.Deleted);
+                a.Property(aa => aa.Deleted).HasColumnName("Deleted").HasDefaultValue(false).IsRequired(false);
                 a.Property(aa => aa.DeleteReason).HasColumnName("DeletReason").HasDefaultValue(null).HasMaxLength(250).IsRequired(false);
                 a.Property(aa => aa.DeletedBy).HasColumnName("DeletedBy").HasDefaultValue(null).IsRequired(false);
                 a.Property(aa => aa.DeletedOn).HasColumnName("DeletedOn").HasDefaultValue(null).IsRequired(false);

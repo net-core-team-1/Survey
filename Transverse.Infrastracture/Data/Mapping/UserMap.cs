@@ -13,9 +13,7 @@ namespace Survey.Transverse.Infrastracture.Data.Mapping
 
             builder.HasKey(a => a.Id);
 
-            builder.Property(a => a.Timestamp).IsRowVersion();
-
-
+            builder.Property(a => a.Timestamp).IsRowVersion().IsConcurrencyToken();
 
             builder.OwnsOne(a => a.CreateInfo, a =>
             {

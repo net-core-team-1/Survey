@@ -16,10 +16,11 @@ namespace Identity.Api.Identity.Domain.Features
 
         protected Feature()
         {
-            Id = Guid.NewGuid();
+          
         }
         public Feature(FeatureInfo featureInfo, CreateInfo creationInfo)
         {
+            Id = Guid.NewGuid();
             FeatureInfo = featureInfo;
             CreateInfo = creationInfo;
             DeleteInfo = DeleteInfo.Create().Value;

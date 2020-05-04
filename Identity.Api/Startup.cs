@@ -6,6 +6,9 @@ using Common.Types.Types.ServiceBus;
 using Identity.Api.Extensions;
 using Identity.Api.Extensions.CommandHandlersRegistration;
 using Identity.Api.Extensions.IdentityServiceRegistration;
+using Identity.Api.Identity.Data.Repositories.Features;
+using Identity.Api.Identity.Domain.Features;
+using Identity.Api.Identity.Domain.Features.Commands;
 using Identity.Api.Identity.Domain.Users.Commands;
 using Identity.Api.Identity.Domain.Users.Events;
 using Identity.Api.Services;
@@ -51,6 +54,7 @@ namespace Identity.Api
             services.AddAutoMapper();
             services.ConfigureServiceBus(Configuration);
             services.AddScoped<Dispatcher>();
+            services.AddTransient<IFeatureRepository, FeatureRepository>();
             services.RegisterHandlers();
         }
 
@@ -86,7 +90,12 @@ namespace Identity.Api
             subscriberBus.SubscribeCommand<RegisterUserCommand>();
             subscriberBus.SubscribeCommand<UnregisterUserCommand>();
             subscriberBus.SubscribeCommand<EditUserCommand>();
-            subscriberBus.SubscribeCommand<AssignRolesToUserCommad>();
+            subscriberBus.SubscribeCommand<EditUserRolesCommad>();
+
+            subscriberBus.SubscribeCommand<RegisterFeatureCommand>();
+            subscriberBus.SubscribeCommand<UnRegisterFeatureCommand>();
+            subscriberBus.SubscribeCommand<DisableFeatureCommand>();
+            subscriberBus.SubscribeCommand<EditFeatureCommand>();
 
             subscriberBus.SubscribeEvent<UserRegistered>();
             subscriberBus.SubscribeEvent<UserUnregistred>();

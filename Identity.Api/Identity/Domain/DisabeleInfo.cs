@@ -9,7 +9,7 @@ namespace Identity.Api.Identity.Domain
     {
         public DateTime? DisabledOn { get; set; }
         public Guid? DisabledBy { get; set; }
-        public bool Disabled { get { return DisabledOn != null; } }
+        public bool? Disabled { get; set; }
 
         protected DisabeleInfo()
         {
@@ -17,6 +17,7 @@ namespace Identity.Api.Identity.Domain
         }
         private DisabeleInfo(Guid? disabledBy)
         {
+            Disabled = true;
             DisabledBy = disabledBy;
             if (disabledBy != null)
                 DisabledOn = DateTime.Now;

@@ -10,18 +10,18 @@ using System.Threading.Tasks;
 
 namespace Identity.Api.Services.Users.CommandHandlers
 {
-    public class AssignRolesToUserCommadHandler : ICommandHandler<AssignRolesToUserCommad>
+    public class EditUserRolesCommadHandler : ICommandHandler<EditUserRolesCommad>
     {
         private readonly IUserService _userService;
         private readonly IBusPublisher _busPublisher;
 
-        public AssignRolesToUserCommadHandler(IUserService userService, IBusPublisher busPublisher)
+        public EditUserRolesCommadHandler(IUserService userService, IBusPublisher busPublisher)
         {
             _userService = userService;
             _busPublisher = busPublisher;
         }
 
-        public async Task<Result> Handle(AssignRolesToUserCommad command)
+        public async Task<Result> Handle(EditUserRolesCommad command)
         {
             await _userService.AssignRolesAsync(command.UserId, command.Roles);
           
