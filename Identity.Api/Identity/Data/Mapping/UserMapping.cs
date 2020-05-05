@@ -13,7 +13,7 @@ namespace Identity.Api.Identity.Data.Mapping
         public void Configure(EntityTypeBuilder<AppUser> builder)
         {
             builder.ToTable("Users", DatabaseSchema.IdentitySchema);
-            builder.HasOne(a => a.Civility);
+            builder.HasOne(a => a.Civility).WithMany();
             builder.OwnsOne(a => a.FullName, a =>
             {
                 a.Property(aa => aa.FirstName).HasColumnName("FirstName").HasMaxLength(50);

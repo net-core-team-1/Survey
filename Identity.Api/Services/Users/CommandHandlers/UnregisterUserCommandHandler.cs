@@ -28,7 +28,7 @@ namespace Identity.Api.Services.Users.CommandHandlers
 
         public async Task<Result> Handle(UnregisterUserCommand command)
         {
-            var deleteInfoResult = DeleteInfo.Create(command.DeletedBy, command.Reason, command.DeletedAt).Validate();
+            var deleteInfoResult = DeleteInfo.Create(true, command.DeletedBy, command.Reason).Validate();
             var user = _userService.FindUserByUserIdAsync(command.UserId).Result;
             if (user == null)
                 throw new IdentityException("USER_NOT_FOUND", "User not found in database");

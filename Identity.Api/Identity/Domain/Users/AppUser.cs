@@ -47,6 +47,7 @@ namespace Identity.Api.Identity.Domain.Users
             this.UserName = userName.Value;
             this.FullName = name;
             this.Email = email.Value;
+            this.NormalizedEmail = email.Value;
             this.Civility = civility;
             DeleteInfo = DeleteInfo.Create().Value;
             EditRoles(roles.Value.Select(x => x.RoleId).ToList());
@@ -61,17 +62,6 @@ namespace Identity.Api.Identity.Domain.Users
         {
             _userRoles.Clear();
             _userRoles.AddRange(roles.Select(x => new AppUserRole(x, this.Id)));
-            //var rolesToAdd = roles
-            //    .Where(r => _userRoles.Where(ur => ur.RoleId == r).Count() == 0)
-            //    .Select(x => new AppUserRole(x, this.Id))
-            //    .ToList();
-
-            //var rolesToDelete = _userRoles
-            // .Where(r => roles.Where(ur => ur == r.RoleId).Count() == 0)
-            // .Select(x => x.RoleId).ToList();
-
-            //_userRoles.AddRange(rolesToAdd);
-            //_userRoles.RemoveAll(x => rolesToDelete.Contains(x.RoleId));
         }
     }
 }

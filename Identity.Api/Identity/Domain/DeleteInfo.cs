@@ -16,22 +16,20 @@ namespace Identity.Api.Identity.Domain
         {
 
         }
-        private DeleteInfo(Guid? deletedBy, string deleteReason, DateTime? deletedOn)
+        private DeleteInfo(bool? deleted, Guid? deletedBy, string deleteReason)
         {
-            Deleted = true;
-            DeletedOn = deletedOn;
-            if (deletedOn == null)
-                DeletedOn = DateTime.Now;
-
+            Deleted = deleted;
+            if (deleted != null && deleted.Value)
+                DeletedOn = DateTime.Now.ToUniversalTime();
             DeletedBy = deletedBy;
             DeleteReason = deleteReason;
         }
-        public static Result<DeleteInfo> Create(Guid? deletedBy = null, string deleteReason = null, DateTime? deletedOn = null)
+        public static Result<DeleteInfo> Create(bool? deleted = null, Guid? deletedBy = null, string deleteReason = null)
         {
             if (string.IsNullOrWhiteSpace(deleteReason) && deletedBy != null)
                 return Result.Failure<DeleteInfo>("Delete reason should be supplied");
 
-            return Result.Success(new DeleteInfo(deletedBy, deleteReason, deletedOn));
+            return Result.Success(new DeleteInfo(deleted, deletedBy, deleteReason));
         }
         protected override IEnumerable<object> GetEqualityComponents()
         {

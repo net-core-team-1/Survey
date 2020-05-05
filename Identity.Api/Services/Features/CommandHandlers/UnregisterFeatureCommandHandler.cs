@@ -26,7 +26,7 @@ namespace Identity.Api.Services.Features.CommandHandlers
             if (feature == null)
                 throw new IdentityException("FEATURE_NOT_FOUND", "Feature not found in database");
 
-            var deleteInfoResult = DeleteInfo.Create(command.FeatureId, command.Reason, DateTime.Now.ToUniversalTime())
+            var deleteInfoResult = DeleteInfo.Create(true, command.FeatureId, command.Reason)
                                              .Validate();
 
             feature.Remove(deleteInfoResult.Value);

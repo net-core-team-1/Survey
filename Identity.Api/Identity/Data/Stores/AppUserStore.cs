@@ -1,4 +1,5 @@
-﻿using Identity.Api.Identity.Domain.Users;
+﻿using Identity.Api.Identity.Domain.Civilities;
+using Identity.Api.Identity.Domain.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -9,15 +10,14 @@ using System.Threading.Tasks;
 
 namespace Identity.Api.Identity.Data.Stores
 {
-    public class AppUserStore : IUserStore<AppUser>
+    public class AppUserStore : IUserStore<AppUser>, IUserPasswordStore<AppUser>
     {
         private readonly TransverseIdentityDbContext _context;
 
         public AppUserStore(TransverseIdentityDbContext context)
-            :base()
+            : base()
         {
             _context = context;
-            
         }
 
         public async Task<IdentityResult> CreateAsync(AppUser user,
@@ -26,8 +26,16 @@ namespace Identity.Api.Identity.Data.Stores
             cancellationToken.ThrowIfCancellationRequested();
             if (user == null) throw new ArgumentNullException(nameof(user));
 
-            _context.Attach(user);
+            _context.Users.Attach(user);
             await _context.Users.AddAsync(user);
+            return await Task<IdentityResult>.FromResult(IdentityResult.Success);
+        }
+        public async Task<IdentityResult> UpdateAsync(AppUser user, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            if (user == null) throw new ArgumentNullException(nameof(user));
+            _context.Civilities.Attach(user.Civility);
+            _context.SaveChanges();
             return await Task<IdentityResult>.FromResult(IdentityResult.Success);
         }
 
@@ -40,11 +48,6 @@ namespace Identity.Api.Identity.Data.Stores
             return await Task<IdentityResult>.FromResult(IdentityResult.Success);
         }
 
-        public void Dispose()
-        {
-           
-        }
-
         public async Task<AppUser> FindByIdAsync(string userId, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
@@ -55,7 +58,10 @@ namespace Identity.Api.Identity.Data.Stores
                 throw new ArgumentException("Not a valid Guid id", nameof(userId));
             }
 
-            return await _context.Users.Include(x => x.UserRoles).FirstOrDefaultAsync(x => x.Id == idGuid);
+            return await _context.Users
+                .Include(x => x.UserRoles)
+                .Include(x => x.Civility)
+                .FirstOrDefaultAsync(x => x.Id == idGuid);
         }
 
         public async Task<AppUser> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)
@@ -110,13 +116,23 @@ namespace Identity.Api.Identity.Data.Stores
             return Task.FromResult<object>(null);
         }
 
-        public async Task<IdentityResult> UpdateAsync(AppUser user, CancellationToken cancellationToken)
+        public Task<string> GetPasswordHashAsync(AppUser user, CancellationToken cancellationToken)
         {
-            cancellationToken.ThrowIfCancellationRequested();
-            if (user == null) throw new ArgumentNullException(nameof(user));
-            _context.Update(user);
-          
-            return await Task<IdentityResult>.FromResult(IdentityResult.Success);
+            return Task.FromResult(user.PasswordHash);
+        }
+        public Task SetPasswordHashAsync(AppUser user, string passwordHash, CancellationToken cancellationToken)
+        {
+            user.PasswordHash = passwordHash;
+            return Task.FromResult(0);
+        }
+        public Task<bool> HasPasswordAsync(AppUser user, CancellationToken cancellationToken)
+        {
+            return Task.FromResult(string.IsNullOrEmpty(user.PasswordHash));
+        }
+
+        public void Dispose()
+        {
+
         }
     }
 }

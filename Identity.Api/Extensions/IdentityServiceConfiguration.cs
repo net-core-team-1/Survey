@@ -30,7 +30,8 @@ namespace Identity.Api.Extensions.IdentityServiceRegistration
 
             services.AddIdentityCore<AppUser>()
                 .AddEntityFrameworkStores<TransverseIdentityDbContext>()
-                .AddDefaultTokenProviders();
+                .AddDefaultTokenProviders()
+                .AddUserStore<AppUserStore>();
 
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -38,9 +39,11 @@ namespace Identity.Api.Extensions.IdentityServiceRegistration
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            //services.AddScoped<IUserStore<AppUser>, UserStore<AppUser, AppRole, TransverseIdentityDbContext, Guid, AppUserClaim, AppUserRole, AppUserLogin, AppUserToken, AppRoleClaim>>();            //services.AddScoped<IUserStore<AppUser>, UserStore<AppUser, AppRole, TransverseIdentityDbContext, Guid, AppUserClaim, AppUserRole, AppUserLogin, AppUserToken, AppRoleClaim>>();
-            services.AddScoped<IUserStore<AppUser>, AppUserStore>();
-            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IUserService, UserService>(sp =>
+            {
+                return new UserService(sp.GetRequiredService<UserManager<AppUser>>());
+            });
+
         }
     }
 }

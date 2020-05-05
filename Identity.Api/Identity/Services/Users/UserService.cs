@@ -22,12 +22,10 @@ namespace Survey.Identity.Services.Users
     public class UserService : IUserService
     {
         private readonly UserManager<AppUser> _userManager;
-        private readonly TransverseIdentityDbContext _context;
 
-        public UserService(UserManager<AppUser> userManager, TransverseIdentityDbContext context)
+        public UserService(UserManager<AppUser> userManager)
         {
             _userManager = userManager;
-            _context = context;
         }
 
         public async Task<AppUser> FindUserByUserNameAsync(string userName)
@@ -40,7 +38,6 @@ namespace Survey.Identity.Services.Users
             try
             {
                 var result = await _userManager.CreateAsync(user, password.Value);
-                await _userManager.SaveChangesAsync(_context);
                 return result;
             }
             catch (Exception ex)
@@ -80,7 +77,8 @@ namespace Survey.Identity.Services.Users
         {
             try
             {
-                return await _userManager.UpdateAsync(user);
+                var result = await _userManager.UpdateAsync(user);
+                return IdentityResult.Success;
             }
             catch (Exception ex)
             {
@@ -101,7 +99,6 @@ namespace Survey.Identity.Services.Users
             user.EditRoles(roles);
 
             var result = await _userManager.UpdateAsync(user);
-            await _userManager.SaveChangesAsync(_context);
             if (!result.Succeeded)
                 return Result.Failure("User could not be saved");
 
