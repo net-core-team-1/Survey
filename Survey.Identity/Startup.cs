@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Survey.Common.Auth;
 using Survey.Common.Messages;
 using Survey.Common.Types;
+using Survey.Idendity.Extensions;
 using Survey.Identity.Domain.Authentication.Commands;
 using Survey.Identity.Domain.Features;
 using Survey.Identity.Domain.Features.Commands;
@@ -41,7 +42,12 @@ namespace Survey.Identity
                     .AddSurveyIdentity()
                     .AddAutoMapper()
                     .AddIdentityOptions()
-                    .AddAuth(Configuration);
+                    .AddAuth(Configuration)
+                    .AddAuthFilters()
+                    .AddFluentValidation()
+                    .AddHttpContextHelper()
+                    .AddAuthentication()
+                   ;
 
 
 
@@ -93,7 +99,7 @@ namespace Survey.Identity
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseAuthentication();
             //var subscriberBus = app.ApplicationServices.GetRequiredService<IBusSubscriber>();
             //var exchangeInitializer = app.ApplicationServices.GetRequiredService<ExchangeInitializer>();
             //exchangeInitializer.Initialize();

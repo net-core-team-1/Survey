@@ -12,27 +12,20 @@ using System.Threading.Tasks;
 
 namespace Survey.Identity.Controllers
 {
-    //[Route("[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
     {
         private readonly IMapper _mapper;
         private readonly LinkGenerator _linkGenerator;
-        private readonly IUserService _userService;
-       // private readonly IBusPublisher _busPublisher;
         private readonly AsyncDispatcher _dispatcher;
 
         public UsersController(
                                IMapper mapper,
                                LinkGenerator linkGenerator,
-                               IUserService userService,
-                               //IBusPublisher busPublisher,
                                AsyncDispatcher dispatcher)
         {
             _mapper = mapper;
             _linkGenerator = linkGenerator;
-            _userService = userService;
-          //  _busPublisher = busPublisher;
             _dispatcher = dispatcher;
         }
 
