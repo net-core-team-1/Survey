@@ -1,7 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using Identity.Api.Exceptions;
 using Identity.Api.Identity.Data;
-using Identity.Api.Identity.Data.Managers;
 using Identity.Api.Identity.Domain;
 using Identity.Api.Identity.Domain.Civilities;
 using Identity.Api.Identity.Domain.Roles;

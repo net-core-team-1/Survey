@@ -4,17 +4,17 @@ using System.Text;
 
 namespace Identity.Api.Identity.Contrat.Roles.Requests
 {
-    public sealed class CreateRoleRequest
+    public sealed class RegisterRoleRequest
     {
-        public string Label { get; set; }
+        public string Name { get; set; }
         public string Description { get; set; }
         public Guid CreatedBy { get; set; }
 
-        public List<Guid> Features { get; set; }
+        //public List<Guid> Features { get; set; }
 
-        public CreateRoleRequest()
+        public RegisterRoleRequest()
         {
-            Features = new List<Guid>();
+            //Features = new List<Guid>();
         }
     }
 }

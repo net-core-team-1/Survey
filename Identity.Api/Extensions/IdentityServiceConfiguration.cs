@@ -2,6 +2,7 @@
 using Identity.Api.Identity.Data.Stores;
 using Identity.Api.Identity.Domain.Roles;
 using Identity.Api.Identity.Domain.Users;
+using Identity.Api.Identity.Services.Roles;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -28,10 +29,13 @@ namespace Identity.Api.Extensions.IdentityServiceRegistration
                 options.UseSqlServer(configOptions.ConnectionString).UseLazyLoadingProxies())
                ;
 
-            services.AddIdentityCore<AppUser>()
+            services
+                .AddIdentityCore<AppUser>()
+                .AddRoles<AppRole>()
                 .AddEntityFrameworkStores<TransverseIdentityDbContext>()
                 .AddDefaultTokenProviders()
-                .AddUserStore<AppUserStore>();
+                .AddUserStore<AppUserStore>()
+                .AddRoleStore<AppRoleStore>();
 
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -43,7 +47,10 @@ namespace Identity.Api.Extensions.IdentityServiceRegistration
             {
                 return new UserService(sp.GetRequiredService<UserManager<AppUser>>());
             });
-
+            services.AddScoped<IRoleService, RoleService>(sp =>
+            {
+                return new RoleService(sp.GetRequiredService<RoleManager<AppRole>>());
+            });
         }
     }
 }

@@ -4,9 +4,9 @@ using System.Text;
 
 namespace Identity.Api.Identity.Contrat.Roles.Requests
 {
-    public sealed class RemoveRoleRequest
+    public class DisableRoleRequest
     {
-        public string Reason { get; set; }
-        public Guid DeletedBy { get; set; }
+        public Guid Id { get; set; }
+        public Guid DisabledBy { get; set; }
     }
 }

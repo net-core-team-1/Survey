@@ -26,7 +26,7 @@ namespace Identity.Api.Services.Features.CommandHandlers
             if (feature == null)
                 throw new IdentityException("FEATURE_NOT_FOUND", "Feature not found in database");
 
-            var disableInfoResult = DisabeleInfo.Create(command.DisabledBy)
+            var disableInfoResult = DisabeleInfo.Create(true, command.DisabledBy)
                                              .Validate();
 
             feature.Deactivate(disableInfoResult.Value);

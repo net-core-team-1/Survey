@@ -13,23 +13,58 @@ namespace Identity.Api.Identity.Services.Roles
 {
     public class RoleService : IRoleService
     {
-        private readonly RoleManager<AppUser> _roleManager;
-        private readonly TransverseIdentityDbContext _transverseIdentityDbContext;
+        private readonly RoleManager<AppRole> _roleManager;
 
-        public RoleService(RoleManager<AppUser> roleManager, TransverseIdentityDbContext transverseIdentityDbContext)
+        public RoleService(RoleManager<AppRole> roleManager)
         {
             _roleManager = roleManager;
-            _transverseIdentityDbContext = transverseIdentityDbContext;
+        }
+        public Task<AppRole> FindUserByRoleIdAsync(Guid roleId)
+        {
+            return _roleManager.FindByIdAsync(roleId.ToString());
+        }
+        public async Task<IdentityResult> RegisterNewAsync(AppRole role)
+        {
+            try
+            {
+                var result = await _roleManager.CreateAsync(role);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new IdentityException(ex, "ROLE_REGISTRATION_FAILED", ex.Message);
+
+            }
         }
 
-        //public async Task<List<Guid>> GetRoleIds(List<AppRole> roles)
-        //{
-        //    List<Guid> roleIds = new List<Guid>();
-        //    foreach (var item in roles)
-        //    {
-        //        var result = await _roleManager.edit
-        //    }
-           
-        //}
+        public async Task<IdentityResult> UpdateAsync(AppRole role)
+        {
+            try
+            {
+                var result = await _roleManager.UpdateAsync(role);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new IdentityException(ex, "ROLE_REGISTRATION_FAILED", ex.Message);
+
+            }
+        }
+
+        public async Task<IdentityResult> DeleteAsync(AppRole role)
+        {
+            try
+            {
+                var result = await _roleManager.DeleteAsync(role);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new IdentityException(ex, "ROLE_REGISTRATION_FAILED", ex.Message);
+
+            }
+        }
+
+
     }
 }

@@ -15,19 +15,19 @@ namespace Identity.Api.Identity.Domain
         {
 
         }
-        private DisabeleInfo(Guid? disabledBy)
+        private DisabeleInfo(bool? disabled, Guid? disabledBy)
         {
-            Disabled = true;
+            Disabled = disabled;
             DisabledBy = disabledBy;
             if (disabledBy != null)
                 DisabledOn = DateTime.Now;
         }
-        public static Result<DisabeleInfo> Create(Guid? disabledBy = null)
+        public static Result<DisabeleInfo> Create(bool? disabled = null, Guid? disabledBy = null)
         {
             if (Guid.Empty == disabledBy)
                 return Result.Failure<DisabeleInfo>("should not be empty");
 
-            return Result.Success(new DisabeleInfo(disabledBy));
+            return Result.Success(new DisabeleInfo(disabled, disabledBy));
         }
         protected override IEnumerable<object> GetEqualityComponents()
         {

@@ -9,6 +9,7 @@ using Identity.Api.Extensions.IdentityServiceRegistration;
 using Identity.Api.Identity.Data.Repositories.Features;
 using Identity.Api.Identity.Domain.Features;
 using Identity.Api.Identity.Domain.Features.Commands;
+using Identity.Api.Identity.Domain.Roles.Commands;
 using Identity.Api.Identity.Domain.Users.Commands;
 using Identity.Api.Identity.Domain.Users.Events;
 using Identity.Api.Services;
@@ -96,6 +97,11 @@ namespace Identity.Api
             subscriberBus.SubscribeCommand<UnRegisterFeatureCommand>();
             subscriberBus.SubscribeCommand<DisableFeatureCommand>();
             subscriberBus.SubscribeCommand<EditFeatureCommand>();
+
+            subscriberBus.SubscribeCommand<RegisterRoleCommand>();
+            subscriberBus.SubscribeCommand<EditRoleCommand>();
+            subscriberBus.SubscribeCommand<DisableRoleCommand>();
+            subscriberBus.SubscribeCommand<UnregisterRoleCommand>();
 
             subscriberBus.SubscribeEvent<UserRegistered>();
             subscriberBus.SubscribeEvent<UserUnregistred>();
