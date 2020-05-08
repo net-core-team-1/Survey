@@ -3,17 +3,15 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Survey.Transverse.Infrastracture.Data;
+using Survey.Identity.Data;
 
-namespace Survey.Transverse.Infrastracture.Migrations
+namespace Survey.Identity.Migrations
 {
-    [DbContext(typeof(TransverseContext))]
-    [Migration("20200419142225_test")]
-    partial class test
+    [DbContext(typeof(SurveyIdentityContext))]
+    partial class SurveyIdentityContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,7 +19,7 @@ namespace Survey.Transverse.Infrastracture.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Survey.Transverse.Domain.Features.Feature", b =>
+            modelBuilder.Entity("Survey.Identity.Domain.Features.Feature", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -35,7 +33,7 @@ namespace Survey.Transverse.Infrastracture.Migrations
                     b.ToTable("FEATURES","Identity");
                 });
 
-            modelBuilder.Entity("Survey.Transverse.Domain.Identity.RefreshToken", b =>
+            modelBuilder.Entity("Survey.Identity.Domain.Identity.RefreshToken", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -67,10 +65,19 @@ namespace Survey.Transverse.Infrastracture.Migrations
                     b.ToTable("REFRESH_TOKENS","Identity");
                 });
 
-            modelBuilder.Entity("Survey.Transverse.Domain.Permissions.Permission", b =>
+            modelBuilder.Entity("Survey.Identity.Domain.Roles.Role", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken();
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256);
 
                     b.Property<byte[]>("Timestamp")
                         .IsConcurrencyToken()
@@ -78,14 +85,38 @@ namespace Survey.Transverse.Infrastracture.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PERMISSIONS","Identity");
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
+
+                    b.ToTable("ROLES","Identity");
                 });
 
-            modelBuilder.Entity("Survey.Transverse.Domain.Permissions.PermissionFeature", b =>
+            modelBuilder.Entity("Survey.Identity.Domain.Roles.RoleClaim", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ClaimType");
+
+                    b.Property<string>("ClaimValue");
+
+                    b.Property<Guid>("RoleId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("ROLE_CLAIMS","Identity");
+                });
+
+            modelBuilder.Entity("Survey.Identity.Domain.Roles.RoleFeature", b =>
                 {
                     b.Property<Guid>("FeatureId");
 
-                    b.Property<Guid>("PermissionId");
+                    b.Property<Guid>("RoleId");
 
                     b.Property<DateTime>("AssociatedOn");
 
@@ -93,34 +124,111 @@ namespace Survey.Transverse.Infrastracture.Migrations
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate();
 
-                    b.HasKey("FeatureId", "PermissionId");
+                    b.HasKey("FeatureId", "RoleId");
 
-                    b.HasIndex("PermissionId");
+                    b.HasIndex("RoleId");
 
-                    b.ToTable("PERMISSIONS_FEATURES","Identity");
+                    b.ToTable("ROLES_FEATURES","Identity");
                 });
 
-            modelBuilder.Entity("Survey.Transverse.Domain.Users.User", b =>
+            modelBuilder.Entity("Survey.Identity.Domain.Users.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int>("AccessFailedCount");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken();
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256);
+
+                    b.Property<bool>("EmailConfirmed");
+
                     b.Property<DateTime?>("LastConnexionOn");
+
+                    b.Property<bool>("LockoutEnabled");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("PasswordHash");
+
+                    b.Property<string>("PhoneNumber");
+
+                    b.Property<bool>("PhoneNumberConfirmed");
+
+                    b.Property<string>("SecurityStamp");
 
                     b.Property<byte[]>("Timestamp")
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate();
 
+                    b.Property<bool>("TwoFactorEnabled");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256);
+
                     b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("USERS","Identity");
                 });
 
-            modelBuilder.Entity("Survey.Transverse.Domain.Users.UserPermission", b =>
+            modelBuilder.Entity("Survey.Identity.Domain.Users.UserClaim", b =>
                 {
-                    b.Property<Guid>("PermissionId");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ClaimType");
+
+                    b.Property<string>("ClaimValue");
 
                     b.Property<Guid>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("USER_CLAIMS","Identity");
+                });
+
+            modelBuilder.Entity("Survey.Identity.Domain.Users.UserLogin", b =>
+                {
+                    b.Property<string>("LoginProvider");
+
+                    b.Property<string>("ProviderKey");
+
+                    b.Property<string>("ProviderDisplayName");
+
+                    b.Property<Guid>("UserId");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("USER_LOGINS","Identity");
+                });
+
+            modelBuilder.Entity("Survey.Identity.Domain.Users.UserRole", b =>
+                {
+                    b.Property<Guid>("UserId");
+
+                    b.Property<Guid>("RoleId");
 
                     b.Property<DateTime>("AssociatedOn");
 
@@ -128,16 +236,31 @@ namespace Survey.Transverse.Infrastracture.Migrations
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate();
 
-                    b.HasKey("PermissionId", "UserId");
+                    b.HasKey("UserId", "RoleId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("RoleId");
 
-                    b.ToTable("USER_PERMISSIONS","Identity");
+                    b.ToTable("USERS_ROLES","Identity");
                 });
 
-            modelBuilder.Entity("Survey.Transverse.Domain.Features.Feature", b =>
+            modelBuilder.Entity("Survey.Identity.Domain.Users.UserToken", b =>
                 {
-                    b.OwnsOne("Survey.Transverse.Domain.Features.FeatureInfo", "FeatureInfo", b1 =>
+                    b.Property<Guid>("UserId");
+
+                    b.Property<string>("LoginProvider");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("Value");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("USER_TOKENS","Identity");
+                });
+
+            modelBuilder.Entity("Survey.Identity.Domain.Features.Feature", b =>
+                {
+                    b.OwnsOne("Survey.Identity.Domain.Features.FeatureInfo", "FeatureInfo", b1 =>
                         {
                             b1.Property<Guid>("FeatureId");
 
@@ -166,13 +289,13 @@ namespace Survey.Transverse.Infrastracture.Migrations
 
                             b1.ToTable("FEATURES","Identity");
 
-                            b1.HasOne("Survey.Transverse.Domain.Features.Feature")
+                            b1.HasOne("Survey.Identity.Domain.Features.Feature")
                                 .WithOne("FeatureInfo")
-                                .HasForeignKey("Survey.Transverse.Domain.Features.FeatureInfo", "FeatureId")
+                                .HasForeignKey("Survey.Identity.Domain.Features.FeatureInfo", "FeatureId")
                                 .OnDelete(DeleteBehavior.Cascade);
                         });
 
-                    b.OwnsOne("Survey.Transverse.Domain.CreateInfo", "CreateInfo", b1 =>
+                    b.OwnsOne("Survey.Identity.Domain.CreateInfo", "CreateInfo", b1 =>
                         {
                             b1.Property<Guid>("FeatureId");
 
@@ -185,19 +308,19 @@ namespace Survey.Transverse.Infrastracture.Migrations
                                 .IsRequired()
                                 .ValueGeneratedOnAdd()
                                 .HasColumnName("CreatedOn")
-                                .HasDefaultValue(new DateTime(2020, 4, 19, 14, 22, 24, 944, DateTimeKind.Local).AddTicks(5245));
+                                .HasDefaultValue(new DateTime(2020, 4, 29, 13, 40, 52, 696, DateTimeKind.Local).AddTicks(95));
 
                             b1.HasKey("FeatureId");
 
                             b1.ToTable("FEATURES","Identity");
 
-                            b1.HasOne("Survey.Transverse.Domain.Features.Feature")
+                            b1.HasOne("Survey.Identity.Domain.Features.Feature")
                                 .WithOne("CreateInfo")
-                                .HasForeignKey("Survey.Transverse.Domain.CreateInfo", "FeatureId")
+                                .HasForeignKey("Survey.Identity.Domain.CreateInfo", "FeatureId")
                                 .OnDelete(DeleteBehavior.Cascade);
                         });
 
-                    b.OwnsOne("Survey.Transverse.Domain.DeleteInfo", "DeleteInfo", b1 =>
+                    b.OwnsOne("Survey.Identity.Domain.DeleteInfo", "DeleteInfo", b1 =>
                         {
                             b1.Property<Guid>("FeatureId");
 
@@ -221,13 +344,13 @@ namespace Survey.Transverse.Infrastracture.Migrations
 
                             b1.ToTable("FEATURES","Identity");
 
-                            b1.HasOne("Survey.Transverse.Domain.Features.Feature")
+                            b1.HasOne("Survey.Identity.Domain.Features.Feature")
                                 .WithOne("DeleteInfo")
-                                .HasForeignKey("Survey.Transverse.Domain.DeleteInfo", "FeatureId")
+                                .HasForeignKey("Survey.Identity.Domain.DeleteInfo", "FeatureId")
                                 .OnDelete(DeleteBehavior.Cascade);
                         });
 
-                    b.OwnsOne("Survey.Transverse.Domain.DisabeleInfo", "DisabeleInfo", b1 =>
+                    b.OwnsOne("Survey.Identity.Domain.DisabeleInfo", "DisabeleInfo", b1 =>
                         {
                             b1.Property<Guid>("FeatureId");
 
@@ -245,49 +368,26 @@ namespace Survey.Transverse.Infrastracture.Migrations
 
                             b1.ToTable("FEATURES","Identity");
 
-                            b1.HasOne("Survey.Transverse.Domain.Features.Feature")
+                            b1.HasOne("Survey.Identity.Domain.Features.Feature")
                                 .WithOne("DisabeleInfo")
-                                .HasForeignKey("Survey.Transverse.Domain.DisabeleInfo", "FeatureId")
+                                .HasForeignKey("Survey.Identity.Domain.DisabeleInfo", "FeatureId")
                                 .OnDelete(DeleteBehavior.Cascade);
                         });
                 });
 
-            modelBuilder.Entity("Survey.Transverse.Domain.Identity.RefreshToken", b =>
+            modelBuilder.Entity("Survey.Identity.Domain.Identity.RefreshToken", b =>
                 {
-                    b.HasOne("Survey.Transverse.Domain.Users.User", "User")
+                    b.HasOne("Survey.Identity.Domain.Users.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Survey.Transverse.Domain.Permissions.Permission", b =>
+            modelBuilder.Entity("Survey.Identity.Domain.Roles.Role", b =>
                 {
-                    b.OwnsOne("Survey.Transverse.Domain.Permissions.PermissionInfo", "PermissionInfo", b1 =>
+                    b.OwnsOne("Survey.Identity.Domain.CreateInfo", "CreateInfo", b1 =>
                         {
-                            b1.Property<Guid>("PermissionId");
-
-                            b1.Property<string>("Description")
-                                .HasColumnName("Description")
-                                .HasMaxLength(250);
-
-                            b1.Property<string>("Label")
-                                .IsRequired()
-                                .HasColumnName("Label")
-                                .HasMaxLength(50);
-
-                            b1.HasKey("PermissionId");
-
-                            b1.ToTable("PERMISSIONS","Identity");
-
-                            b1.HasOne("Survey.Transverse.Domain.Permissions.Permission")
-                                .WithOne("PermissionInfo")
-                                .HasForeignKey("Survey.Transverse.Domain.Permissions.PermissionInfo", "PermissionId")
-                                .OnDelete(DeleteBehavior.Cascade);
-                        });
-
-                    b.OwnsOne("Survey.Transverse.Domain.CreateInfo", "CreateInfo", b1 =>
-                        {
-                            b1.Property<Guid>("PermissionId");
+                            b1.Property<Guid>("RoleId");
 
                             b1.Property<Guid?>("CreatedBy")
                                 .ValueGeneratedOnAdd()
@@ -298,21 +398,21 @@ namespace Survey.Transverse.Infrastracture.Migrations
                                 .IsRequired()
                                 .ValueGeneratedOnAdd()
                                 .HasColumnName("CreatedOn")
-                                .HasDefaultValue(new DateTime(2020, 4, 19, 14, 22, 24, 960, DateTimeKind.Local).AddTicks(6628));
+                                .HasDefaultValue(new DateTime(2020, 4, 29, 13, 40, 52, 709, DateTimeKind.Local).AddTicks(6722));
 
-                            b1.HasKey("PermissionId");
+                            b1.HasKey("RoleId");
 
-                            b1.ToTable("PERMISSIONS","Identity");
+                            b1.ToTable("ROLES","Identity");
 
-                            b1.HasOne("Survey.Transverse.Domain.Permissions.Permission")
+                            b1.HasOne("Survey.Identity.Domain.Roles.Role")
                                 .WithOne("CreateInfo")
-                                .HasForeignKey("Survey.Transverse.Domain.CreateInfo", "PermissionId")
+                                .HasForeignKey("Survey.Identity.Domain.CreateInfo", "RoleId")
                                 .OnDelete(DeleteBehavior.Cascade);
                         });
 
-                    b.OwnsOne("Survey.Transverse.Domain.DeleteInfo", "DeleteInfo", b1 =>
+                    b.OwnsOne("Survey.Identity.Domain.DeleteInfo", "DeleteInfo", b1 =>
                         {
-                            b1.Property<Guid>("PermissionId");
+                            b1.Property<Guid>("RoleId");
 
                             b1.Property<string>("DeleteReason")
                                 .ValueGeneratedOnAdd()
@@ -330,19 +430,19 @@ namespace Survey.Transverse.Infrastracture.Migrations
                                 .HasColumnName("DeletedOn")
                                 .HasDefaultValue(null);
 
-                            b1.HasKey("PermissionId");
+                            b1.HasKey("RoleId");
 
-                            b1.ToTable("PERMISSIONS","Identity");
+                            b1.ToTable("ROLES","Identity");
 
-                            b1.HasOne("Survey.Transverse.Domain.Permissions.Permission")
+                            b1.HasOne("Survey.Identity.Domain.Roles.Role")
                                 .WithOne("DeleteInfo")
-                                .HasForeignKey("Survey.Transverse.Domain.DeleteInfo", "PermissionId")
+                                .HasForeignKey("Survey.Identity.Domain.DeleteInfo", "RoleId")
                                 .OnDelete(DeleteBehavior.Cascade);
                         });
 
-                    b.OwnsOne("Survey.Transverse.Domain.DisabeleInfo", "DisabeleInfo", b1 =>
+                    b.OwnsOne("Survey.Identity.Domain.DisabeleInfo", "DisabeleInfo", b1 =>
                         {
-                            b1.Property<Guid>("PermissionId");
+                            b1.Property<Guid>("RoleId");
 
                             b1.Property<Guid?>("DisabledBy")
                                 .ValueGeneratedOnAdd()
@@ -354,52 +454,41 @@ namespace Survey.Transverse.Infrastracture.Migrations
                                 .HasColumnName("DisabledOn")
                                 .HasDefaultValue(null);
 
-                            b1.HasKey("PermissionId");
+                            b1.HasKey("RoleId");
 
-                            b1.ToTable("PERMISSIONS","Identity");
+                            b1.ToTable("ROLES","Identity");
 
-                            b1.HasOne("Survey.Transverse.Domain.Permissions.Permission")
+                            b1.HasOne("Survey.Identity.Domain.Roles.Role")
                                 .WithOne("DisabeleInfo")
-                                .HasForeignKey("Survey.Transverse.Domain.DisabeleInfo", "PermissionId")
+                                .HasForeignKey("Survey.Identity.Domain.DisabeleInfo", "RoleId")
                                 .OnDelete(DeleteBehavior.Cascade);
                         });
                 });
 
-            modelBuilder.Entity("Survey.Transverse.Domain.Permissions.PermissionFeature", b =>
+            modelBuilder.Entity("Survey.Identity.Domain.Roles.RoleClaim", b =>
                 {
-                    b.HasOne("Survey.Transverse.Domain.Features.Feature", "Feature")
+                    b.HasOne("Survey.Identity.Domain.Roles.Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Survey.Identity.Domain.Roles.RoleFeature", b =>
+                {
+                    b.HasOne("Survey.Identity.Domain.Features.Feature", "Feature")
                         .WithMany()
                         .HasForeignKey("FeatureId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Survey.Transverse.Domain.Permissions.Permission", "Permission")
-                        .WithMany("PermissionFeatures")
-                        .HasForeignKey("PermissionId")
+                    b.HasOne("Survey.Identity.Domain.Roles.Role", "Role")
+                        .WithMany("RoleFeatures")
+                        .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Survey.Transverse.Domain.Users.User", b =>
+            modelBuilder.Entity("Survey.Identity.Domain.Users.User", b =>
                 {
-                    b.OwnsOne("Survey.Transverse.Domain.Users.Email", "Email", b1 =>
-                        {
-                            b1.Property<Guid>("UserId");
-
-                            b1.Property<string>("EmailAdress")
-                                .IsRequired()
-                                .HasColumnName("Email")
-                                .HasMaxLength(50);
-
-                            b1.HasKey("UserId");
-
-                            b1.ToTable("USERS","Identity");
-
-                            b1.HasOne("Survey.Transverse.Domain.Users.User")
-                                .WithOne("Email")
-                                .HasForeignKey("Survey.Transverse.Domain.Users.Email", "UserId")
-                                .OnDelete(DeleteBehavior.Cascade);
-                        });
-
-                    b.OwnsOne("Survey.Transverse.Domain.Users.FullName", "FullName", b1 =>
+                    b.OwnsOne("Survey.Identity.Domain.Users.FullName", "FullName", b1 =>
                         {
                             b1.Property<Guid>("UserId");
 
@@ -415,33 +504,13 @@ namespace Survey.Transverse.Infrastracture.Migrations
 
                             b1.ToTable("USERS","Identity");
 
-                            b1.HasOne("Survey.Transverse.Domain.Users.User")
+                            b1.HasOne("Survey.Identity.Domain.Users.User")
                                 .WithOne("FullName")
-                                .HasForeignKey("Survey.Transverse.Domain.Users.FullName", "UserId")
+                                .HasForeignKey("Survey.Identity.Domain.Users.FullName", "UserId")
                                 .OnDelete(DeleteBehavior.Cascade);
                         });
 
-                    b.OwnsOne("Survey.Transverse.Domain.Users.Password", "Password", b1 =>
-                        {
-                            b1.Property<Guid>("UserId");
-
-                            b1.Property<byte[]>("PasswordHash")
-                                .HasColumnName("PasswordHash");
-
-                            b1.Property<byte[]>("PasswordSalt")
-                                .HasColumnName("PasswordSalt");
-
-                            b1.HasKey("UserId");
-
-                            b1.ToTable("USERS","Identity");
-
-                            b1.HasOne("Survey.Transverse.Domain.Users.User")
-                                .WithOne("Password")
-                                .HasForeignKey("Survey.Transverse.Domain.Users.Password", "UserId")
-                                .OnDelete(DeleteBehavior.Cascade);
-                        });
-
-                    b.OwnsOne("Survey.Transverse.Domain.CreateInfo", "CreateInfo", b1 =>
+                    b.OwnsOne("Survey.Identity.Domain.CreateInfo", "CreateInfo", b1 =>
                         {
                             b1.Property<Guid>("UserId");
 
@@ -454,19 +523,19 @@ namespace Survey.Transverse.Infrastracture.Migrations
                                 .IsRequired()
                                 .ValueGeneratedOnAdd()
                                 .HasColumnName("CreatedOn")
-                                .HasDefaultValue(new DateTime(2020, 4, 19, 14, 22, 24, 908, DateTimeKind.Local).AddTicks(1808));
+                                .HasDefaultValue(new DateTime(2020, 4, 29, 13, 40, 52, 667, DateTimeKind.Local).AddTicks(9498));
 
                             b1.HasKey("UserId");
 
                             b1.ToTable("USERS","Identity");
 
-                            b1.HasOne("Survey.Transverse.Domain.Users.User")
+                            b1.HasOne("Survey.Identity.Domain.Users.User")
                                 .WithOne("CreateInfo")
-                                .HasForeignKey("Survey.Transverse.Domain.CreateInfo", "UserId")
+                                .HasForeignKey("Survey.Identity.Domain.CreateInfo", "UserId")
                                 .OnDelete(DeleteBehavior.Cascade);
                         });
 
-                    b.OwnsOne("Survey.Transverse.Domain.DeleteInfo", "DeleteInfo", b1 =>
+                    b.OwnsOne("Survey.Identity.Domain.DeleteInfo", "DeleteInfo", b1 =>
                         {
                             b1.Property<Guid>("UserId");
 
@@ -490,22 +559,46 @@ namespace Survey.Transverse.Infrastracture.Migrations
 
                             b1.ToTable("USERS","Identity");
 
-                            b1.HasOne("Survey.Transverse.Domain.Users.User")
+                            b1.HasOne("Survey.Identity.Domain.Users.User")
                                 .WithOne("DeleteInfo")
-                                .HasForeignKey("Survey.Transverse.Domain.DeleteInfo", "UserId")
+                                .HasForeignKey("Survey.Identity.Domain.DeleteInfo", "UserId")
                                 .OnDelete(DeleteBehavior.Cascade);
                         });
                 });
 
-            modelBuilder.Entity("Survey.Transverse.Domain.Users.UserPermission", b =>
+            modelBuilder.Entity("Survey.Identity.Domain.Users.UserClaim", b =>
                 {
-                    b.HasOne("Survey.Transverse.Domain.Permissions.Permission", "Permission")
+                    b.HasOne("Survey.Identity.Domain.Users.User")
                         .WithMany()
-                        .HasForeignKey("PermissionId")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Survey.Identity.Domain.Users.UserLogin", b =>
+                {
+                    b.HasOne("Survey.Identity.Domain.Users.User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Survey.Identity.Domain.Users.UserRole", b =>
+                {
+                    b.HasOne("Survey.Identity.Domain.Roles.Role", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Survey.Transverse.Domain.Users.User", "User")
-                        .WithMany("UserPermissions")
+                    b.HasOne("Survey.Identity.Domain.Users.User", "User")
+                        .WithMany("UserRoles")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Survey.Identity.Domain.Users.UserToken", b =>
+                {
+                    b.HasOne("Survey.Identity.Domain.Users.User")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

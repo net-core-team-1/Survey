@@ -4,6 +4,8 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <IsTransformWebConfigDisabled>true</IsTransformWebConfigDisabled>
+
   </PropertyGroup>
 
   <ItemGroup>

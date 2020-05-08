@@ -17,8 +17,9 @@ namespace Survey.Transverse.API._Configuration
             {
 
                 options.UseSqlServer(configuration.GetConnectionString("TransverseConnectionString"))
-                       .UseLazyLoadingProxies()
-                       .EnableSensitiveDataLogging();
+                .UseLazyLoadingProxies();
+                       
+                       
 
             });
             return services;

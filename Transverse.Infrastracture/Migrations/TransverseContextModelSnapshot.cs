@@ -183,7 +183,7 @@ namespace Survey.Transverse.Infrastracture.Migrations
                                 .IsRequired()
                                 .ValueGeneratedOnAdd()
                                 .HasColumnName("CreatedOn")
-                                .HasDefaultValue(new DateTime(2020, 4, 19, 14, 22, 24, 944, DateTimeKind.Local).AddTicks(5245));
+                                .HasDefaultValue(new DateTime(2020, 4, 22, 16, 26, 35, 151, DateTimeKind.Local).AddTicks(7804));
 
                             b1.HasKey("FeatureId");
 
@@ -296,7 +296,7 @@ namespace Survey.Transverse.Infrastracture.Migrations
                                 .IsRequired()
                                 .ValueGeneratedOnAdd()
                                 .HasColumnName("CreatedOn")
-                                .HasDefaultValue(new DateTime(2020, 4, 19, 14, 22, 24, 960, DateTimeKind.Local).AddTicks(6628));
+                                .HasDefaultValue(new DateTime(2020, 4, 22, 16, 26, 35, 168, DateTimeKind.Local).AddTicks(714));
 
                             b1.HasKey("PermissionId");
 
@@ -452,7 +452,7 @@ namespace Survey.Transverse.Infrastracture.Migrations
                                 .IsRequired()
                                 .ValueGeneratedOnAdd()
                                 .HasColumnName("CreatedOn")
-                                .HasDefaultValue(new DateTime(2020, 4, 19, 14, 22, 24, 908, DateTimeKind.Local).AddTicks(1808));
+                                .HasDefaultValue(new DateTime(2020, 4, 22, 16, 26, 35, 115, DateTimeKind.Local).AddTicks(9939));
 
                             b1.HasKey("UserId");
 
