@@ -38,6 +38,11 @@ namespace Identity.Api.Identity.Data.Mapping
                 .WithOne(e => e.Role)
                 .HasForeignKey(rc => rc.RoleId)
                 .IsRequired();
+
+            builder.HasMany(e => e.Features)
+                  .WithOne(e => e.Role)
+                  .HasForeignKey(rc => rc.RoleId)
+                  .IsRequired();
         }
     }
 }

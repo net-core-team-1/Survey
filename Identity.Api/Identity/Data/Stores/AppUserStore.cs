@@ -28,6 +28,7 @@ namespace Identity.Api.Identity.Data.Stores
 
             _context.Users.Attach(user);
             await _context.Users.AddAsync(user);
+            _context.SaveChanges();
             return await Task<IdentityResult>.FromResult(IdentityResult.Success);
         }
         public async Task<IdentityResult> UpdateAsync(AppUser user, CancellationToken cancellationToken)

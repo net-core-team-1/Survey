@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Identity.Api.Identity.Domain.RoleFeatures;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,9 @@ namespace Identity.Api.Identity.Domain.Roles
 
         private List<AppRoleClaim> _roleClaims = new List<AppRoleClaim>();
         public virtual IReadOnlyCollection<AppRoleClaim> RoleClaims => _roleClaims.ToList();
+
+        private readonly List<AppRoleFeatures> _features = new List<AppRoleFeatures>();
+        public virtual IReadOnlyList<AppRoleFeatures> Features => _features.ToList();
 
         protected AppRole()
         {
@@ -55,7 +59,24 @@ namespace Identity.Api.Identity.Domain.Roles
         public void EditRoleClaims(List<AppRoleClaim> roleClaims)
         {
             _roleClaims.Clear();
-            _roleClaims.AddRange(_roleClaims);
+            _roleClaims.AddRange(roleClaims);
+        }
+
+        public void EditFeatures(List<AppRoleFeatures> features)
+        {
+            _features.Clear();
+            _features.AddRange(features);
+        }
+        public void AddForTest(AppRoleFeatures features)
+        {
+          
+            _features.Add(features);
+        }
+
+        public void ClearAllFeatures()
+        {
+            _features.Clear();
+
         }
     }
 }

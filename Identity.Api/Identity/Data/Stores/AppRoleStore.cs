@@ -41,7 +41,8 @@ namespace Identity.Api.Identity.Data.Stores
         {
             cancellationToken.ThrowIfCancellationRequested();
             if (role == null) throw new ArgumentNullException(nameof(role));
-
+            _context.Roles.Attach(role);
+            
             _context.SaveChanges();
             return await Task<IdentityResult>.FromResult(IdentityResult.Success);
         }
@@ -57,6 +58,7 @@ namespace Identity.Api.Identity.Data.Stores
             }
 
             return await _context.Roles
+                .Include(x => x.Features)
                 .FirstOrDefaultAsync(x => x.Id == idGuid);
         }
 
@@ -114,7 +116,7 @@ namespace Identity.Api.Identity.Data.Stores
 
         public void Dispose()
         {
-           
+
         }
     }
 }

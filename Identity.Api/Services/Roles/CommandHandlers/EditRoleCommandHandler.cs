@@ -23,7 +23,7 @@ namespace Identity.Api.Services.Roles.CommandHandlers
 
         public async Task<Result> Handle(EditRoleCommand command)
         {
-            var role = _roleService.FindUserByRoleIdAsync(command.Id).Result;
+            var role = _roleService.FindRoleById(command.Id).Result;
             if(role == null)
                 throw new IdentityException("ROLE_NOT_FOUND", "Role not found in database");
 

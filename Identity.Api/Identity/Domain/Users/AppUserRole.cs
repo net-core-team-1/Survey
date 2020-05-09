@@ -1,9 +1,11 @@
 ﻿using CSharpFunctionalExtensions;
+using Identity.Api.Identity.Domain.RoleFeatures;
 using Identity.Api.Identity.Domain.Roles;
 using Microsoft.AspNetCore.Identity;
 using RabbitMQ.Client.Impl;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Identity.Api.Identity.Domain.Users
@@ -14,7 +16,7 @@ namespace Identity.Api.Identity.Domain.Users
         public virtual AppUser User { get; set; }
         public virtual bool Enabled { get; set; }
         public virtual DateTime AssociatedOn { get; set; }
-
+       
         public AppUserRole()
         {
         }

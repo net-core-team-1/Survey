@@ -4,6 +4,7 @@ using Identity.Api.Identity.Contrat.Roles.Responses;
 using Identity.Api.Identity.Contrat.Users.Responses;
 using Identity.Api.Identity.Domain.Features.Commands;
 using Identity.Api.Identity.Domain.Features.Queries;
+using Identity.Api.Identity.Domain.RoleFeatures.Commands;
 using Identity.Api.Identity.Domain.Roles.Commands;
 using Identity.Api.Identity.Domain.Roles.Queries;
 using Identity.Api.Identity.Domain.Users.Commands;
@@ -40,6 +41,8 @@ namespace Identity.Api.Extensions.CommandHandlersRegistration
             services.AddTransient<ICommandHandler<UnregisterUserCommand>, UnregisterUserCommandHandler>();
             services.AddTransient<ICommandHandler<EditUserCommand>, EditUserCommandHandler>();
             services.AddTransient<ICommandHandler<EditUserRolesCommad>, EditUserRolesCommadHandler>();
+
+            services.AddTransient<ICommandHandler<EditRoleFeaturesCommand>, EditRoleFeaturesCommandHandler>();
 
             services.AddTransient<ICommandHandler<RegisterFeatureCommand>, RegisterFeatureCommandHandler>();
             services.AddTransient<ICommandHandler<UnRegisterFeatureCommand>, UnregisterFeatureCommandHandler>();

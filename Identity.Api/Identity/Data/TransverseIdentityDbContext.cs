@@ -1,6 +1,7 @@
 ﻿using Identity.Api.Identity.Data.Mapping;
 using Identity.Api.Identity.Domain.Civilities;
 using Identity.Api.Identity.Domain.Features;
+using Identity.Api.Identity.Domain.RoleFeatures;
 using Identity.Api.Identity.Domain.Roles;
 using Identity.Api.Identity.Domain.Users;
 using Microsoft.AspNetCore.Identity;
@@ -36,10 +37,12 @@ namespace Identity.Api.Identity.Data
             builder.ApplyConfiguration(new UserTokenMapping());
             builder.ApplyConfiguration(new UserLoginMapping());
             builder.ApplyConfiguration(new FeatureMapping());
+            builder.ApplyConfiguration(new RoleFeaturesMapping());
         }
 
         public DbSet<Civility> Civilities { get; set; }
         public DbSet<Feature> Features { get; set; }
+        public DbSet<AppRoleFeatures> AppRoleFeatures { get; set; }
     }
 
 }

@@ -19,7 +19,7 @@ namespace Identity.Api.Identity.Services.Roles
         {
             _roleManager = roleManager;
         }
-        public Task<AppRole> FindUserByRoleIdAsync(Guid roleId)
+        public Task<AppRole> FindRoleById(Guid roleId)
         {
             return _roleManager.FindByIdAsync(roleId.ToString());
         }
@@ -47,7 +47,6 @@ namespace Identity.Api.Identity.Services.Roles
             catch (Exception ex)
             {
                 throw new IdentityException(ex, "ROLE_REGISTRATION_FAILED", ex.Message);
-
             }
         }
 

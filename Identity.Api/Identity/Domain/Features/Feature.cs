@@ -1,11 +1,14 @@
-﻿using System;
+﻿using Identity.Api.Identity.Domain.RoleFeatures;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Identity.Api.Identity.Domain.Features
 {
     public class Feature
     {
+
         public Guid Id { get; private set; }
         public byte[] Timestamp { get; private set; }
 
@@ -14,9 +17,17 @@ namespace Identity.Api.Identity.Domain.Features
         public virtual DisabeleInfo DisabeleInfo { get; private set; }
         public virtual DeleteInfo DeleteInfo { get; private set; }
 
+        private readonly List<AppRoleFeatures> _roles = new List<AppRoleFeatures>();
+        public virtual IReadOnlyList<AppRoleFeatures> Roles => _roles.ToList();
+
         protected Feature()
         {
-          
+
+        }
+        public Feature(Guid featureId)
+        {
+            this.Id = featureId;
+           
         }
         public Feature(FeatureInfo featureInfo, CreateInfo creationInfo)
         {

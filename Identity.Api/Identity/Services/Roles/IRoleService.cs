@@ -11,7 +11,7 @@ namespace Identity.Api.Identity.Services.Roles
 {
     public interface IRoleService
     {
-        Task<AppRole> FindUserByRoleIdAsync(Guid roleId);
+        Task<AppRole> FindRoleById(Guid roleId);
         Task<IdentityResult> RegisterNewAsync(AppRole role);
         Task<IdentityResult> UpdateAsync(AppRole role);
         Task<IdentityResult> DeleteAsync(AppRole role);
