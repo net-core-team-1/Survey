@@ -8,13 +8,11 @@ namespace Survey.Indentity.Domain.Roles.Commands
     {
         public Guid Id { get; }
         public List<Guid> Features { get; set; }
-        public bool DeleteExisting { get;  }
 
 
-        public UpdateRoleFeaturesCommand(Guid id, List<Guid> features = null, bool deleteExisting = false)
+        public UpdateRoleFeaturesCommand(Guid id, List<Guid> features = null)
         {
             Id = id;
-            DeleteExisting = deleteExisting;
             Features = features;
         }
     }

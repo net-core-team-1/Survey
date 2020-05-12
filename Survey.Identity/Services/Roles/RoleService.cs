@@ -92,14 +92,14 @@ namespace Survey.Identity.Services.Roles
             return await Task<Result>.FromResult(Result.Ok());
         }
 
-        public async Task<Result> UpdateFeatures(Guid id, List<Guid> features, bool deleteExisting)
+        public async Task<Result> UpdateFeatures(Guid id, List<Guid> features)
         {
             var role = await _roleManager.FindByIdAsync(id.ToString());
               
             if (role == null)
                 return await Task<Result>.FromResult(Result.Failure($"Role_does_not_exist"));
 
-            role.Update(features, deleteExisting);
+            role.Update(features);
 
             var result = await _roleManager.UpdateAsync(role);
 

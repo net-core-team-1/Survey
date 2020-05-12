@@ -12,15 +12,13 @@ namespace Survey.Identity.Domain.Users.Commands
         public string LastName { get; }
 
         public List<Guid> Roles { get; }
-        public bool DeleteExistingRoles { get;  }
         public EditUserInfoCommand(Guid id,string firstName,string lastName,
-                               List<Guid> roles=null,bool deleteExisting=false)
+                               List<Guid> roles=null)
         {
             Id = id;
             FirstName = firstName;
             LastName = lastName;
             Roles = roles;
-            DeleteExistingRoles = deleteExisting;
         }
     }
 }

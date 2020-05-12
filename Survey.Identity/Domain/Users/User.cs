@@ -31,7 +31,7 @@ namespace Survey.Identity.Domain.Users
         {
         }
 
-        public User(FullName fullName, string email,  List<Guid> roles)
+        public User(FullName fullName, string email, List<Guid> roles)
         {
 
             UserName = email;
@@ -39,22 +39,37 @@ namespace Survey.Identity.Domain.Users
             Email = email;
             CreateInfo = CreateInfo.Create().Value;
             DeleteInfo = DeleteInfo.Create().Value;
-            EditRoles(roles, true);
+            AssignRoles(roles);
         }
 
         #endregion 
 
         #region Methods 
 
-        public void Unregister(DeleteInfo deletionObj)
+        private void AssignRoles(List<Guid> roles)
         {
-            this.MarkAsDeleted(deletionObj);
+            List<Guid> toAdd = roles.Where(a => _userRoles.Where(b => b.RoleId == a).Count() == 0).ToList();
+
+            if (toAdd.Count() != 0)
+                toAdd.ForEach(a => _userRoles.Add(UserRole.Create(this.Id, a)));
+        }
+        private void RemoveRolesBaseOnNewRoles(List<Guid> roles)
+        {
+            List<UserRole> toRemove = _userRoles.Where(a => roles.Where(b => b == a.RoleId).Count() == 0)
+                .ToList();
+
+            if (toRemove.Count() != 0)
+                toRemove.ForEach(a => _userRoles.Remove(a));
+        }
+        public void Unregister(DeleteInfo deleteInfo)
+        {
+            this.MarkAsDeleted(deleteInfo);
         }
 
-        public void EditUser(FullName fullName, List<Guid> permissions = null, bool deleteExisting = false)
+        public void EditUser(FullName fullName, List<Guid> roles = null)
         {
             this.EditPersonalInfo(fullName);
-            this.EditRoles(permissions, deleteExisting);
+            this.EditRoles(roles);
 
         }
         private void EditPersonalInfo(FullName fullName)
@@ -62,16 +77,11 @@ namespace Survey.Identity.Domain.Users
             if (this.FullName != fullName)
                 this.FullName = fullName;
         }
-        private void EditRoles(List<Guid> roles, bool deleteExisting = false)
+        private void EditRoles(List<Guid> roles)
         {
-            List<Guid> rolesToAdd = roles.Where(a => _userRoles.Where(b => b.RoleId == a).Count() == 0).ToList();
-            List<UserRole> userRolesToDelete = _userRoles.Where(a => roles.Where(b => b == a.RoleId).Count() == 0)
-                .ToList();
+            RemoveRolesBaseOnNewRoles(roles);
 
-            if (userRolesToDelete.Count() != 0)
-                userRolesToDelete.ForEach(a => _userRoles.Remove(a));
-            if (rolesToAdd.Count() != 0)
-                rolesToAdd.ForEach(a => _userRoles.Add(UserRole.Create(this.Id, a)));
+            AssignRoles(roles);
         }
 
 

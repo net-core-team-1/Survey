@@ -31,7 +31,7 @@ namespace Survey.Identity.Domain.Roles
             DeleteInfo = DeleteInfo.Create().Value;
             DisabeleInfo = DisabeleInfo.Create().Value;
 
-            UpdateFeatures(features, true);
+            LinkFeatures(features);
         }
 
         public void Deactivate(DisabeleInfo disableInfo)
@@ -39,22 +39,32 @@ namespace Survey.Identity.Domain.Roles
             DisabeleInfo = disableInfo;
         }
 
-        public void Update( List<Guid> features = null, bool deleteExisting = false)
+        public void Update( List<Guid> features = null)
         {
-            UpdateFeatures(features, deleteExisting);
+            UpdateFeatures(features);
         }
      
-        private void UpdateFeatures(List<Guid> features, bool deleteExisting = false)
+        private void UpdateFeatures(List<Guid> features)
+        {
+            DisconnectFeaturesBasedOnNewOnes(features);
+            LinkFeatures(features);
+
+        }
+
+        private void LinkFeatures(List<Guid> features)
         {
             List<Guid> toAdd = features.Where(a => _roleFeatures.Where(b => b.Feature.Id == a).Count() == 0).ToList();
+
+            if (toAdd.Count() != 0)
+                toAdd.ForEach(a => _roleFeatures.Add(RoleFeature.Create(this.Id, a)));
+        }
+        private void DisconnectFeaturesBasedOnNewOnes(List<Guid> features)
+        {
             List<RoleFeature> toDelete = _roleFeatures.Where(a => features.Where(b => b == a.Feature.Id).Count() == 0)
-                .ToList();
+                 .ToList();
 
             if (toDelete.Count() != 0)
                 toDelete.ForEach(a => _roleFeatures.Remove(a));
-            if (toAdd.Count() != 0)
-                toAdd.ForEach(a => _roleFeatures.Add(RoleFeature.Create(this.Id, a)));
-
         }
 
         public void Remove(DeleteInfo deletionInfo)

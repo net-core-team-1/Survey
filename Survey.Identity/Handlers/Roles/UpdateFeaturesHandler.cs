@@ -17,7 +17,7 @@ namespace Survey.Identity.Handlers.Roles
         }
         public async Task<Result> Handle(UpdateRoleFeaturesCommand command)
         {
-            return await _roleService.UpdateFeatures(command.Id, command.Features, command.DeleteExisting);
+            return await _roleService.UpdateFeatures(command.Id, command.Features);
         }
     }
 }

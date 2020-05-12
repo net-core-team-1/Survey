@@ -11,11 +11,9 @@ namespace Survey.Identity.Contracts
         public string LastName { get; set; }
 
         public List<Guid> Roles { get; set; }
-        public bool DeleteExistingRoles { get; set; }
         public EditUserInfoRequest()
         {
             Roles = new List<Guid>();
-            DeleteExistingRoles = false;
         }
     }
 }

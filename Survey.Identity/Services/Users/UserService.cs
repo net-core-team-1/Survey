@@ -52,7 +52,7 @@ namespace Survey.Identity.Services.Users
             return await Task<Result>.FromResult(Result.Ok());
         }
 
-        public async Task<Result> EditInfo(Guid userId, string firstName, string lastName, List<Guid> roles = null, bool deleteExisting = false)
+        public async Task<Result> EditInfo(Guid userId, string firstName, string lastName, List<Guid> roles = null)
         {
             var user = await _userManager.FindByIdAsync(userId.ToString());
             if (user == null)
@@ -62,7 +62,7 @@ namespace Survey.Identity.Services.Users
             if (fullNameResult.IsFailure)
                 return await Task<Result>.FromResult(Result.Failure($"FirstName/LastName invalid "));
 
-            user.EditUser(fullNameResult.Value, roles, deleteExisting);
+            user.EditUser(fullNameResult.Value, roles);
 
             var result = _userManager.UpdateAsync(user);
             if (!result.Result.Succeeded)

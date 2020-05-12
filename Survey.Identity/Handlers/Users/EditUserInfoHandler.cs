@@ -17,7 +17,7 @@ namespace Survey.Identity.Handlers.Users
         }
         public async Task<Result> Handle(EditUserInfoCommand command)
         {
-            return await _userService.EditInfo(command.Id,command.FirstName,command.LastName,command.Roles,command.DeleteExistingRoles);
+            return await _userService.EditInfo(command.Id,command.FirstName,command.LastName,command.Roles);
         }
     }
 }

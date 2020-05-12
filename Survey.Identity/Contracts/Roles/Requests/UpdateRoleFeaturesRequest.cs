@@ -11,12 +11,10 @@ namespace Survey.Identity.Contracts
 
         public List<Guid> Features { get; set; }
 
-        public bool DeleteExistingFeatures { get; set; }
 
         public UpdateRoleFeaturesRequest()
         {
             Features = new List<Guid>();
-            DeleteExistingFeatures = false;
         }
     }
 }
