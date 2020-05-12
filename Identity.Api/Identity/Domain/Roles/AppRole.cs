@@ -1,4 +1,4 @@
-﻿using Identity.Api.Identity.Domain.RoleFeatures;
+﻿using Identity.Api.Identity.Domain.AppServices;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -13,23 +13,23 @@ namespace Identity.Api.Identity.Domain.Roles
         public virtual CreateInfo CreateInfo { get; protected set; }
         public virtual DisabeleInfo DisableInfo { get; protected set; }
         public virtual DeleteInfo DeleteInfo { get; protected set; }
-
-        private List<AppRoleClaim> _roleClaims = new List<AppRoleClaim>();
-        public virtual IReadOnlyCollection<AppRoleClaim> RoleClaims => _roleClaims.ToList();
-
-        private readonly List<AppRoleFeatures> _features = new List<AppRoleFeatures>();
-        public virtual IReadOnlyList<AppRoleFeatures> Features => _features.ToList();
+        public virtual Guid  ServiceId { get; private set; }
+        public virtual AppService Service { get; private set; }
+        public virtual AppRoleFeaturesCollection RoleFeatures { get; protected set; }
 
         protected AppRole()
         {
+            RoleFeatures = new AppRoleFeaturesCollection();
         }
 
         public AppRole(Guid roleId)
+            : this()
         {
             this.Id = roleId;
         }
 
         public AppRole(CreateInfo createInfo, string roleName, string description)
+            : this()
         {
             this.Name = roleName;
             this.NormalizedName = roleName.ToUpper();
@@ -56,27 +56,11 @@ namespace Identity.Api.Identity.Domain.Roles
             this.Description = description;
         }
 
-        public void EditRoleClaims(List<AppRoleClaim> roleClaims)
+        public void EditFeatures(AppRoleFeaturesCollection features)
         {
-            _roleClaims.Clear();
-            _roleClaims.AddRange(roleClaims);
+            //_roleAppServiceFeatures.Clear();
+            //_roleAppServiceFeatures.AddRange(features);
         }
 
-        public void EditFeatures(List<AppRoleFeatures> features)
-        {
-            _features.Clear();
-            _features.AddRange(features);
-        }
-        public void AddForTest(AppRoleFeatures features)
-        {
-          
-            _features.Add(features);
-        }
-
-        public void ClearAllFeatures()
-        {
-            _features.Clear();
-
-        }
     }
 }

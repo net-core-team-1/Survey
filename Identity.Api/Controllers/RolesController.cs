@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Common.Types.Types.ServiceBus;
-using Identity.Api.Identity.Contrat.Roles.Requests;
+using Identity.Api.Contrat.Roles.Requests;
 using Identity.Api.Identity.Domain.Roles.Commands;
 using Identity.Api.Identity.Domain.Roles.Queries;
 using Microsoft.AspNetCore.Http;

@@ -1,6 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using Identity.Api.Exceptions;
-using Identity.Api.Identity.Data;
+using Identity.Api.Data;
 using Identity.Api.Identity.Domain.Roles;
 using Identity.Api.Identity.Domain.Users;
 using Microsoft.AspNetCore.Identity;

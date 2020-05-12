@@ -1,4 +1,4 @@
-﻿using Identity.Api.Identity.Contrat.Roles.Responses;
+﻿using Identity.Api.Contrat.Roles.Responses;
 using Survey.Common.Types;
 using System;
 using System.Collections.Generic;

@@ -5,6 +5,13 @@
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Identity\Domain\Users\Exceptions\**" />
+    <Content Remove="Identity\Domain\Users\Exceptions\**" />
+    <EmbeddedResource Remove="Identity\Domain\Users\Exceptions\**" />
+    <None Remove="Identity\Domain\Users\Exceptions\**" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
@@ -15,6 +22,7 @@
     <PackageReference Include="AutoMapper" Version="9.0.0" />
     <PackageReference Include="CSharpFunctionalExtensions" Version="2.2.2" />
     <PackageReference Include="Dapper" Version="2.0.30" />
+    <PackageReference Include="StackifyMiddleware" Version="3.0.5.2" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.1" />
   </ItemGroup>
 
@@ -27,7 +35,6 @@
     <Folder Include="Exceptions\CustomExceptions\Users\" />
     <Folder Include="Identity\Domain\Civilities\Commands\" />
     <Folder Include="Identity\Domain\Civilities\Queries\" />
-    <Folder Include="Identity\Domain\Users\Exceptions\" />
     <Folder Include="Identity\Services\Civilities\" />
     <Folder Include="Services\Authentications\CommandHandlers\" />
     <Folder Include="Services\Authentications\Queries\" />

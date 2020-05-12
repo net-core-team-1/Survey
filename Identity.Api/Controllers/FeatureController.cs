@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Common.Types.Types.ServiceBus;
 using CSharpFunctionalExtensions;
-using Identity.Api.Identity.Contrat.Features.Requests;
+using Identity.Api.Contrat.Features.Requests;
 using Identity.Api.Identity.Domain.Features.Commands;
 using Identity.Api.Identity.Domain.Features.Queries;
 using Microsoft.AspNetCore.Http;
@@ -50,14 +50,6 @@ namespace Identity.Api.Controllers
             return Ok(request);
         }
 
-        [HttpDelete]
-        public IActionResult Unregister([FromBody] UnregisterFeatureRequest request)
-        {
-            var command = _mapper.Map<UnRegisterFeatureCommand>(request);
-            _busPublisher.SendAsync(command);
-            return Ok(request);
-        }
-
         [HttpPut]
         public IActionResult Edit([FromBody] EditFeatureRequest request)
         {
@@ -70,6 +62,14 @@ namespace Identity.Api.Controllers
         public IActionResult Disable([FromBody] DisableFeatureRequest request)
         {
             var command = _mapper.Map<DisableFeatureCommand>(request);
+            _busPublisher.SendAsync(command);
+            return Ok(request);
+        }
+
+        [HttpDelete]
+        public IActionResult Unregister([FromBody] UnregisterFeatureRequest request)
+        {
+            var command = _mapper.Map<UnRegisterFeatureCommand>(request);
             _busPublisher.SendAsync(command);
             return Ok(request);
         }

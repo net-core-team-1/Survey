@@ -1,4 +1,5 @@
-﻿using Identity.Api.Identity.Domain.RoleFeatures;
+﻿using Identity.Api.Identity.Domain.AppServices;
+using Identity.Api.Identity.Domain.Roles;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,10 +17,9 @@ namespace Identity.Api.Identity.Domain.Features
         public virtual CreateInfo CreateInfo { get; private set; }
         public virtual DisabeleInfo DisabeleInfo { get; private set; }
         public virtual DeleteInfo DeleteInfo { get; private set; }
-
-        private readonly List<AppRoleFeatures> _roles = new List<AppRoleFeatures>();
-        public virtual IReadOnlyList<AppRoleFeatures> Roles => _roles.ToList();
-
+        public virtual Guid ServiceId { get; private set; }
+        public virtual AppService Service { get; private set; }
+        public virtual AppRoleFeaturesCollection RoleFeatures { get; protected set; }
         protected Feature()
         {
 
@@ -27,7 +27,7 @@ namespace Identity.Api.Identity.Domain.Features
         public Feature(Guid featureId)
         {
             this.Id = featureId;
-           
+
         }
         public Feature(FeatureInfo featureInfo, CreateInfo creationInfo)
         {

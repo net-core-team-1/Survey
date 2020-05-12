@@ -6,11 +6,14 @@ using Common.Types.Types.ServiceBus;
 using Identity.Api.Extensions;
 using Identity.Api.Extensions.CommandHandlersRegistration;
 using Identity.Api.Extensions.IdentityServiceRegistration;
-using Identity.Api.Identity.Data.Repositories.Features;
+using Identity.Api.Data.Repositories.Features;
+using Identity.Api.Data.Repositories.Services;
+using Identity.Api.Data.Repositories.Structures;
+using Identity.Api.Identity.Domain.AppServices.Commands;
 using Identity.Api.Identity.Domain.Features;
 using Identity.Api.Identity.Domain.Features.Commands;
-using Identity.Api.Identity.Domain.RoleFeatures.Commands;
 using Identity.Api.Identity.Domain.Roles.Commands;
+using Identity.Api.Identity.Domain.Structure.Commands;
 using Identity.Api.Identity.Domain.Users.Commands;
 using Identity.Api.Identity.Domain.Users.Events;
 using Identity.Api.Services;
@@ -50,13 +53,15 @@ namespace Identity.Api
             services.AddSingleton(queriesConnectionString);
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
+          
             // Custom services injections
             services.AddIdentityServices(Configuration);
             services.AddAutoMapper();
             services.ConfigureServiceBus(Configuration);
             services.AddScoped<Dispatcher>();
             services.AddTransient<IFeatureRepository, FeatureRepository>();
+            services.AddTransient<IAppServiceRepository, AppServiceRepository>();
+            services.AddTransient<IStructureRepository, StructureRepository>();
             services.RegisterHandlers();
         }
 
@@ -77,7 +82,8 @@ namespace Identity.Api
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
+            
+            //app.UseMiddleware<StackifyMiddleware.RequestTracerMiddleware>();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
@@ -104,7 +110,19 @@ namespace Identity.Api
             subscriberBus.SubscribeCommand<DisableRoleCommand>();
             subscriberBus.SubscribeCommand<UnregisterRoleCommand>();
 
-            subscriberBus.SubscribeCommand<EditRoleFeaturesCommand>();
+            subscriberBus.SubscribeCommand<RegisterAppServiceCommand>();
+            subscriberBus.SubscribeCommand<EditAppServiceCommand>();
+            subscriberBus.SubscribeCommand<DisableAppServiceCommand>();
+            subscriberBus.SubscribeCommand<DeleteAppServiceCommand>();
+            subscriberBus.SubscribeCommand<EditAppServiceFeaturesCommand>();
+            subscriberBus.SubscribeCommand<RegisterAppServiceFeatureCommand>();
+
+            subscriberBus.SubscribeCommand<RegisterStructureCommand>();
+            subscriberBus.SubscribeCommand<EditStructureCommand>();
+            subscriberBus.SubscribeCommand<DisableStructureCommand>();
+            subscriberBus.SubscribeCommand<DeleteStructureCommand>();
+
+            //subscriberBus.SubscribeCommand<EditRoleFeaturesCommand>();
 
             subscriberBus.SubscribeEvent<UserRegistered>();
             subscriberBus.SubscribeEvent<UserUnregistred>();

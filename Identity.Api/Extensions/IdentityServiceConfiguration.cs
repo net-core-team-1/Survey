@@ -1,5 +1,5 @@
-﻿using Identity.Api.Identity.Data;
-using Identity.Api.Identity.Data.Stores;
+﻿using Identity.Api.Data;
+using Identity.Api.Data.Stores;
 using Identity.Api.Identity.Domain.Roles;
 using Identity.Api.Identity.Domain.Users;
 using Identity.Api.Identity.Services.Roles;

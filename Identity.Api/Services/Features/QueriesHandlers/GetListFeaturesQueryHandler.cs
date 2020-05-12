@@ -1,5 +1,5 @@
 ﻿using Dapper;
-using Identity.Api.Identity.Contrat.Features.Responses;
+using Identity.Api.Contrat.Features.Responses;
 using Identity.Api.Identity.Domain.Features.Queries;
 using Survey.Common.Types;
 using System;

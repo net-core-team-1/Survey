@@ -1,6 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using Identity.Api.Exceptions;
-using Identity.Api.Identity.Data.Repositories.Features;
+using Identity.Api.Data.Repositories.Features;
 using Identity.Api.Identity.Domain.Features;
 using Identity.Api.Identity.Domain.Features.Commands;
 using Identity.Api.Utils.ResultValidator;

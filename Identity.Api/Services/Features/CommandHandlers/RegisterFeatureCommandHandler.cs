@@ -1,5 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
-using Identity.Api.Identity.Data.Repositories.Features;
+using Identity.Api.Data.Repositories.Features;
 using Identity.Api.Identity.Domain;
 using Identity.Api.Identity.Domain.Features;
 using Identity.Api.Identity.Domain.Features.Commands;
