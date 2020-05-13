@@ -32,23 +32,22 @@ namespace Identity.Api.Services.Users.CommandHandlers
 
         public async Task<Result> Handle(RegisterUserCommand command)
         {
-            throw new NotImplementedException();
-            //var fullNameResult = FullName.Create(command.FirstName, command.LastName).Validate();
 
-            //var civility = new Civility(command.CivilityId);
-            //var passwordResult = UserPassword.Create(command.Password).Validate();
-            //var rolesResult = AppUserRoleCollection.Create().Validate();
-            //var userNameResult = UserName.Create(command.UserName).Validate();
-            //var emailResult = UserEmail.Create(command.Email).Validate();
+            var fullNameResult = FullName.Create(command.FirstName, command.LastName).Validate();
 
-            //var user = new AppUser(userNameResult.Value, fullNameResult.Value,
-            //    emailResult.Value, rolesResult.Value, civility);
-            //var result = await _userService.RegisterNewAsync(user, passwordResult.Value);
-            //result.Validate();
+            var civility = new Civility(command.CivilityId);
+            var passwordResult = UserPassword.Create(command.Password).Validate();
+            var userNameResult = UserName.Create(command.UserName).Validate();
+            var emailResult = UserEmail.Create(command.Email).Validate();
 
-            //_bus.PublishAsync<UserRegistered>(new UserRegistered(user.Id, user.FullName.FirstName, user.FullName.LastName, user.Email));
+            var user = new AppUser(userNameResult.Value, fullNameResult.Value,
+                emailResult.Value, command.Permissions, civility);
+            var result = await _userService.RegisterNewAsync(user, passwordResult.Value);
+            result.Validate();
 
-            //return await Task.FromResult(Result.Ok());
+            _bus.PublishAsync<UserRegistered>(new UserRegistered(user.Id, user.FullName.FirstName, user.FullName.LastName, user.Email));
+
+            return await Task.FromResult(Result.Ok());
         }
     }
 }

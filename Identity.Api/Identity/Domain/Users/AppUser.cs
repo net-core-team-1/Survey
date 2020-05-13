@@ -38,7 +38,7 @@ namespace Identity.Api.Identity.Domain.Users
             this.Id = UserId;
         }
 
-        public AppUser(UserName userName, FullName name, UserEmail email, AppUserRoleCollection roles, Civility civility)
+        public AppUser(UserName userName, FullName name, UserEmail email, List<Guid> roles, Civility civility)
             : this()
         {
             this.UserName = userName.Value;
@@ -59,10 +59,11 @@ namespace Identity.Api.Identity.Domain.Users
             DeleteInfo = deleteInfo;
         }
 
-        public void EditRoles(AppUserRoleCollection appUserRole)
+        public void EditRoles(List<Guid> roles)
         {
             UserRoles.Value.Clear();
-            UserRoles.Value.AddRange(appUserRole.Value);
+            var appRoles = roles.Select(x => new AppUserRole(new AppRole(x), this)).ToList();
+            UserRoles = AppUserRoleCollection.Create(appRoles).Value;
         }
         public void AssignRole(AppUserRole appUserRole)
         {

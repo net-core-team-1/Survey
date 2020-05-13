@@ -29,7 +29,7 @@ namespace Identity.Api.Identity.Domain.AppUserRoles
             Enabled = true;
             AssociatedOn = DateTime.Now.ToUniversalTime();
         }
-        public AppUserRole(AppRole role, AppUser user, AppService appService)
+        public AppUserRole(AppRole role, AppUser user)
             : this(role.Id, user.Id)
         {
             Role = role;
