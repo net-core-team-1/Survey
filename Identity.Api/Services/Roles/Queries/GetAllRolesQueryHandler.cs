@@ -22,7 +22,8 @@ namespace Identity.Api.Services.Roles.Queries
             string sql = @"
                     Select Id,
 	                       Name,
-	                       Description
+	                       Description,
+                           ServiceId
                     From [Identity].[Roles]";
 
             using (SqlConnection connection = new SqlConnection(_connectionString.Value))

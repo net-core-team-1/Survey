@@ -9,12 +9,10 @@ namespace Identity.Api.Contrat.Roles.Requests
         public string Name { get; set; }
         public string Description { get; set; }
         public Guid CreatedBy { get; set; }
-
-        //public List<Guid> Features { get; set; }
+        public Guid AppServiceId { get; set; }
 
         public RegisterRoleRequest()
         {
-            //Features = new List<Guid>();
         }
     }
 }

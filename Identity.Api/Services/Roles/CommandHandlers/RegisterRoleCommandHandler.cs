@@ -3,6 +3,7 @@ using Identity.Api.Identity.Domain;
 using Identity.Api.Identity.Domain.Roles;
 using Identity.Api.Identity.Domain.Roles.Commands;
 using Identity.Api.Identity.Services.Roles;
+using Identity.Api.Identity.Domain.AppServices;
 using Identity.Api.Utils.ResultValidator;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Survey.Common.Types;
@@ -25,7 +26,7 @@ namespace Identity.Api.Services.Roles.CommandHandlers
         public async Task<Result> Handle(RegisterRoleCommand command)
         {
             var createInfoResult = CreateInfo.Create(command.CreatedBy).Validate();
-            var role = new AppRole(createInfoResult.Value, command.Name, command.Description);
+            var role = new AppRole(createInfoResult.Value, command.Name, command.Description, command.AppServiceId);
             await _roleService.RegisterNewAsync(role);
             return await Task.FromResult(Result.Ok());
         }

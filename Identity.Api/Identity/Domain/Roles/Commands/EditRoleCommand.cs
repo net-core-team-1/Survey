@@ -11,11 +11,13 @@ namespace Identity.Api.Identity.Domain.Roles.Commands
         public Guid Id { get; }
         public string Name { get; }
         public string Description { get; }
-        public EditRoleCommand(Guid id, string name, string description)
+        public Guid AppServiceId { get; }
+        public EditRoleCommand(Guid id, string name, string description, Guid appServiceId)
         {
             Id = id;
             Name = name;
             Description = description;
+            AppServiceId = appServiceId;
         }
     }
 }

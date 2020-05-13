@@ -13,7 +13,7 @@ namespace Identity.Api.Identity.Domain.Roles
         public virtual CreateInfo CreateInfo { get; protected set; }
         public virtual DisabeleInfo DisableInfo { get; protected set; }
         public virtual DeleteInfo DeleteInfo { get; protected set; }
-        public virtual Guid  ServiceId { get; private set; }
+        public virtual Guid ServiceId { get; private set; }
         public virtual AppService Service { get; private set; }
         public virtual AppRoleFeaturesCollection RoleFeatures { get; protected set; }
 
@@ -23,12 +23,12 @@ namespace Identity.Api.Identity.Domain.Roles
         }
 
         public AppRole(Guid roleId)
-            : this()
+          : this()
         {
             this.Id = roleId;
         }
 
-        public AppRole(CreateInfo createInfo, string roleName, string description)
+        public AppRole(CreateInfo createInfo, string roleName, string description, Guid serviceId)
             : this()
         {
             this.Name = roleName;
@@ -37,6 +37,8 @@ namespace Identity.Api.Identity.Domain.Roles
             CreateInfo = createInfo;
             DisableInfo = DisabeleInfo.Create().Value;
             DeleteInfo = DeleteInfo.Create().Value;
+            this.ServiceId = serviceId;
+            this.Service = new AppService(serviceId);
         }
 
         internal void Disable(DisabeleInfo disableInfo)
@@ -49,11 +51,12 @@ namespace Identity.Api.Identity.Domain.Roles
             DeleteInfo = deleteInfo;
         }
 
-        public void EditRoleInfo(string name, string description)
+        public void EditRoleInfo(string name, string description, AppService appService)
         {
             this.Name = name;
             this.NormalizedName = name.ToUpper();
             this.Description = description;
+            this.Service = appService;
         }
 
         public void EditFeatures(AppRoleFeaturesCollection features)

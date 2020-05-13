@@ -21,9 +21,8 @@ namespace Identity.Api.Data.Stores
         {
             cancellationToken.ThrowIfCancellationRequested();
             if (role == null) throw new ArgumentNullException(nameof(role));
-
-            _context.Roles.Attach(role);
-            await _context.Roles.AddAsync(role);
+            _context.AppServices.Attach(role.Service);
+            _context.Roles.Add(role);
             await _context.SaveChangesAsync();
             return await Task<IdentityResult>.FromResult(IdentityResult.Success);
         }
@@ -41,8 +40,8 @@ namespace Identity.Api.Data.Stores
         {
             cancellationToken.ThrowIfCancellationRequested();
             if (role == null) throw new ArgumentNullException(nameof(role));
+            _context.AppServices.Attach(role.Service);
             _context.Roles.Attach(role);
-            
             _context.SaveChanges();
             return await Task<IdentityResult>.FromResult(IdentityResult.Success);
         }
