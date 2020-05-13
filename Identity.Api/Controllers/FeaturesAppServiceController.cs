@@ -35,19 +35,11 @@ namespace Identity.Api.Controllers
             //return Ok(_dispatcher.Dispatch(new GetFeatureQuery(featureId)));
         }
 
-        [HttpPost()]
-        public IActionResult RegisterFeature([FromBody] RegisterAppServiceFeatureRequest request)
-        {
-            var command = _mapper.Map<EditFeatureAppServiceCommand>(request);
-
-            _busPublisher.SendAsync(command);
-            return Ok(request);
-        }
-
         [HttpPut]
         public IActionResult Edit([FromBody] EditAppServiceFeaturesRequest request)
         {
-            var command = _mapper.Map<EditAppServiceFeaturesCommand>(request);
+            var command = _mapper.Map<EditFeatureAppServiceCommand>(request);
+
             _busPublisher.SendAsync(command);
             return Ok(request);
         }
