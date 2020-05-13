@@ -1,6 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using Identity.Api.Data.Repositories.Features;
 using Identity.Api.Identity.Domain;
+using Identity.Api.Identity.Domain.AppServices;
 using Identity.Api.Identity.Domain.Features;
 using Identity.Api.Identity.Domain.Features.Commands;
 using Identity.Api.Utils.ResultValidator;
@@ -26,8 +27,8 @@ namespace Identity.Api.Services.Features.CommandHandlers
             var createFeatureResult = FeatureInfo.Create(command.Label, command.Description, command.ControllerName,
                 command.ControllerActionName, command.Action).Validate();
             var createInfoResult = CreateInfo.Create(command.CreatedBy);
-
-            var feature = new Feature(createFeatureResult.Value, createInfoResult.Value);
+            var appService = new AppService(command.AppServiceId);
+            var feature = new Feature(createFeatureResult.Value, createInfoResult.Value, appService);
             _featureRepository.Insert(feature);
             if (_featureRepository.Save())
             {

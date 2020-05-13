@@ -20,9 +20,14 @@ namespace Identity.Api.Identity.Domain.AppServices
 
         protected AppService() { }
 
-        public AppService(AppServiceInfo serviceInfo, CreateInfo creationInfo)
+        public AppService(Guid appServiceId)
         {
-            Id = Guid.NewGuid();
+            Id = appServiceId;
+        }
+
+        public AppService(AppServiceInfo serviceInfo, CreateInfo creationInfo)
+            : this(Guid.NewGuid())
+        {
             ServiceInfo = serviceInfo;
             CreationInfo = creationInfo;
             DeleteInfo = DeleteInfo.Create().Value;

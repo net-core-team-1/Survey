@@ -14,8 +14,9 @@ namespace Identity.Api.Identity.Domain.Features.Commands
         public string ControllerActionName { get; }
         public string Action { get; }
         public Guid CreatedBy { get; }
-
-        public RegisterFeatureCommand(string label, string description, string controllerName, string controllerActionName, string action, Guid createdBy)
+        public Guid AppServiceId { get; }
+        public RegisterFeatureCommand(string label, string description, string controllerName,
+            string controllerActionName, string action, Guid createdBy, Guid appServiceId)
         {
             Label = label;
             Description = description;
@@ -23,6 +24,7 @@ namespace Identity.Api.Identity.Domain.Features.Commands
             ControllerActionName = controllerActionName;
             Action = action;
             CreatedBy = createdBy;
+            AppServiceId = appServiceId;
         }
     }
 }

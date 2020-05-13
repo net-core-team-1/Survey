@@ -14,8 +14,10 @@ namespace Identity.Api.Identity.Domain.Features.Commands
         public string ControllerName { get; }
         public string ControllerActionName { get; }
         public string Action { get; }
+        public Guid AppServiceId { get; }
 
-        public EditFeatureCommand(Guid featureId, string label, string description, string controllerName, string controllerActionName, string action)
+        public EditFeatureCommand(Guid featureId, string label, string description, 
+            string controllerName, string controllerActionName, string action, Guid appServiceId)
         {
             FeatureId = featureId;
             Label = label;
@@ -23,6 +25,7 @@ namespace Identity.Api.Identity.Domain.Features.Commands
             ControllerName = controllerName;
             ControllerActionName = controllerActionName;
             Action = action;
+            AppServiceId = appServiceId;
         }
     }
 }

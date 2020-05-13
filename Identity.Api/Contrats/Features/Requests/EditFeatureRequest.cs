@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Identity.Api.Contrat.Features.Requests
 {
-    public class EditFeatureRequest 
+    public class EditFeatureRequest
     {
         public Guid FeatureId { get; set; }
         public string Label { get; set; }
@@ -13,5 +13,6 @@ namespace Identity.Api.Contrat.Features.Requests
         public string ControllerName { get; set; }
         public string ControllerActionName { get; set; }
         public string Action { get; set; }
+        public Guid AppServiceId { get; set; }
     }
 }

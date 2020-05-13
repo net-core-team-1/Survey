@@ -13,5 +13,6 @@ namespace Identity.Api.Contrat.Features.Responses
         public string ControllerName { get; set; }
         public string ControllerActionName { get; set; }
         public string Action { get; set; }
+        public Guid ServiceId { get; set; }
     }
 }

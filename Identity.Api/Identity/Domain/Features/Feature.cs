@@ -22,20 +22,26 @@ namespace Identity.Api.Identity.Domain.Features
         public virtual AppRoleFeaturesCollection RoleFeatures { get; protected set; }
         protected Feature()
         {
-
+            RoleFeatures = new AppRoleFeaturesCollection();
         }
         public Feature(Guid featureId)
         {
             this.Id = featureId;
 
         }
-        public Feature(FeatureInfo featureInfo, CreateInfo creationInfo)
+        public Feature(FeatureInfo featureInfo, CreateInfo creationInfo, AppService appService)
         {
             Id = Guid.NewGuid();
             FeatureInfo = featureInfo;
             CreateInfo = creationInfo;
             DeleteInfo = DeleteInfo.Create().Value;
             DisabeleInfo = DisabeleInfo.Create().Value;
+            Service = appService;
+        }
+
+        internal void ChangeService(AppService appService)
+        {
+            Service = appService;
         }
 
         public void Deactivate(DisabeleInfo disableInfo)

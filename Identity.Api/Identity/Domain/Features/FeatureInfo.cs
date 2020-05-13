@@ -12,12 +12,12 @@ namespace Identity.Api.Identity.Domain.Features
         public String Controller { get; private set; }
         public string ControllerActionName { get; private set; }
         public String Action { get; private set; }
-
         protected FeatureInfo()
         {
 
         }
-        private FeatureInfo(string label, string description, string controller, string controllerActionName, string action)
+        private FeatureInfo(string label, string description, string controller,
+            string controllerActionName, string action)
         {
             Label = label;
             Description = description;
@@ -25,7 +25,8 @@ namespace Identity.Api.Identity.Domain.Features
             ControllerActionName = controllerActionName;
             Action = action;
         }
-        public static Result<FeatureInfo> Create(string label, string description, string controller, string controllerActionName, string action)
+        public static Result<FeatureInfo> Create(string label, string description,
+            string controller, string controllerActionName, string action)
         {
             return Result.Success(new FeatureInfo(label, description, controller, controllerActionName, action));
         }

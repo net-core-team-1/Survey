@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Identity.Api.Identity.Domain.AppServices;
 
 namespace Identity.Api.Services.Features.CommandHandlers
 {
@@ -24,13 +25,16 @@ namespace Identity.Api.Services.Features.CommandHandlers
         public Task<Result> Handle(EditFeatureCommand command)
         {
             var feature = _featureRepository.FindByKey(command.FeatureId);
-            if(feature == null)
+            if (feature == null)
                 throw new IdentityException("FEATURE_NOT_FOUND", "Feature not found in database");
 
             var createFeatureResult = FeatureInfo.Create(command.Label, command.Description, command.ControllerName,
                command.ControllerActionName, command.Action).Validate();
 
+            var appService = new AppService(command.AppServiceId);
+
             feature.UpdateInfo(createFeatureResult.Value);
+            feature.ChangeService(appService);
 
             _featureRepository.Update(feature);
             if (_featureRepository.Save())

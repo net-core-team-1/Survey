@@ -25,7 +25,8 @@ namespace Identity.Api.Services.Features.QueriesHandlers
                             f.Description,
                             f.Controller as ControllerName,
                             f.ControllerActionName,
-                            f.Action
+                            f.Action,
+                            f.ServiceId
                     From [Identity].[Features] f";
 
             using (SqlConnection connection = new SqlConnection(_connectionString.Value))

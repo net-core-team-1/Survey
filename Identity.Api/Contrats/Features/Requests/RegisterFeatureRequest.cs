@@ -13,7 +13,7 @@ namespace Identity.Api.Contrat.Features.Requests
         public string ControllerActionName { get; set; }
         public string Action { get; set; }
         public Guid CreatedBy { get; set; }
-
+        public Guid AppServiceId { get; set; }
         public RegisterFeatureRequest()
         {
 

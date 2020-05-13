@@ -18,7 +18,6 @@ namespace Identity.Api.Data.Mapping
 
             builder.OwnsOne(a => a.FeatureInfo, a =>
             {
-
                 a.Property(aa => aa.Label).HasColumnName("Label").HasMaxLength(50);
                 a.Property(aa => aa.Controller).HasColumnName("Controller").HasMaxLength(50).IsRequired();
                 a.Property(aa => aa.ControllerActionName).HasColumnName("ControllerActionName").IsRequired(false);

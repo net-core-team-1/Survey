@@ -23,10 +23,12 @@ namespace Identity.Api.Data.Repositories.Features
 
         public void Insert(Feature entity)
         {
+            _context.AppServices.Attach(entity.Service);
             _context.Features.Add(entity);
         }
         public void Update(Feature entity)
         {
+            _context.AppServices.Attach(entity.Service);
             _context.Features.Attach(entity);
         }
         public bool Save()
