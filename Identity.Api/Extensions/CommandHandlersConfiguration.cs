@@ -75,7 +75,7 @@ namespace Identity.Api.Extensions.CommandHandlersRegistration
             services.AddTransient<ICommandHandler<DeleteAppServiceCommand>, DeleteAppServiceCommandHandler>();
             services.AddTransient<ICommandHandler<DisableAppServiceCommand>, DisableAppServiceCommandHandler>();
             services.AddTransient<ICommandHandler<EditAppServiceFeaturesCommand>, EditAppServiceFeaturesCommandHandler>();
-            services.AddTransient<ICommandHandler<RegisterAppServiceFeatureCommand>, RegisterAppServiceFeatureCommandHandler>();
+            services.AddTransient<ICommandHandler<EditFeatureAppServiceCommand>, EditFeatureAppServiceCommandHandler>();
         }
     }
 }

@@ -6,6 +6,7 @@ using AutoMapper;
 using Common.Types.Types.ServiceBus;
 using Identity.Api.Contrat.AppServices.Requests;
 using Identity.Api.Identity.Domain.AppServices.Commands;
+using Identity.Api.Identity.Domain.Features.Commands;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Survey.Common.Messages;
@@ -14,13 +15,13 @@ namespace Identity.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AppServiceFeaturesController : ControllerBase
+    public class FeaturesAppServiceController : ControllerBase
     {
         private readonly IMapper _mapper;
         private readonly IBusPublisher _busPublisher;
         private readonly Dispatcher _dispatcher;
 
-        public AppServiceFeaturesController(IMapper mapper, IBusPublisher busPublisher, Dispatcher dispatcher)
+        public FeaturesAppServiceController(IMapper mapper, IBusPublisher busPublisher, Dispatcher dispatcher)
         {
             _mapper = mapper;
             _busPublisher = busPublisher;
@@ -37,7 +38,7 @@ namespace Identity.Api.Controllers
         [HttpPost()]
         public IActionResult RegisterFeature([FromBody] RegisterAppServiceFeatureRequest request)
         {
-            var command = _mapper.Map<RegisterAppServiceFeatureCommand>(request);
+            var command = _mapper.Map<EditFeatureAppServiceCommand>(request);
 
             _busPublisher.SendAsync(command);
             return Ok(request);

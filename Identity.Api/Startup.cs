@@ -115,7 +115,7 @@ namespace Identity.Api
             subscriberBus.SubscribeCommand<DisableAppServiceCommand>();
             subscriberBus.SubscribeCommand<DeleteAppServiceCommand>();
             subscriberBus.SubscribeCommand<EditAppServiceFeaturesCommand>();
-            subscriberBus.SubscribeCommand<RegisterAppServiceFeatureCommand>();
+            subscriberBus.SubscribeCommand<EditFeatureAppServiceCommand>();
 
             subscriberBus.SubscribeCommand<RegisterStructureCommand>();
             subscriberBus.SubscribeCommand<EditStructureCommand>();

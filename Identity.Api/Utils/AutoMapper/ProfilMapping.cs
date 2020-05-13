@@ -43,7 +43,7 @@ namespace Identity.Api.Utils.AutoMapper
             CreateMap<DisableAppServiceRequest, DisableAppServiceCommand>();
             CreateMap<DeleteAppServiceRequest, DeleteAppServiceCommand>();
             CreateMap<EditAppServiceFeaturesRequest, EditAppServiceFeaturesCommand>();
-            CreateMap<RegisterAppServiceFeatureRequest, RegisterAppServiceFeatureCommand>();
+            CreateMap<RegisterAppServiceFeatureRequest, EditFeatureAppServiceCommand>();
 
             CreateMap<RegisterStructureRequest, RegisterStructureCommand>();
             CreateMap<EditStructureRequest, EditStructureCommand>();
