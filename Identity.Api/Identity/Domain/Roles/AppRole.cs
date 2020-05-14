@@ -1,4 +1,6 @@
 ﻿using Identity.Api.Identity.Domain.AppServices;
+using Identity.Api.Identity.Domain.Features;
+using Identity.Api.Identity.Domain.RoleFeature;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -59,10 +61,11 @@ namespace Identity.Api.Identity.Domain.Roles
             this.Service = appService;
         }
 
-        public void EditFeatures(AppRoleFeaturesCollection features)
+        public void EditFeatures(Guid createdby, List<Feature> features)
         {
-            //_roleAppServiceFeatures.Clear();
-            //_roleAppServiceFeatures.AddRange(features);
+            RoleFeatures.Clear();
+            var roleFeatures = features.Select(x => new AppRoleFeatures(this.Id, x.Id, createdby)).ToList();
+            RoleFeatures = AppRoleFeaturesCollection.Create(roleFeatures).Value;
         }
 
     }

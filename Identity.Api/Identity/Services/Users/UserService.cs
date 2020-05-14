@@ -92,14 +92,14 @@ namespace Survey.Identity.Services.Users
 
         public async Task<Result> AssignRolesAsync(Guid userId, List<Guid> roles)
         {
-            //var user = await _userManager.FindByIdAsync(userId.ToString());
-            //if (user == null)
-            //    throw new IdentityException("USER_NOT_FOUND", "User not found in database");
-            //user.EditRoles(roles);
+            var user = await _userManager.FindByIdAsync(userId.ToString());
+            if (user == null)
+                throw new IdentityException("USER_NOT_FOUND", "User not found in database");
+            user.EditRoles(roles);
 
-            //var result = await _userManager.UpdateAsync(user);
-            //if (!result.Succeeded)
-            //    return Result.Failure("User could not be saved");
+            var result = await _userManager.UpdateAsync(user);
+            if (!result.Succeeded)
+                return Result.Failure("User could not be saved");
 
             return Result.Ok();
         }

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Common.Types.Types.ServiceBus;
 using Identity.Api.Contrat.Users.Requests;
+using Identity.Api.Contrats.Users.Requests;
 using Identity.Api.Identity.Domain.Users.Commands;
 using Identity.Api.Identity.Domain.Users.Queries;
 using Microsoft.AspNetCore.Http;
@@ -35,11 +36,26 @@ namespace Identity.Api.Controllers
             return Ok(_dispatcher.Dispatch(new GetRolesByUserIdQuery(userId)));
         }
 
-        [HttpPatch]
+        [HttpPost]
         public IActionResult EditRoles([FromBody] EditUserRolesRequest request)
         {
             var command = _mapper.Map<EditUserRolesCommad>(request);
             _busPublisher.SendAsync<EditUserRolesCommad>(command);
+            return Ok(request);
+        }
+
+        [HttpPut]
+        public IActionResult AssignUserRole([FromBody] RegisterUserRoleRequest request)
+        {
+            var command = _mapper.Map<RegisterUserRoleCommand>(request);
+            _busPublisher.SendAsync<RegisterUserRoleCommand>(command);
+            return Ok(request);
+        }
+        [HttpDelete]
+        public IActionResult RemoveUserRole([FromBody] UnregisterUserRoleRequest request)
+        {
+            var command = _mapper.Map<UnregisterUserRoleCommand>(request);
+            _busPublisher.SendAsync<UnregisterUserRoleCommand>(command);
             return Ok(request);
         }
     }

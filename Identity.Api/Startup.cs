@@ -53,7 +53,7 @@ namespace Identity.Api
             services.AddSingleton(queriesConnectionString);
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-          
+
             // Custom services injections
             services.AddIdentityServices(Configuration);
             services.AddAutoMapper();
@@ -82,7 +82,7 @@ namespace Identity.Api
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-            
+
             //app.UseMiddleware<StackifyMiddleware.RequestTracerMiddleware>();
             app.UseMvc(routes =>
             {
@@ -99,6 +99,8 @@ namespace Identity.Api
             subscriberBus.SubscribeCommand<UnregisterUserCommand>();
             subscriberBus.SubscribeCommand<EditUserCommand>();
             subscriberBus.SubscribeCommand<EditUserRolesCommad>();
+            subscriberBus.SubscribeCommand<RegisterUserRoleCommand>();
+            subscriberBus.SubscribeCommand<UnregisterUserRoleCommand>();
 
             subscriberBus.SubscribeCommand<RegisterFeatureCommand>();
             subscriberBus.SubscribeCommand<UnRegisterFeatureCommand>();
@@ -109,6 +111,7 @@ namespace Identity.Api
             subscriberBus.SubscribeCommand<EditRoleCommand>();
             subscriberBus.SubscribeCommand<DisableRoleCommand>();
             subscriberBus.SubscribeCommand<UnregisterRoleCommand>();
+            subscriberBus.SubscribeCommand<RegisterRoleFeatureCommand>();
 
             subscriberBus.SubscribeCommand<RegisterAppServiceCommand>();
             subscriberBus.SubscribeCommand<EditAppServiceCommand>();

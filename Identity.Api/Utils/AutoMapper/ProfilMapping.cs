@@ -4,6 +4,8 @@ using Identity.Api.Contrat.Features.Requests;
 using Identity.Api.Contrat.Roles.Requests;
 using Identity.Api.Contrat.Structures.Requests;
 using Identity.Api.Contrat.Users.Requests;
+using Identity.Api.Contrats.Roles.Requests;
+using Identity.Api.Contrats.Users.Requests;
 using Identity.Api.Identity.Domain.AppServices.Commands;
 using Identity.Api.Identity.Domain.Features.Commands;
 using Identity.Api.Identity.Domain.Roles.Commands;
@@ -22,11 +24,14 @@ namespace Identity.Api.Utils.AutoMapper
         public ProfilMapping()
         {
             CreateMap<RegisterUserRequest, RegisterUserCommand>();
-            CreateMap<UnregisterUserRequest, UnregisterUserCommand>();
             CreateMap<EditUserRequest, EditUserCommand>();
+            CreateMap<UnregisterUserRequest, UnregisterUserCommand>();
+            CreateMap<RegisterUserRoleRequest, RegisterUserRoleCommand>();
+            CreateMap<UnregisterUserRoleRequest, UnregisterUserRoleCommand>();
 
             CreateMap<EditUserRolesRequest, EditUserRolesCommad>();
             //CreateMap<EditRoleFeaturesRequest, EditRoleFeaturesCommand>();
+           
 
             CreateMap<RegisterFeatureRequest, RegisterFeatureCommand>();
             CreateMap<UnregisterFeatureRequest, UnRegisterFeatureCommand>();
@@ -37,6 +42,7 @@ namespace Identity.Api.Utils.AutoMapper
             CreateMap<EditRoleRequest, EditRoleCommand>();
             CreateMap<DisableRoleRequest, DisableRoleCommand>();
             CreateMap<UnregisterRoleRequest, UnregisterRoleCommand>();
+            CreateMap<RegisterRoleFeatureRequest, RegisterRoleFeatureCommand>();
 
             CreateMap<RegisterAppServiceRequest, RegisterAppServiceCommand>();
             CreateMap<EditAppServiceRequest, EditAppServiceCommand>();

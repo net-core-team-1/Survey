@@ -9,9 +9,10 @@ using System.Threading.Tasks;
 
 namespace Identity.Api.Data.Stores
 {
-    public class AppRoleStore : IRoleStore<AppRole>
+    public class AppRoleStore : IRoleStore<AppRole>, IQueryableRoleStore<AppRole>
     {
         private readonly TransverseIdentityDbContext _context;
+
         public AppRoleStore(TransverseIdentityDbContext context)
             : base()
         {
@@ -112,7 +113,7 @@ namespace Identity.Api.Data.Stores
             role.Name = roleName;
             return Task.FromResult<object>(null);
         }
-
+        public IQueryable<AppRole> Roles => _context.Roles;
         public void Dispose()
         {
 

@@ -22,10 +22,10 @@ namespace Identity.Api.Identity.Domain.AppUserRoles
         }
         public static Result<AppUserRoleCollection> Create(List<AppUserRole> items)
         {
-            if (items == null || items.Count() == 0)
-            {
-                return Result.Failure<AppUserRoleCollection>("Empty roles list");
-            }
+            //if (items == null || items.Count() == 0)
+            //{
+            //    return Result.Failure<AppUserRoleCollection>("Empty roles list");
+            //}
             return Result.Success(new AppUserRoleCollection(items));
         }
 

@@ -17,13 +17,14 @@ namespace Identity.Api.Identity.Domain.RoleFeature
         public virtual Feature Feature { get; protected set; }
 
         public AppRoleFeatures() { }
-        public AppRoleFeatures(Guid roleId, Guid featureId)
+        public AppRoleFeatures(Guid roleId, Guid featureId, Guid createdBy)
         {
             RoleId = roleId;
             FeatureId = featureId;
+            CreateInfo = CreateInfo.Create(createdBy).Value;
         }
-        public AppRoleFeatures(AppRole role, Feature feature)
-            : this(role.Id, feature.Id)
+        public AppRoleFeatures(AppRole role, Feature feature, Guid createdBy)
+            : this(role.Id, feature.Id, createdBy)
         {
             Role = role;
             Feature = feature;

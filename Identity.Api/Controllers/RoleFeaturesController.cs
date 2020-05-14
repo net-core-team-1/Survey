@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Common.Types.Types.ServiceBus;
 using Identity.Api.Contrat.Roles.Requests;
+using Identity.Api.Contrats.Roles.Requests;
+using Identity.Api.Identity.Domain.Roles.Commands;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
@@ -38,12 +40,11 @@ namespace Identity.Api.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit([FromBody] EditRoleFeaturesRequest request)
+        public IActionResult Edit([FromBody] RegisterRoleFeatureRequest request)
         {
-            throw new NotImplementedException();
-            //var command = _mapper.Map<EditRoleFeaturesCommand>(request);
-            //_busPublisher.SendAsync(command);
-            //return Ok(request);
+            var command = _mapper.Map<RegisterRoleFeatureCommand>(request);
+            _busPublisher.SendAsync(command);
+            return Ok(request);
         }
 
         [HttpPost("AssignFeature")]

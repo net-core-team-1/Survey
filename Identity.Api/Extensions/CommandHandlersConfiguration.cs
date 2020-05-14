@@ -44,6 +44,8 @@ namespace Identity.Api.Extensions.CommandHandlersRegistration
             services.AddTransient<ICommandHandler<UnregisterUserCommand>, UnregisterUserCommandHandler>();
             services.AddTransient<ICommandHandler<EditUserCommand>, EditUserCommandHandler>();
             services.AddTransient<ICommandHandler<EditUserRolesCommad>, EditUserRolesCommadHandler>();
+            services.AddTransient<ICommandHandler<RegisterUserRoleCommand>, RegisterUserRoleCommandHandler>();
+            services.AddTransient<ICommandHandler<UnregisterUserRoleCommand>, UnregisterUserRoleCommandHandler>();
 
             //services.AddTransient<ICommandHandler<EditRoleFeaturesCommand>, EditRoleFeaturesCommandHandler>();
 
@@ -56,6 +58,7 @@ namespace Identity.Api.Extensions.CommandHandlersRegistration
             services.AddTransient<ICommandHandler<EditRoleCommand>, EditRoleCommandHandler>();
             services.AddTransient<ICommandHandler<UnregisterRoleCommand>, UnregisterRoleCommandHandler>();
             services.AddTransient<ICommandHandler<DisableRoleCommand>, DisableRoleCommandHandler>();
+            services.AddTransient<ICommandHandler<RegisterRoleFeatureCommand>, RegisterRoleFeatureCommandHandler>();
 
             services.AddTransient<IQueryHandler<GetUserByIdQuery, UserResponse>, GetUserByIdQueryHandler>();
             services.AddTransient<IQueryHandler<GetRolesByUserIdQuery, UserRolesResponse>, GetRolesByUserIdQueryHandler>();

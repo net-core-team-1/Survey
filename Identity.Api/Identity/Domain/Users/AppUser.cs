@@ -62,7 +62,7 @@ namespace Identity.Api.Identity.Domain.Users
         public void EditRoles(List<Guid> roles)
         {
             UserRoles.Value.Clear();
-            var appRoles = roles.Select(x => new AppUserRole(new AppRole(x), this)).ToList();
+            var appRoles = roles.Select(x => new AppUserRole(x, this.Id)).ToList();
             UserRoles = AppUserRoleCollection.Create(appRoles).Value;
         }
         public void AssignRole(AppUserRole appUserRole)
@@ -71,7 +71,7 @@ namespace Identity.Api.Identity.Domain.Users
         }
         public void RemoveRole(AppUserRole appUserRole)
         {
-            UserRoles.Value.Remove(appUserRole);
+            UserRoles.Value.RemoveAll(x=>x.RoleId == appUserRole.RoleId);
         }
     }
 }

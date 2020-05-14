@@ -64,6 +64,11 @@ namespace Identity.Api.Identity.Services.Roles
             }
         }
 
-
+        public Task<List<AppRole>> FindRoleByIds(List<Guid> roleIds)
+        {
+            return Task.FromResult(_roleManager.Roles.
+                                        Where(x => roleIds.Contains(x.Id))
+                                        .ToList());
+        }
     }
 }

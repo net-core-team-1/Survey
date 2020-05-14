@@ -36,6 +36,7 @@ namespace Identity.Api.Data.Stores
             cancellationToken.ThrowIfCancellationRequested();
             if (user == null) throw new ArgumentNullException(nameof(user));
             _context.Civilities.Attach(user.Civility);
+            _context.Users.Attach(user);
             _context.SaveChanges();
             return await Task<IdentityResult>.FromResult(IdentityResult.Success);
         }

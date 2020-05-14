@@ -28,13 +28,13 @@ namespace Identity.Api.Identity.Domain.Roles
             return Result.Success(new AppRoleFeaturesCollection(items));
         }
 
-        public static Result<AppRoleFeaturesCollection> Create(Guid roleId, List<Guid> featureIds)
+        public static Result<AppRoleFeaturesCollection> Create(Guid createdBy,Guid roleId, List<Guid> featureIds)
         {
             if (featureIds == null || featureIds.Count() == 0)
             {
                 return Result.Failure<AppRoleFeaturesCollection>("Empty roles list");
             }
-            var userRolesCollection = featureIds.Select(x => new AppRoleFeatures(roleId, x)).ToList();
+            var userRolesCollection = featureIds.Select(x => new AppRoleFeatures(createdBy,roleId, x)).ToList();
             return Result.Success<AppRoleFeaturesCollection>(new AppRoleFeaturesCollection(userRolesCollection));
         }
 
