@@ -63,9 +63,18 @@ namespace Identity.Api.Identity.Domain.Roles
 
         public void EditFeatures(Guid createdby, List<Feature> features)
         {
-            RoleFeatures.Clear();
-            var roleFeatures = features.Select(x => new AppRoleFeatures(this.Id, x.Id, createdby)).ToList();
-            RoleFeatures = AppRoleFeaturesCollection.Create(roleFeatures).Value;
+            var toAdd = features.Where(f => RoleFeatures.Where(x => x.Feature.Id == f.Id).Count() == 0)
+                                            .Select(s => new AppRoleFeatures(this, s, createdby))
+                                            .ToList();
+
+            var toRemove = RoleFeatures.Where(f => features.Where(x => x.Id == f.FeatureId).Count() == 0)
+                                            .Select(s => new AppRoleFeatures(this.Id, s.FeatureId, createdby))
+                                            .ToList();
+
+
+            RoleFeatures.AddRange(toAdd);
+            RoleFeatures.RemoveRange(toRemove);
+            
         }
 
     }

@@ -28,13 +28,13 @@ namespace Identity.Api.Identity.Domain.Roles
             return Result.Success(new AppRoleFeaturesCollection(items));
         }
 
-        public static Result<AppRoleFeaturesCollection> Create(Guid createdBy,Guid roleId, List<Guid> featureIds)
+        public static Result<AppRoleFeaturesCollection> Create(Guid createdBy, Guid roleId, List<Guid> featureIds)
         {
             if (featureIds == null || featureIds.Count() == 0)
             {
                 return Result.Failure<AppRoleFeaturesCollection>("Empty roles list");
             }
-            var userRolesCollection = featureIds.Select(x => new AppRoleFeatures(createdBy,roleId, x)).ToList();
+            var userRolesCollection = featureIds.Select(x => new AppRoleFeatures(createdBy, roleId, x)).ToList();
             return Result.Success<AppRoleFeaturesCollection>(new AppRoleFeaturesCollection(userRolesCollection));
         }
 
@@ -76,6 +76,19 @@ namespace Identity.Api.Identity.Domain.Roles
                 array.SetValue(i, arrayIndex);
                 arrayIndex = arrayIndex + 1;
             }
+        }
+
+        internal void RemoveRange(List<AppRoleFeatures> featuresToRemove)
+        {
+            _items.RemoveAll(x => featuresToRemove
+                                     .Where(f => f.FeatureId == x.FeatureId
+                                             && f.RoleId == x.RoleId)
+                                     .Count() != 0);
+        }
+
+        internal void AddRange(List<AppRoleFeatures> featuresToAdd)
+        {
+            _items.AddRange(featuresToAdd);
         }
 
         public bool Remove(AppRoleFeatures item)

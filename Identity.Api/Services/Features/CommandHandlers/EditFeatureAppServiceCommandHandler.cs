@@ -27,7 +27,7 @@ namespace Identity.Api.Services.Features.CommandHandlers
         {
             var service = _appServiceRepository.FindByKey(command.AppServiceId);
             if (service == null)
-                throw new IdentityException("App Service not found");
+                throw new IdentityException("Service_not_found", "Service not found in database with the given Id");
 
             var feature = _featureRepository.FindByKey(command.FeatureId);
             if (feature == null)

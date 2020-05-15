@@ -54,7 +54,7 @@ namespace Identity.Api.Controllers
         }
 
         [HttpPost("DismissFeature")]
-        public IActionResult DismissFeature([FromBody] string roles)
+        public IActionResult RemoveFeature([FromBody] string roles)
         {
             throw new NotImplementedException();
         }

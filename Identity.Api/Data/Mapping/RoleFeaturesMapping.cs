@@ -19,6 +19,8 @@ namespace Identity.Api.Data.Mapping
                 a.Property(aa => aa.CreatedOn).HasColumnName("CreatedOn").HasDefaultValue(DateTime.Now).IsRequired(true);
                 a.Property(aa => aa.CreatedBy).HasColumnName("CreatedBy").HasDefaultValue(null).IsRequired(false);
             });
+            //builder.Property(a => a.CreatedOn).HasColumnName("CreatedOn").HasDefaultValue(DateTime.Now).IsRequired(true);
+            //builder.Property(a => a.CreatedBy).HasColumnName("CreatedBy").HasDefaultValue(null).IsRequired(false);
 
             builder.HasOne(a => a.Role)
                 .WithMany(a => a.RoleFeatures)
