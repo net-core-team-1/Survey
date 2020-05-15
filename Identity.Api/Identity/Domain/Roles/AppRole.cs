@@ -74,7 +74,16 @@ namespace Identity.Api.Identity.Domain.Roles
 
             RoleFeatures.AddRange(toAdd);
             RoleFeatures.RemoveRange(toRemove);
-            
+
+        }
+        internal void AssignFeature(Guid CreatedBy, Guid featureId)
+        {
+            RoleFeatures.Add(new AppRoleFeatures(this.Id, featureId, CreatedBy));
+        }
+
+        internal void RemoveFeature(Guid featureId)
+        {
+            RoleFeatures.Remove(new AppRoleFeatures(this.Id, featureId));
         }
 
     }

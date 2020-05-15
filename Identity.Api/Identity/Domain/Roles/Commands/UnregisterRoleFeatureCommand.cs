@@ -6,16 +6,15 @@ using System.Threading.Tasks;
 
 namespace Identity.Api.Identity.Domain.Roles.Commands
 {
-    public class RegisterRoleFeatureCommand : ICommand
+    public class UnregisterRoleFeatureCommand : ICommand
     {
         public Guid RoleId { get; }
         public Guid FeatureId { get; }
-        public Guid AssignedBy { get; }
-        public RegisterRoleFeatureCommand(Guid roleId, Guid featureId, Guid assignedBy)
+
+        public UnregisterRoleFeatureCommand(Guid roleId, Guid featureId)
         {
             RoleId = roleId;
             FeatureId = featureId;
-            AssignedBy = assignedBy;
         }
     }
 }

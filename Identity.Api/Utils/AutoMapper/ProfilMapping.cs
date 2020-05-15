@@ -31,7 +31,7 @@ namespace Identity.Api.Utils.AutoMapper
 
             CreateMap<EditUserRolesRequest, EditUserRolesCommad>();
             //CreateMap<EditRoleFeaturesRequest, EditRoleFeaturesCommand>();
-           
+
 
             CreateMap<RegisterFeatureRequest, RegisterFeatureCommand>();
             CreateMap<UnregisterFeatureRequest, UnRegisterFeatureCommand>();
@@ -42,7 +42,9 @@ namespace Identity.Api.Utils.AutoMapper
             CreateMap<EditRoleRequest, EditRoleCommand>();
             CreateMap<DisableRoleRequest, DisableRoleCommand>();
             CreateMap<UnregisterRoleRequest, UnregisterRoleCommand>();
+            CreateMap<EditRoleFeatureRequest, EditRoleFeatureCommand>();
             CreateMap<RegisterRoleFeatureRequest, RegisterRoleFeatureCommand>();
+            CreateMap<UnregisterRoleFeatureRequest, UnregisterRoleFeatureCommand>();
 
             CreateMap<RegisterAppServiceRequest, RegisterAppServiceCommand>();
             CreateMap<EditAppServiceRequest, EditAppServiceCommand>();

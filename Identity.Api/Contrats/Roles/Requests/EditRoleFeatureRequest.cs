@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace Identity.Api.Contrats.Roles.Requests
 {
-    public class RegisterRoleFeatureRequest
+    public class EditRoleFeatureRequest
     {
-        public Guid RoleId { get; set; }
-        public Guid FeatureId { get; set; }
         public Guid AssignedBy { get; set; }
+        public Guid RoleId { get; set; }
+        public List<Guid> Features { get; set; }
     }
 }

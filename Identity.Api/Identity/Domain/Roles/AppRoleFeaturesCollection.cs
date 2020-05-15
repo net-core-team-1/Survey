@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using Identity.Api.Exceptions;
 using Identity.Api.Identity.Domain.RoleFeature;
 using System;
 using System.Collections;
@@ -93,7 +94,8 @@ namespace Identity.Api.Identity.Domain.Roles
 
         public bool Remove(AppRoleFeatures item)
         {
-            return _items.Remove(item);
+            _items.RemoveAll(x => x.FeatureId == item.FeatureId);
+            return _items.Where(x => x.FeatureId == item.FeatureId).Count() == 0;
         }
         public IEnumerator<AppRoleFeatures> GetEnumerator()
         {

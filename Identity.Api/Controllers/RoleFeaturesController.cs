@@ -40,23 +40,27 @@ namespace Identity.Api.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit([FromBody] RegisterRoleFeatureRequest request)
+        public IActionResult Edit([FromBody] EditRoleFeatureRequest request)
+        {
+            var command = _mapper.Map<EditRoleFeatureCommand>(request);
+            _busPublisher.SendAsync(command);
+            return Ok(request);
+        }
+
+        [HttpPut]
+        public IActionResult AssignFeature([FromBody] RegisterRoleFeatureRequest request)
         {
             var command = _mapper.Map<RegisterRoleFeatureCommand>(request);
             _busPublisher.SendAsync(command);
             return Ok(request);
         }
 
-        [HttpPost("AssignFeature")]
-        public IActionResult AssignFeature([FromBody] string roles)
+        [HttpDelete]
+        public IActionResult RemoveFeature([FromBody] UnregisterRoleFeatureRequest request)
         {
-            throw new NotImplementedException();
-        }
-
-        [HttpPost("DismissFeature")]
-        public IActionResult RemoveFeature([FromBody] string roles)
-        {
-            throw new NotImplementedException();
+            var command = _mapper.Map<UnregisterRoleFeatureCommand>(request);
+            _busPublisher.SendAsync(command);
+            return Ok(request);
         }
     }
 }

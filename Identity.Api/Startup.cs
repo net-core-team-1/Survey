@@ -111,7 +111,9 @@ namespace Identity.Api
             subscriberBus.SubscribeCommand<EditRoleCommand>();
             subscriberBus.SubscribeCommand<DisableRoleCommand>();
             subscriberBus.SubscribeCommand<UnregisterRoleCommand>();
+            subscriberBus.SubscribeCommand<EditRoleFeatureCommand>();
             subscriberBus.SubscribeCommand<RegisterRoleFeatureCommand>();
+            subscriberBus.SubscribeCommand<UnregisterRoleFeatureCommand>();
 
             subscriberBus.SubscribeCommand<RegisterAppServiceCommand>();
             subscriberBus.SubscribeCommand<EditAppServiceCommand>();

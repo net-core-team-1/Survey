@@ -17,7 +17,7 @@ namespace Identity.Api.Identity.Domain.RoleFeature
         public virtual Feature Feature { get; protected set; }
 
         public AppRoleFeatures() { }
-        public AppRoleFeatures(Guid roleId, Guid featureId, Guid createdBy)
+        public AppRoleFeatures(Guid roleId, Guid featureId, Guid? createdBy=null)
         {
             RoleId = roleId;
             FeatureId = featureId;
