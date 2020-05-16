@@ -11,14 +11,14 @@ using System.Threading.Tasks;
 
 namespace Identity.Api.Services.Features.QueriesHandlers
 {
-    public class GetListFeaturesQueryHandler : IQueryHandler<GetListFeaturesQuery, FeaturesListResponse>
+    public class GetListFeatureByServiceHandler : IQueryHandler<GetListFeaturesByServiceQuery, FeaturesListResponse>
     {
         private readonly QueriesConnectionString _connectionString;
-        public GetListFeaturesQueryHandler(QueriesConnectionString queriesConnectionString)
+        public GetListFeatureByServiceHandler(QueriesConnectionString queriesConnectionString)
         {
             _connectionString = queriesConnectionString;
         }
-        public FeaturesListResponse Handle(GetListFeaturesQuery query)
+        public FeaturesListResponse Handle(GetListFeaturesByServiceQuery query)
         {
             string sql = @"
                     Select  f.Id as featureId,
@@ -28,11 +28,15 @@ namespace Identity.Api.Services.Features.QueriesHandlers
                             f.ControllerActionName,
                             f.Action,
                             f.ServiceId
-                    From [Identity].[Features] f";
+                    From [Identity].[Features] f
+                    WHERE f.ServiceId = @ServiceId";
 
             using (SqlConnection connection = new SqlConnection(_connectionString.Value))
             {
-                var result = connection.Query<FeatureResponse>(sql).ToList();
+                var result = connection.Query<FeatureResponse>(sql, new
+                {
+                    ServiceId = query.ServiceId
+                }).ToList();
                 return new FeaturesListResponse(result);
             }
         }

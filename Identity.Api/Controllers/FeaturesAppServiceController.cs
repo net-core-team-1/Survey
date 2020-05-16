@@ -7,6 +7,7 @@ using Common.Types.Types.ServiceBus;
 using Identity.Api.Contrat.AppServices.Requests;
 using Identity.Api.Identity.Domain.AppServices.Commands;
 using Identity.Api.Identity.Domain.Features.Commands;
+using Identity.Api.Identity.Domain.Features.Queries;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Survey.Common.Messages;
@@ -28,11 +29,10 @@ namespace Identity.Api.Controllers
             _dispatcher = dispatcher;
         }
 
-        [HttpGet("GetServiceFeatures")]
+        [HttpGet("GetFeatureListByService")]
         public IActionResult GetServiceFeatures(Guid serviceId)
         {
-            throw new NotImplementedException();
-            //return Ok(_dispatcher.Dispatch(new GetFeatureQuery(featureId)));
+            return Ok(_dispatcher.Dispatch(new GetListFeaturesByServiceQuery(serviceId)));
         }
 
         [HttpPut]

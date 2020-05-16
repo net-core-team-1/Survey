@@ -6,6 +6,7 @@ using AutoMapper;
 using Common.Types.Types.ServiceBus;
 using Identity.Api.Contrat.Roles.Requests;
 using Identity.Api.Contrats.Roles.Requests;
+using Identity.Api.Identity.Domain.Features.Queries;
 using Identity.Api.Identity.Domain.Roles.Commands;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -36,7 +37,7 @@ namespace Identity.Api.Controllers
         [HttpGet]
         public IActionResult GetRoleFeature(Guid roleId)
         {
-            throw new NotImplementedException();
+            return Ok(_dispatcher.Dispatch(new GetListFeaturesByRoleIdQuery(roleId)));
         }
 
         [HttpPost]

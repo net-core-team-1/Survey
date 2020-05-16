@@ -2,6 +2,7 @@
 using Identity.Api.Contrat.Features.Responses;
 using Identity.Api.Contrat.Roles.Responses;
 using Identity.Api.Contrat.Users.Responses;
+using Identity.Api.Contrats.Features.Responses;
 using Identity.Api.Identity.Domain.AppServices.Commands;
 using Identity.Api.Identity.Domain.Features.Commands;
 using Identity.Api.Identity.Domain.Features.Queries;
@@ -64,9 +65,11 @@ namespace Identity.Api.Extensions.CommandHandlersRegistration
 
             services.AddTransient<IQueryHandler<GetUserByIdQuery, UserResponse>, GetUserByIdQueryHandler>();
             services.AddTransient<IQueryHandler<GetRolesByUserIdQuery, UserRolesResponse>, GetRolesByUserIdQueryHandler>();
-            services.AddTransient<IQueryHandler<GetListFeaturesQuery, List<FeatureListResponse>>, GetListFeaturesQueryHandler>();
+            services.AddTransient<IQueryHandler<GetListFeaturesQuery, FeaturesListResponse>, GetListFeaturesQueryHandler>();
             services.AddTransient<IQueryHandler<GetFeatureQuery, FeatureResponse>, GetFeatureQueryHandler>();
-
+            services.AddTransient<IQueryHandler<GetListFeaturesByServiceQuery, FeaturesListResponse>, GetListFeatureByServiceHandler>();
+            services.AddTransient<IQueryHandler<GetListFeaturesByRoleIdQuery, FeaturesListResponse>, GetListFeaturesByRoleIdQueryHandler>();
+            
             services.AddTransient<IQueryHandler<GetRoleByIdQuery, RoleResponse>, GetRoleByIdQueryHandler>();
             services.AddTransient<IQueryHandler<GetAllRolesQuery, List<RoleListResponse>>, GetAllRolesQueryHandler>();
 

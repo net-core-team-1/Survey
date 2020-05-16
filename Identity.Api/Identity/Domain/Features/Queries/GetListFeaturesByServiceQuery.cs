@@ -8,8 +8,13 @@ using System.Threading.Tasks;
 
 namespace Identity.Api.Identity.Domain.Features.Queries
 {
-    public class GetListFeaturesQuery : IQuery<FeaturesListResponse>
+    public class GetListFeaturesByServiceQuery : IQuery<FeaturesListResponse>
     {
-        
+        public Guid ServiceId { get; }
+
+        public GetListFeaturesByServiceQuery(Guid serviceId)
+        {
+            ServiceId = serviceId;
+        }
     }
 }
