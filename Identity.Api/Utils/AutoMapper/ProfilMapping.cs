@@ -5,6 +5,7 @@ using Identity.Api.Contrat.Roles.Requests;
 using Identity.Api.Contrat.Structures.Requests;
 using Identity.Api.Contrat.Users.Requests;
 using Identity.Api.Contrats.Roles.Requests;
+using Identity.Api.Contrats.Structures.Requests;
 using Identity.Api.Contrats.Users.Requests;
 using Identity.Api.Identity.Domain.AppServices.Commands;
 using Identity.Api.Identity.Domain.Features.Commands;
@@ -30,8 +31,6 @@ namespace Identity.Api.Utils.AutoMapper
             CreateMap<UnregisterUserRoleRequest, UnregisterUserRoleCommand>();
 
             CreateMap<EditUserRolesRequest, EditUserRolesCommad>();
-            //CreateMap<EditRoleFeaturesRequest, EditRoleFeaturesCommand>();
-
 
             CreateMap<RegisterFeatureRequest, RegisterFeatureCommand>();
             CreateMap<UnregisterFeatureRequest, UnRegisterFeatureCommand>();
@@ -57,6 +56,9 @@ namespace Identity.Api.Utils.AutoMapper
             CreateMap<EditStructureRequest, EditStructureCommand>();
             CreateMap<DisableStructureRequest, DisableStructureCommand>();
             CreateMap<DeleteStructureRequest, DeleteStructureCommand>();
+            CreateMap<EditStructureUsersRequest, EditStructureUsersCommand>();
+            CreateMap<RegisterStructureUserRequest, RegisterStructureUserCommand>();
+            CreateMap<UnregisterUserStructureRequest, UnregisterStructureUserCommand>();
         }
     }
 }

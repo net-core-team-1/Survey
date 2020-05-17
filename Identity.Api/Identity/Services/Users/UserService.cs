@@ -89,6 +89,14 @@ namespace Survey.Identity.Services.Users
         {
             return await _userManager.FindByIdAsync(userId.ToString());
         }
+        public async Task<List<AppUser>> FindRoleByIdsAsync(List<Guid> userIds)
+        {
+            var result = _userManager.Users
+                                     .Where(x => userIds.Contains(x.Id))
+                                     .ToList();
+
+            return await Task.FromResult(result);
+        }
 
         public async Task<Result> AssignRolesAsync(Guid userId, List<Guid> roles)
         {
@@ -103,5 +111,6 @@ namespace Survey.Identity.Services.Users
 
             return Result.Ok();
         }
+
     }
 }

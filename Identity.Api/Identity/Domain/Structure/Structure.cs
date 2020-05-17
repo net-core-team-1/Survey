@@ -15,7 +15,7 @@ namespace Identity.Api.Identity.Domain.Structure
         public virtual DeleteInfo DeleteInfo { get; protected set; }
         public virtual StructureUsersCollection StructureUsers { get; protected set; }
 
-        protected Structure() { }
+        protected Structure() { StructureUsers = new StructureUsersCollection(); }
 
         public Structure(StructureInfo structureInfo, CreateInfo createInfo)
         {
@@ -26,7 +26,7 @@ namespace Identity.Api.Identity.Domain.Structure
             DeleteInfo = DeleteInfo.Create().Value;
         }
 
-        public void DisableService(DisabeleInfo disableInfo)
+        public void Disable(DisabeleInfo disableInfo)
         {
             DisableInfo = disableInfo;
         }
@@ -36,18 +36,32 @@ namespace Identity.Api.Identity.Domain.Structure
             StructureInfo = structureInfo;
         }
 
-        public void RemoveService(DeleteInfo deleteInfo)
+        public void Remove(DeleteInfo deleteInfo)
         {
             DeleteInfo = deleteInfo;
         }
 
-        public void RegisterFeature(StructureUsers structureUser)
+        internal void EditUsers(Guid assignedBy, List<Guid> users)
         {
+            var toAdd = users.Where(f => StructureUsers.Where(x => x.UserId == f).Count() == 0)
+                               .Select(s => new StructureUsers(this.Id, s))
+                               .ToList();
 
+            var toRemove = StructureUsers.Where(f => users.Where(x => x == f.UserId).Count() == 0)
+                                      .Select(s => new StructureUsers(this.Id, s.UserId))
+                                      .ToList();
+
+            StructureUsers.AddRange(toAdd);
+            StructureUsers.RemoveRange(toRemove);
         }
-        public void UnregisterFeature(StructureUsers structureUser)
-        {
 
+        public void UnregisterRegister(StructureUsers structureUser)
+        {
+            StructureUsers.Remove(structureUser);
+        }
+        public void RegisterUser(StructureUsers structureUser)
+        {
+            StructureUsers.Add(structureUser);
         }
         public void ClearFeatures()
         {

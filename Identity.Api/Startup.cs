@@ -126,8 +126,9 @@ namespace Identity.Api
             subscriberBus.SubscribeCommand<EditStructureCommand>();
             subscriberBus.SubscribeCommand<DisableStructureCommand>();
             subscriberBus.SubscribeCommand<DeleteStructureCommand>();
-
-            //subscriberBus.SubscribeCommand<EditRoleFeaturesCommand>();
+            subscriberBus.SubscribeCommand<EditStructureUsersCommand>();
+            subscriberBus.SubscribeCommand<RegisterStructureUserCommand>();
+            subscriberBus.SubscribeCommand<UnregisterStructureUserCommand>();
 
             subscriberBus.SubscribeEvent<UserRegistered>();
             subscriberBus.SubscribeEvent<UserUnregistred>();

@@ -77,6 +77,9 @@ namespace Identity.Api.Extensions.CommandHandlersRegistration
             services.AddTransient<ICommandHandler<EditStructureCommand>, EditStructureCommandHandler>();
             services.AddTransient<ICommandHandler<DeleteStructureCommand>, DeleteStructureCommandHandler>();
             services.AddTransient<ICommandHandler<DisableStructureCommand>, DisableStructureCommandHandler>();
+            services.AddTransient<ICommandHandler<EditStructureUsersCommand>, EditStructureUsersCommandHandler>();
+            services.AddTransient<ICommandHandler<RegisterStructureUserCommand>, RegisterStructureUserCommandHandler>();
+            services.AddTransient<ICommandHandler<UnregisterStructureUserCommand>, UnregisterStructureUserCommandHandler>();
 
             services.AddTransient<ICommandHandler<RegisterAppServiceCommand>, RegisterAppServiceCommandHandler>();
             services.AddTransient<ICommandHandler<EditAppServiceCommand>, EditAppServiceCommandHandler>();

@@ -27,7 +27,7 @@ namespace Identity.Api.Services.Structures.Commands
                 throw new IdentityException("Service not found");
 
             var disableInfoResult = DisabeleInfo.Create(true, command.DisabledBy).Validate();
-            structure.DisableService(disableInfoResult.Value);
+            structure.Disable(disableInfoResult.Value);
             _structureRepository.Save();
             return Task.FromResult(Result.Success());
         }

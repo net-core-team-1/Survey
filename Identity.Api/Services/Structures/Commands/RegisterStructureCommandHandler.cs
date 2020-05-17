@@ -1,5 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using Identity.Api.Data.Repositories.Structures;
+using Identity.Api.Exceptions;
 using Identity.Api.Identity.Domain;
 using Identity.Api.Identity.Domain.Structure;
 using Identity.Api.Identity.Domain.Structure.Commands;
@@ -23,6 +24,10 @@ namespace Identity.Api.Services.Structures.Commands
 
         public Task<Result> Handle(RegisterStructureCommand command)
         {
+            var count = _structureRepository.FindBy(x=>x.StructureInfo.Name==command.Name).Count();
+            if (count != 0)
+                throw new IdentityException("Structure already exist with this name");
+
             var structureInfoResult = StructureInfo.Create(command.Name,command.Description).Validate();
             var createdByResult = CreateInfo.Create(command.CreatedBy).Validate();
             var service = new Structure(structureInfoResult.Value, createdByResult.Value);

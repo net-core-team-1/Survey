@@ -1,4 +1,5 @@
-﻿using Identity.Api.Identity.Domain.Civilities;
+﻿using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
+using Identity.Api.Identity.Domain.Civilities;
 using Identity.Api.Identity.Domain.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -10,9 +11,11 @@ using System.Threading.Tasks;
 
 namespace Identity.Api.Data.Stores
 {
-    public class AppUserStore : IUserStore<AppUser>, IUserPasswordStore<AppUser>
+    public class AppUserStore : IUserStore<AppUser>, IUserPasswordStore<AppUser>, IQueryableUserStore<AppUser>
     {
         private readonly TransverseIdentityDbContext _context;
+
+        public IQueryable<AppUser> Users => _context.Users;
 
         public AppUserStore(TransverseIdentityDbContext context)
             : base()

@@ -27,7 +27,7 @@ namespace Identity.Api.Services.Structures.Commands
                 throw new IdentityException("Service not found");
 
             var deleteInfoResult = DeleteInfo.Create(true, command.DeletedBy, command.Reason).Validate();
-            structure.RemoveService(deleteInfoResult.Value);
+            structure.Remove(deleteInfoResult.Value);
             _structureRepository.Save();
             return Task.FromResult(Result.Success());
         }

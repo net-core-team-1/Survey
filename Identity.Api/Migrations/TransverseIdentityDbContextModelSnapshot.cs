@@ -37,7 +37,7 @@ namespace Identity.Api.Migrations
 
                     b.Property<DateTime>("AssociatedOn")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(new DateTime(2020, 5, 12, 18, 44, 36, 811, DateTimeKind.Utc).AddTicks(3484));
+                        .HasDefaultValue(new DateTime(2020, 5, 17, 15, 3, 52, 935, DateTimeKind.Utc).AddTicks(5204));
 
                     b.Property<bool>("Enabled")
                         .ValueGeneratedOnAdd()
@@ -308,7 +308,7 @@ namespace Identity.Api.Migrations
                             b1.HasOne("Identity.Api.Identity.Domain.AppServices.AppService")
                                 .WithOne("ServiceInfo")
                                 .HasForeignKey("Identity.Api.Identity.Domain.AppServices.AppServiceInfo", "AppServiceId")
-                                .OnDelete(DeleteBehavior.Restrict);
+                                .OnDelete(DeleteBehavior.Cascade);
                         });
 
                     b.OwnsOne("Identity.Api.Identity.Domain.CreateInfo", "CreationInfo", b1 =>
@@ -324,7 +324,7 @@ namespace Identity.Api.Migrations
                                 .IsRequired()
                                 .ValueGeneratedOnAdd()
                                 .HasColumnName("CreatedOn")
-                                .HasDefaultValue(new DateTime(2020, 5, 12, 20, 44, 36, 828, DateTimeKind.Local).AddTicks(7300));
+                                .HasDefaultValue(new DateTime(2020, 5, 17, 17, 3, 52, 940, DateTimeKind.Local).AddTicks(9307));
 
                             b1.HasKey("AppServiceId");
 
@@ -333,7 +333,7 @@ namespace Identity.Api.Migrations
                             b1.HasOne("Identity.Api.Identity.Domain.AppServices.AppService")
                                 .WithOne("CreationInfo")
                                 .HasForeignKey("Identity.Api.Identity.Domain.CreateInfo", "AppServiceId")
-                                .OnDelete(DeleteBehavior.Restrict);
+                                .OnDelete(DeleteBehavior.Cascade);
                         });
 
                     b.OwnsOne("Identity.Api.Identity.Domain.DeleteInfo", "DeleteInfo", b1 =>
@@ -368,7 +368,7 @@ namespace Identity.Api.Migrations
                             b1.HasOne("Identity.Api.Identity.Domain.AppServices.AppService")
                                 .WithOne("DeleteInfo")
                                 .HasForeignKey("Identity.Api.Identity.Domain.DeleteInfo", "AppServiceId")
-                                .OnDelete(DeleteBehavior.Restrict);
+                                .OnDelete(DeleteBehavior.Cascade);
                         });
 
                     b.OwnsOne("Identity.Api.Identity.Domain.DisabeleInfo", "DisableInfo", b1 =>
@@ -397,7 +397,7 @@ namespace Identity.Api.Migrations
                             b1.HasOne("Identity.Api.Identity.Domain.AppServices.AppService")
                                 .WithOne("DisableInfo")
                                 .HasForeignKey("Identity.Api.Identity.Domain.DisabeleInfo", "AppServiceId")
-                                .OnDelete(DeleteBehavior.Restrict);
+                                .OnDelete(DeleteBehavior.Cascade);
                         });
                 });
 
@@ -453,7 +453,7 @@ namespace Identity.Api.Migrations
                             b1.HasOne("Identity.Api.Identity.Domain.Features.Feature")
                                 .WithOne("FeatureInfo")
                                 .HasForeignKey("Identity.Api.Identity.Domain.Features.FeatureInfo", "FeatureId")
-                                .OnDelete(DeleteBehavior.Restrict);
+                                .OnDelete(DeleteBehavior.Cascade);
                         });
 
                     b.OwnsOne("Identity.Api.Identity.Domain.CreateInfo", "CreateInfo", b1 =>
@@ -469,7 +469,7 @@ namespace Identity.Api.Migrations
                                 .IsRequired()
                                 .ValueGeneratedOnAdd()
                                 .HasColumnName("CreatedOn")
-                                .HasDefaultValue(new DateTime(2020, 5, 12, 20, 44, 36, 757, DateTimeKind.Local).AddTicks(7559));
+                                .HasDefaultValue(new DateTime(2020, 5, 17, 17, 3, 52, 914, DateTimeKind.Local).AddTicks(4231));
 
                             b1.HasKey("FeatureId");
 
@@ -478,7 +478,7 @@ namespace Identity.Api.Migrations
                             b1.HasOne("Identity.Api.Identity.Domain.Features.Feature")
                                 .WithOne("CreateInfo")
                                 .HasForeignKey("Identity.Api.Identity.Domain.CreateInfo", "FeatureId")
-                                .OnDelete(DeleteBehavior.Restrict);
+                                .OnDelete(DeleteBehavior.Cascade);
                         });
 
                     b.OwnsOne("Identity.Api.Identity.Domain.DeleteInfo", "DeleteInfo", b1 =>
@@ -513,7 +513,7 @@ namespace Identity.Api.Migrations
                             b1.HasOne("Identity.Api.Identity.Domain.Features.Feature")
                                 .WithOne("DeleteInfo")
                                 .HasForeignKey("Identity.Api.Identity.Domain.DeleteInfo", "FeatureId")
-                                .OnDelete(DeleteBehavior.Restrict);
+                                .OnDelete(DeleteBehavior.Cascade);
                         });
 
                     b.OwnsOne("Identity.Api.Identity.Domain.DisabeleInfo", "DisabeleInfo", b1 =>
@@ -542,7 +542,7 @@ namespace Identity.Api.Migrations
                             b1.HasOne("Identity.Api.Identity.Domain.Features.Feature")
                                 .WithOne("DisabeleInfo")
                                 .HasForeignKey("Identity.Api.Identity.Domain.DisabeleInfo", "FeatureId")
-                                .OnDelete(DeleteBehavior.Restrict);
+                                .OnDelete(DeleteBehavior.Cascade);
                         });
                 });
 
@@ -573,7 +573,7 @@ namespace Identity.Api.Migrations
                                 .IsRequired()
                                 .ValueGeneratedOnAdd()
                                 .HasColumnName("CreatedOn")
-                                .HasDefaultValue(new DateTime(2020, 5, 12, 20, 44, 36, 800, DateTimeKind.Local).AddTicks(670));
+                                .HasDefaultValue(new DateTime(2020, 5, 17, 17, 3, 52, 931, DateTimeKind.Local).AddTicks(6110));
 
                             b1.HasKey("AppRoleFeaturesRoleId", "AppRoleFeaturesFeatureId");
 
@@ -582,7 +582,7 @@ namespace Identity.Api.Migrations
                             b1.HasOne("Identity.Api.Identity.Domain.RoleFeature.AppRoleFeatures")
                                 .WithOne("CreateInfo")
                                 .HasForeignKey("Identity.Api.Identity.Domain.CreateInfo", "AppRoleFeaturesRoleId", "AppRoleFeaturesFeatureId")
-                                .OnDelete(DeleteBehavior.Restrict);
+                                .OnDelete(DeleteBehavior.Cascade);
                         });
                 });
 
@@ -606,7 +606,7 @@ namespace Identity.Api.Migrations
                                 .IsRequired()
                                 .ValueGeneratedOnAdd()
                                 .HasColumnName("CreatedOn")
-                                .HasDefaultValue(new DateTime(2020, 5, 12, 20, 44, 36, 776, DateTimeKind.Local).AddTicks(7013));
+                                .HasDefaultValue(new DateTime(2020, 5, 17, 17, 3, 52, 923, DateTimeKind.Local).AddTicks(7665));
 
                             b1.HasKey("AppRoleId");
 
@@ -615,7 +615,7 @@ namespace Identity.Api.Migrations
                             b1.HasOne("Identity.Api.Identity.Domain.Roles.AppRole")
                                 .WithOne("CreateInfo")
                                 .HasForeignKey("Identity.Api.Identity.Domain.CreateInfo", "AppRoleId")
-                                .OnDelete(DeleteBehavior.Restrict);
+                                .OnDelete(DeleteBehavior.Cascade);
                         });
 
                     b.OwnsOne("Identity.Api.Identity.Domain.DeleteInfo", "DeleteInfo", b1 =>
@@ -650,7 +650,7 @@ namespace Identity.Api.Migrations
                             b1.HasOne("Identity.Api.Identity.Domain.Roles.AppRole")
                                 .WithOne("DeleteInfo")
                                 .HasForeignKey("Identity.Api.Identity.Domain.DeleteInfo", "AppRoleId")
-                                .OnDelete(DeleteBehavior.Restrict);
+                                .OnDelete(DeleteBehavior.Cascade);
                         });
 
                     b.OwnsOne("Identity.Api.Identity.Domain.DisabeleInfo", "DisableInfo", b1 =>
@@ -679,7 +679,7 @@ namespace Identity.Api.Migrations
                             b1.HasOne("Identity.Api.Identity.Domain.Roles.AppRole")
                                 .WithOne("DisableInfo")
                                 .HasForeignKey("Identity.Api.Identity.Domain.DisabeleInfo", "AppRoleId")
-                                .OnDelete(DeleteBehavior.Restrict);
+                                .OnDelete(DeleteBehavior.Cascade);
                         });
                 });
 
@@ -714,7 +714,7 @@ namespace Identity.Api.Migrations
                             b1.HasOne("Identity.Api.Identity.Domain.Structure.Structure")
                                 .WithOne("StructureInfo")
                                 .HasForeignKey("Identity.Api.Identity.Domain.Structure.StructureInfo", "StructureId")
-                                .OnDelete(DeleteBehavior.Restrict);
+                                .OnDelete(DeleteBehavior.Cascade);
                         });
 
                     b.OwnsOne("Identity.Api.Identity.Domain.CreateInfo", "CreateInfo", b1 =>
@@ -730,7 +730,7 @@ namespace Identity.Api.Migrations
                                 .IsRequired()
                                 .ValueGeneratedOnAdd()
                                 .HasColumnName("CreatedOn")
-                                .HasDefaultValue(new DateTime(2020, 5, 12, 20, 44, 36, 844, DateTimeKind.Local).AddTicks(9363));
+                                .HasDefaultValue(new DateTime(2020, 5, 17, 17, 3, 52, 948, DateTimeKind.Local).AddTicks(6070));
 
                             b1.HasKey("StructureId");
 
@@ -739,7 +739,7 @@ namespace Identity.Api.Migrations
                             b1.HasOne("Identity.Api.Identity.Domain.Structure.Structure")
                                 .WithOne("CreateInfo")
                                 .HasForeignKey("Identity.Api.Identity.Domain.CreateInfo", "StructureId")
-                                .OnDelete(DeleteBehavior.Restrict);
+                                .OnDelete(DeleteBehavior.Cascade);
                         });
 
                     b.OwnsOne("Identity.Api.Identity.Domain.DeleteInfo", "DeleteInfo", b1 =>
@@ -774,7 +774,7 @@ namespace Identity.Api.Migrations
                             b1.HasOne("Identity.Api.Identity.Domain.Structure.Structure")
                                 .WithOne("DeleteInfo")
                                 .HasForeignKey("Identity.Api.Identity.Domain.DeleteInfo", "StructureId")
-                                .OnDelete(DeleteBehavior.Restrict);
+                                .OnDelete(DeleteBehavior.Cascade);
                         });
 
                     b.OwnsOne("Identity.Api.Identity.Domain.DisabeleInfo", "DisableInfo", b1 =>
@@ -803,7 +803,7 @@ namespace Identity.Api.Migrations
                             b1.HasOne("Identity.Api.Identity.Domain.Structure.Structure")
                                 .WithOne("DisableInfo")
                                 .HasForeignKey("Identity.Api.Identity.Domain.DisabeleInfo", "StructureId")
-                                .OnDelete(DeleteBehavior.Restrict);
+                                .OnDelete(DeleteBehavior.Cascade);
                         });
                 });
 
@@ -846,7 +846,7 @@ namespace Identity.Api.Migrations
                             b1.HasOne("Identity.Api.Identity.Domain.Users.AppUser")
                                 .WithOne("FullName")
                                 .HasForeignKey("Identity.Api.Identity.Domain.FullName", "AppUserId")
-                                .OnDelete(DeleteBehavior.Restrict);
+                                .OnDelete(DeleteBehavior.Cascade);
                         });
 
                     b.OwnsOne("Identity.Api.Identity.Domain.DeleteInfo", "DeleteInfo", b1 =>
@@ -881,7 +881,7 @@ namespace Identity.Api.Migrations
                             b1.HasOne("Identity.Api.Identity.Domain.Users.AppUser")
                                 .WithOne("DeleteInfo")
                                 .HasForeignKey("Identity.Api.Identity.Domain.DeleteInfo", "AppUserId")
-                                .OnDelete(DeleteBehavior.Restrict);
+                                .OnDelete(DeleteBehavior.Cascade);
                         });
                 });
 

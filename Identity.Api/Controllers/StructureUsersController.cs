@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Common.Types.Types.ServiceBus;
 using Identity.Api.Contrat.Structures.Requests;
+using Identity.Api.Contrats.Structures.Requests;
+using Identity.Api.Identity.Domain.Structure.Commands;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Survey.Common.Messages;
@@ -33,32 +35,29 @@ namespace Identity.Api.Controllers
             //return Ok(_dispatcher.Dispatch(new GetFeatureQuery(featureId)));
         }
 
-        [HttpGet("GetFeatureList")]
-        public IActionResult GetFeatureList()
+        [HttpPut]
+        public IActionResult Edit([FromBody] EditStructureUsersRequest request)
         {
-            throw new NotImplementedException();
-            // return Ok(_dispatcher.Dispatch(new GetListFeaturesQuery()));
+            var command = _mapper.Map<EditStructureUsersCommand>(request);
+            _busPublisher.SendAsync(command);
+            return Ok(request);
         }
 
         [HttpPost()]
-        public IActionResult Register([FromBody] RegisterStructureRequest request)
+        public IActionResult Register([FromBody] RegisterStructureUserRequest request)
         {
-            throw new NotImplementedException();
-            //var command = _mapper.Map<RegisterFeatureCommand>(request);
-
-            //_busPublisher.SendAsync(command);
-            //return Ok(request);
+            var command = _mapper.Map<RegisterStructureUserCommand>(request);
+            _busPublisher.SendAsync(command);
+            return Ok(request);
         }
 
-        [HttpPut]
-        public IActionResult Edit([FromBody] EditStructureRequest request)
+        [HttpDelete()]
+        public IActionResult Unregister([FromBody] UnregisterUserStructureRequest request)
         {
-            throw new NotImplementedException();
-            //var command = _mapper.Map<EditFeatureCommand>(request);
-            //_busPublisher.SendAsync(command);
-            //return Ok(request);
+            var command = _mapper.Map<UnregisterStructureUserCommand>(request);
+            _busPublisher.SendAsync(command);
+            return Ok(request);
         }
 
-        
     }
 }

@@ -19,7 +19,7 @@ namespace Identity.Api.Migrations
                     Id = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(maxLength: 50, nullable: false),
                     Description = table.Column<string>(maxLength: 250, nullable: false),
-                    CreatedOn = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2020, 5, 12, 20, 44, 36, 828, DateTimeKind.Local).AddTicks(7300)),
+                    CreatedOn = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2020, 5, 17, 17, 3, 52, 940, DateTimeKind.Local).AddTicks(9307)),
                     CreatedBy = table.Column<Guid>(nullable: true),
                     DeletedBy = table.Column<Guid>(nullable: true),
                     DeletedOn = table.Column<DateTime>(nullable: true),
@@ -57,7 +57,7 @@ namespace Identity.Api.Migrations
                     Id = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(maxLength: 50, nullable: false),
                     Description = table.Column<string>(maxLength: 250, nullable: false),
-                    CreatedOn = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2020, 5, 12, 20, 44, 36, 844, DateTimeKind.Local).AddTicks(9363)),
+                    CreatedOn = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2020, 5, 17, 17, 3, 52, 948, DateTimeKind.Local).AddTicks(6070)),
                     CreatedBy = table.Column<Guid>(nullable: true),
                     DisabledOn = table.Column<DateTime>(nullable: true),
                     DisabledBy = table.Column<Guid>(nullable: true),
@@ -84,7 +84,7 @@ namespace Identity.Api.Migrations
                     Controller = table.Column<string>(maxLength: 50, nullable: false),
                     ControllerActionName = table.Column<string>(nullable: true),
                     Action = table.Column<string>(maxLength: 50, nullable: false),
-                    CreatedOn = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2020, 5, 12, 20, 44, 36, 757, DateTimeKind.Local).AddTicks(7559)),
+                    CreatedOn = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2020, 5, 17, 17, 3, 52, 914, DateTimeKind.Local).AddTicks(4231)),
                     CreatedBy = table.Column<Guid>(nullable: true),
                     DisabledOn = table.Column<DateTime>(nullable: true),
                     DisabledBy = table.Column<Guid>(nullable: true),
@@ -117,7 +117,7 @@ namespace Identity.Api.Migrations
                     NormalizedName = table.Column<string>(maxLength: 256, nullable: true),
                     ConcurrencyStamp = table.Column<string>(nullable: true),
                     Description = table.Column<string>(maxLength: 250, nullable: true),
-                    CreatedOn = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2020, 5, 12, 20, 44, 36, 776, DateTimeKind.Local).AddTicks(7013)),
+                    CreatedOn = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2020, 5, 17, 17, 3, 52, 923, DateTimeKind.Local).AddTicks(7665)),
                     CreatedBy = table.Column<Guid>(nullable: true),
                     DisabledOn = table.Column<DateTime>(nullable: true),
                     DisabledBy = table.Column<Guid>(nullable: true),
@@ -210,7 +210,7 @@ namespace Identity.Api.Migrations
                 {
                     RoleId = table.Column<Guid>(nullable: false),
                     FeatureId = table.Column<Guid>(nullable: false),
-                    CreatedOn = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2020, 5, 12, 20, 44, 36, 800, DateTimeKind.Local).AddTicks(670)),
+                    CreatedOn = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2020, 5, 17, 17, 3, 52, 931, DateTimeKind.Local).AddTicks(6110)),
                     CreatedBy = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
@@ -328,7 +328,7 @@ namespace Identity.Api.Migrations
                     UserId = table.Column<Guid>(nullable: false),
                     RoleId = table.Column<Guid>(nullable: false),
                     Enabled = table.Column<bool>(nullable: false, defaultValue: true),
-                    AssociatedOn = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2020, 5, 12, 18, 44, 36, 811, DateTimeKind.Utc).AddTicks(3484))
+                    AssociatedOn = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2020, 5, 17, 15, 3, 52, 935, DateTimeKind.Utc).AddTicks(5204))
                 },
                 constraints: table =>
                 {
