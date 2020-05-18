@@ -3,12 +3,15 @@ using Identity.Api.Contrat.Features.Responses;
 using Identity.Api.Contrat.Roles.Responses;
 using Identity.Api.Contrat.Users.Responses;
 using Identity.Api.Contrats.Features.Responses;
+using Identity.Api.Contrats.Structures.Responses;
+using Identity.Api.Contrats.Users.Responses.UserStructures;
 using Identity.Api.Identity.Domain.AppServices.Commands;
 using Identity.Api.Identity.Domain.Features.Commands;
 using Identity.Api.Identity.Domain.Features.Queries;
 using Identity.Api.Identity.Domain.Roles.Commands;
 using Identity.Api.Identity.Domain.Roles.Queries;
-using Identity.Api.Identity.Domain.Structure.Commands;
+using Identity.Api.Identity.Domain.Structures.Commands;
+using Identity.Api.Identity.Domain.Structures.Queries;
 using Identity.Api.Identity.Domain.Users.Commands;
 using Identity.Api.Identity.Domain.Users.Events;
 using Identity.Api.Identity.Domain.Users.Queries;
@@ -20,6 +23,7 @@ using Identity.Api.Services.HandlersDecorators;
 using Identity.Api.Services.Roles.CommandHandlers;
 using Identity.Api.Services.Roles.Queries;
 using Identity.Api.Services.Structures.Commands;
+using Identity.Api.Services.Structures.QueryHandlers;
 using Identity.Api.Services.Users.CommandHandlers;
 using Identity.Api.Services.Users.QuerieHandlers;
 using Microsoft.Extensions.DependencyInjection;
@@ -48,8 +52,6 @@ namespace Identity.Api.Extensions.CommandHandlersRegistration
             services.AddTransient<ICommandHandler<RegisterUserRoleCommand>, RegisterUserRoleCommandHandler>();
             services.AddTransient<ICommandHandler<UnregisterUserRoleCommand>, UnregisterUserRoleCommandHandler>();
 
-            //services.AddTransient<ICommandHandler<EditRoleFeaturesCommand>, EditRoleFeaturesCommandHandler>();
-
             services.AddTransient<ICommandHandler<RegisterFeatureCommand>, RegisterFeatureCommandHandler>();
             services.AddTransient<ICommandHandler<UnRegisterFeatureCommand>, UnregisterFeatureCommandHandler>();
             services.AddTransient<ICommandHandler<DisableFeatureCommand>, DisableFeatureCommandHandler>();
@@ -69,7 +71,8 @@ namespace Identity.Api.Extensions.CommandHandlersRegistration
             services.AddTransient<IQueryHandler<GetFeatureQuery, FeatureResponse>, GetFeatureQueryHandler>();
             services.AddTransient<IQueryHandler<GetListFeaturesByServiceQuery, FeaturesListResponse>, GetListFeatureByServiceHandler>();
             services.AddTransient<IQueryHandler<GetListFeaturesByRoleIdQuery, FeaturesListResponse>, GetListFeaturesByRoleIdQueryHandler>();
-            
+            services.AddTransient<IQueryHandler<GetUserStructuresById, UserStructureResponse>, GetUserStructuresByIdHandler>();
+
             services.AddTransient<IQueryHandler<GetRoleByIdQuery, RoleResponse>, GetRoleByIdQueryHandler>();
             services.AddTransient<IQueryHandler<GetAllRolesQuery, List<RoleListResponse>>, GetAllRolesQueryHandler>();
 
@@ -80,6 +83,9 @@ namespace Identity.Api.Extensions.CommandHandlersRegistration
             services.AddTransient<ICommandHandler<EditStructureUsersCommand>, EditStructureUsersCommandHandler>();
             services.AddTransient<ICommandHandler<RegisterStructureUserCommand>, RegisterStructureUserCommandHandler>();
             services.AddTransient<ICommandHandler<UnregisterStructureUserCommand>, UnregisterStructureUserCommandHandler>();
+            services.AddTransient<IQueryHandler<GetStructureByIdQuery, StructureResponse>, GetStructureByIdQueryHandler>();
+            services.AddTransient<IQueryHandler<GetStructureListQuery, StructureListResponse>, GetStructureListQueryHandler>();
+            services.AddTransient<IQueryHandler<GetStructureUsersQuery, StructureUserResponse>, GetStructureUsersQueryHandler>();
 
             services.AddTransient<ICommandHandler<RegisterAppServiceCommand>, RegisterAppServiceCommandHandler>();
             services.AddTransient<ICommandHandler<EditAppServiceCommand>, EditAppServiceCommandHandler>();

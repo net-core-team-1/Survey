@@ -5,7 +5,7 @@ using Identity.Api.Identity.Domain.Civilities;
 using Identity.Api.Identity.Domain.Features;
 using Identity.Api.Identity.Domain.RoleFeature;
 using Identity.Api.Identity.Domain.Roles;
-using Identity.Api.Identity.Domain.Structure;
+using Identity.Api.Identity.Domain.Structures;
 using Identity.Api.Identity.Domain.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;

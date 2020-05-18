@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Identity.Api.Identity.Domain.Structure.Commands
+namespace Identity.Api.Identity.Domain.Structures.Commands
 {
     public class DeleteStructureCommand : ICommand
     {

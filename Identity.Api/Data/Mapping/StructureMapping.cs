@@ -1,4 +1,4 @@
-﻿using Identity.Api.Identity.Domain.Structure;
+﻿using Identity.Api.Identity.Domain.Structures;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;

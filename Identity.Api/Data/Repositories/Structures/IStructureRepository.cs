@@ -1,4 +1,4 @@
-﻿using Identity.Api.Identity.Domain.Structure;
+﻿using Identity.Api.Identity.Domain.Structures;
 using System;
 using System.Collections.Generic;
 using System.Linq;

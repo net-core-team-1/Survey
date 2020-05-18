@@ -6,7 +6,9 @@ using AutoMapper;
 using Common.Types.Types.ServiceBus;
 using Identity.Api.Contrat.Structures.Requests;
 using Identity.Api.Contrats.Structures.Requests;
-using Identity.Api.Identity.Domain.Structure.Commands;
+using Identity.Api.Identity.Domain.Structures.Commands;
+using Identity.Api.Identity.Domain.Structures.Queries;
+using Identity.Api.Identity.Domain.Users.Queries;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Survey.Common.Messages;
@@ -28,11 +30,16 @@ namespace Identity.Api.Controllers
             _dispatcher = dispatcher;
         }
 
-        [HttpGet("GetFeature")]
+        [HttpGet("GetUserStructures")]
+        public IActionResult GetUserStructures(Guid userId)
+        {
+            return Ok(_dispatcher.Dispatch(new GetUserStructuresById(userId)));
+        }
+
+        [HttpGet("GetStructureUsers")]
         public IActionResult GetStructureUsers(Guid structureId)
         {
-            throw new NotImplementedException();
-            //return Ok(_dispatcher.Dispatch(new GetFeatureQuery(featureId)));
+            return Ok(_dispatcher.Dispatch(new GetStructureUsersQuery(structureId)));
         }
 
         [HttpPut]

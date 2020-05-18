@@ -3,7 +3,7 @@ using Identity.Api.Identity.Domain.AppServices;
 using Identity.Api.Identity.Domain.AppUserRoles;
 using Identity.Api.Identity.Domain.Civilities;
 using Identity.Api.Identity.Domain.Roles;
-using Identity.Api.Identity.Domain.Structure;
+using Identity.Api.Identity.Domain.Structures;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -30,7 +30,9 @@ namespace Identity.Api.Identity.Domain.Users
 
         protected AppUser()
         {
+            this.Id = Guid.NewGuid();
             UserRoles = new AppUserRoleCollection();
+            StructureUsers = new StructureUsersCollection();
         }
         public AppUser(Guid UserId)
             : this()
@@ -54,6 +56,7 @@ namespace Identity.Api.Identity.Domain.Users
             this.FullName = fullName;
             this.Civility = civility;
         }
+
         internal void MarkAsDeleted(DeleteInfo deleteInfo)
         {
             DeleteInfo = deleteInfo;
@@ -71,7 +74,12 @@ namespace Identity.Api.Identity.Domain.Users
         }
         public void RemoveRole(AppUserRole appUserRole)
         {
-            UserRoles.Value.RemoveAll(x=>x.RoleId == appUserRole.RoleId);
+            UserRoles.Value.RemoveAll(x => x.RoleId == appUserRole.RoleId);
         }
+        internal void AssignToStructure(Structure structure)
+        {
+            StructureUsers.Add(new StructureUsers(structure.Id, this.Id));
+        }
+
     }
 }

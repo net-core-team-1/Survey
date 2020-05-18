@@ -2,8 +2,8 @@
 using Identity.Api.Data.Repositories.Structures;
 using Identity.Api.Exceptions;
 using Identity.Api.Identity.Domain;
-using Identity.Api.Identity.Domain.Structure;
-using Identity.Api.Identity.Domain.Structure.Commands;
+using Identity.Api.Identity.Domain.Structures;
+using Identity.Api.Identity.Domain.Structures.Commands;
 using Identity.Api.Utils.ResultValidator;
 using Survey.Common.Types;
 using System;
@@ -30,8 +30,8 @@ namespace Identity.Api.Services.Structures.Commands
 
             var structureInfoResult = StructureInfo.Create(command.Name,command.Description).Validate();
             var createdByResult = CreateInfo.Create(command.CreatedBy).Validate();
-            var service = new Structure(structureInfoResult.Value, createdByResult.Value);
-            _structureRepository.Insert(service);
+            var structure = new Structure(structureInfoResult.Value, createdByResult.Value);
+            _structureRepository.Insert(structure);
             _structureRepository.Save();
             return Task.FromResult(Result.Success());
         }

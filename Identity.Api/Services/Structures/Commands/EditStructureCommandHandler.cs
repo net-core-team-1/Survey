@@ -1,8 +1,8 @@
 ﻿using CSharpFunctionalExtensions;
 using Identity.Api.Exceptions;
 using Identity.Api.Data.Repositories.Structures;
-using Identity.Api.Identity.Domain.Structure;
-using Identity.Api.Identity.Domain.Structure.Commands;
+using Identity.Api.Identity.Domain.Structures;
+using Identity.Api.Identity.Domain.Structures.Commands;
 using Identity.Api.Utils.ResultValidator;
 using Survey.Common.Types;
 using System;

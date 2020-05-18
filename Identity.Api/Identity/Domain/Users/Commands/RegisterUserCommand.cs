@@ -13,13 +13,14 @@ namespace Identity.Api.Identity.Domain.Users.Commands
         public string LastName { get; }
         public string Email { get; }
         public int CivilityId { get; }
+        public Guid StructureId { get; }
         public string Password { get; }
         public List<Guid> Permissions { get; }
 
         public RegisterUserCommand(
             string userName,
             string firstName, string lastName, string email,
-            string password, int civilityId, List<Guid> permissions)
+            string password, int civilityId, List<Guid> permissions, Guid structureId)
         {
             UserName = userName;
             FirstName = firstName;
@@ -28,6 +29,7 @@ namespace Identity.Api.Identity.Domain.Users.Commands
             Password = password;
             CivilityId = civilityId;
             Permissions = permissions;
+            StructureId = structureId;
         }
     }
 }

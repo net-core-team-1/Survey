@@ -7,7 +7,7 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
-namespace Identity.Api.Identity.Domain.Structure
+namespace Identity.Api.Identity.Domain.Structures
 {
     public class StructureUsersCollection : ICollection<StructureUsers>
     {
@@ -23,7 +23,7 @@ namespace Identity.Api.Identity.Domain.Structure
         {
             if (items == null || items.Count() == 0)
             {
-                return Result.Failure<StructureUsersCollection>("Empty feature list");
+                return Result.Failure<StructureUsersCollection>("Empty users list");
             }
 
             return Result.Success<StructureUsersCollection>(

@@ -13,7 +13,7 @@ namespace Identity.Api.Contrat.Users.Requests
         public string Email { get; set; }
         public int CivilityId { get; set; }
         public string Password { get; set; }
-
+        public Guid StructureId { get; set; }
         public List<Guid> Permissions { get; set; }
 
         public RegisterUserRequest()

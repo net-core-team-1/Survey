@@ -10,7 +10,7 @@ using Identity.Api.Contrats.Users.Requests;
 using Identity.Api.Identity.Domain.AppServices.Commands;
 using Identity.Api.Identity.Domain.Features.Commands;
 using Identity.Api.Identity.Domain.Roles.Commands;
-using Identity.Api.Identity.Domain.Structure.Commands;
+using Identity.Api.Identity.Domain.Structures.Commands;
 using Identity.Api.Identity.Domain.Users.Commands;
 using Identity.Api.Identity.Domain.Users.Queries;
 using System;

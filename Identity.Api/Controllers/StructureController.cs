@@ -5,7 +5,8 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Common.Types.Types.ServiceBus;
 using Identity.Api.Contrat.Structures.Requests;
-using Identity.Api.Identity.Domain.Structure.Commands;
+using Identity.Api.Identity.Domain.Structures.Commands;
+using Identity.Api.Identity.Domain.Structures.Queries;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Survey.Common.Messages;
@@ -30,15 +31,13 @@ namespace Identity.Api.Controllers
         [HttpGet("GetStructure")]
         public IActionResult GetStructure(Guid structureId)
         {
-            throw new NotImplementedException();
-            //return Ok(_dispatcher.Dispatch(new GetFeatureQuery(featureId)));
+            return Ok(_dispatcher.Dispatch(new GetStructureByIdQuery(structureId)));
         }
 
         [HttpGet("GetStructrueList")]
         public IActionResult GetAllStructures()
         {
-            throw new NotImplementedException();
-            //return Ok(_dispatcher.Dispatch(new GetListFeaturesQuery()));
+            return Ok(_dispatcher.Dispatch(new GetStructureListQuery()));
         }
 
         [HttpPost()]
