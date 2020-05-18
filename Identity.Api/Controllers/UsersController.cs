@@ -43,6 +43,16 @@ namespace Identity.Api.Controllers
             return Ok(user);
         }
 
+        [HttpGet("GetUserInfo")]
+        public IActionResult GetUserInfo(Guid userId)
+        {
+            var user = _dispatcher.Dispatch(new GetUserPermissionsInfoByIdQuery(userId));
+            if (user == null)
+                return NotFound("user not found");
+            return Ok(user);
+        }
+
+
         [HttpPost()]
         public IActionResult Register([FromBody] RegisterUserRequest registerRequest)
         {

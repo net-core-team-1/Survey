@@ -23,7 +23,7 @@ namespace Identity.Api.Services.Users.QuerieHandlers
             {
                 var response = new UserStructureResponse();
                 response.Structures = connection.Query<Guid>(
-                          "select UserId from [Identity].[StructureUsers] where UserId = @Id",
+                          "select StructureId from [Identity].[StructureUsers] where UserId = @Id",
                            new { Id = query.UserId }).ToList();
 
                 return response;

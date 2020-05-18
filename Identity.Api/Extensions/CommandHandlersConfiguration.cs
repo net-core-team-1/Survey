@@ -4,6 +4,7 @@ using Identity.Api.Contrat.Roles.Responses;
 using Identity.Api.Contrat.Users.Responses;
 using Identity.Api.Contrats.Features.Responses;
 using Identity.Api.Contrats.Structures.Responses;
+using Identity.Api.Contrats.Users.Responses.UserInfo;
 using Identity.Api.Contrats.Users.Responses.UserStructures;
 using Identity.Api.Identity.Domain.AppServices.Commands;
 using Identity.Api.Identity.Domain.Features.Commands;
@@ -43,14 +44,20 @@ namespace Identity.Api.Extensions.CommandHandlersRegistration
             services.AddTransient<IRejectedEvent<RegisterUserCommand>, UserRegistrationRejected>();
             services.DecoratorFor<ICommandHandler<RegisterUserCommand>>()
                 .Default<RegisterUserCommandHandler>()
-                .Envelop((provider, createCustomerHandler) => new RejectedEventOnErrorDecorator<RegisterUserCommand>
-                                                                   (createCustomerHandler, provider.GetService<IRejectedEvent<RegisterUserCommand>>(), provider.GetService<IBusPublisher>()))
+                .Envelop((provider, createCustomerHandler) => 
+                new RejectedEventOnErrorDecorator<RegisterUserCommand>
+                     (createCustomerHandler, provider.GetService<IRejectedEvent<RegisterUserCommand>>()
+                     , provider.GetService<IBusPublisher>()))
                 .Register();
+
             services.AddTransient<ICommandHandler<UnregisterUserCommand>, UnregisterUserCommandHandler>();
             services.AddTransient<ICommandHandler<EditUserCommand>, EditUserCommandHandler>();
             services.AddTransient<ICommandHandler<EditUserRolesCommad>, EditUserRolesCommadHandler>();
             services.AddTransient<ICommandHandler<RegisterUserRoleCommand>, RegisterUserRoleCommandHandler>();
             services.AddTransient<ICommandHandler<UnregisterUserRoleCommand>, UnregisterUserRoleCommandHandler>();
+            services.AddTransient<IQueryHandler<GetUserByIdQuery, UserResponse>, GetUserByIdQueryHandler>();
+            services.AddTransient<IQueryHandler<GetRolesByUserIdQuery, UserRolesResponse>, GetRolesByUserIdQueryHandler>();
+            services.AddTransient<IQueryHandler<GetUserPermissionsInfoByIdQuery, UserPermissionInfoResponse>, GetUserPermissionsInfoByIdQueryHandler>();
 
             services.AddTransient<ICommandHandler<RegisterFeatureCommand>, RegisterFeatureCommandHandler>();
             services.AddTransient<ICommandHandler<UnRegisterFeatureCommand>, UnregisterFeatureCommandHandler>();
@@ -65,8 +72,6 @@ namespace Identity.Api.Extensions.CommandHandlersRegistration
             services.AddTransient<ICommandHandler<RegisterRoleFeatureCommand>, RegisterRoleFeatureCommandHandler>();
             services.AddTransient<ICommandHandler<UnregisterRoleFeatureCommand>, UnregisterRoleFeatureCommandHandler>();
 
-            services.AddTransient<IQueryHandler<GetUserByIdQuery, UserResponse>, GetUserByIdQueryHandler>();
-            services.AddTransient<IQueryHandler<GetRolesByUserIdQuery, UserRolesResponse>, GetRolesByUserIdQueryHandler>();
             services.AddTransient<IQueryHandler<GetListFeaturesQuery, FeaturesListResponse>, GetListFeaturesQueryHandler>();
             services.AddTransient<IQueryHandler<GetFeatureQuery, FeatureResponse>, GetFeatureQueryHandler>();
             services.AddTransient<IQueryHandler<GetListFeaturesByServiceQuery, FeaturesListResponse>, GetListFeatureByServiceHandler>();
