@@ -15,10 +15,11 @@ namespace Identity.Api.Identity.Domain.Users.Commands
         public string Email { get; }
         public int CivilityId { get; }
         public Guid StructureId { get; }
+        public List<Guid> Permissions { get; }
 
         [FieldAnonymizer("Value Anonymized")]
-        public string Password { get; set; }
-        public List<Guid> Permissions { get; }
+        private string password;
+        public string Password { get { return password; } }
 
         public RegisterUserCommand(
             string userName,
@@ -29,7 +30,7 @@ namespace Identity.Api.Identity.Domain.Users.Commands
             FirstName = firstName;
             LastName = lastName;
             Email = email;
-            Password = password;
+            this.password = password;
             CivilityId = civilityId;
             Permissions = permissions;
             StructureId = structureId;

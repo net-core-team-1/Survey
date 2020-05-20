@@ -31,12 +31,14 @@ namespace Survey.Common.CQRS.Events
 
         public static T AnnonymizeSensitiveData(T command)
         {
-            foreach (PropertyInfo prop in typeof(T).GetProperties())
-                foreach (object attr in prop.GetCustomAttributes(true))
+            //T instance = (T)Activator.CreateInstance(typeof(T));
+            foreach (FieldInfo field in typeof(T).GetFields(BindingFlags.NonPublic| BindingFlags.Instance))
+              
+                foreach (object attr in field.GetCustomAttributes(true))
                 {
                     FieldAnonymizerAttribute authAttr = attr as FieldAnonymizerAttribute;
                     if (authAttr != null)
-                        prop.SetValue(command, authAttr.anonymizeValue);
+                        field.SetValue(command, authAttr.anonymizeValue);
                 }
             return command;
         }

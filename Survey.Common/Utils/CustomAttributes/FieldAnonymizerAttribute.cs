@@ -5,7 +5,7 @@ using System.Text;
 namespace Survey.Common.Utils.CustomAttributes
 {
 
-    [AttributeUsage(AttributeTargets.Property, Inherited = false, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Field, Inherited = false, AllowMultiple = true)]
     public class FieldAnonymizerAttribute : Attribute
     {
         public string anonymizeValue { get; }
