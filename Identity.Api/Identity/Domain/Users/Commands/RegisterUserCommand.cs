@@ -1,4 +1,5 @@
 ﻿using Survey.Common.Types;
+using Survey.Common.Utils.CustomAttributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,9 @@ namespace Identity.Api.Identity.Domain.Users.Commands
         public string Email { get; }
         public int CivilityId { get; }
         public Guid StructureId { get; }
-        public string Password { get; }
+
+        [FieldAnonymizer("Value Anonymized")]
+        public string Password { get; set; }
         public List<Guid> Permissions { get; }
 
         public RegisterUserCommand(

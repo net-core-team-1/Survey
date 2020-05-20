@@ -12,26 +12,30 @@ using System.Threading.Tasks;
 
 namespace Identity.Api.Services.HandlersDecorators
 {
-    public class RejectedEventOnErrorDecorator<TCommand>
+    public class PublishEventWhenHandlingDecorator<TCommand>
             : IHandlerDecorator<TCommand>
         where TCommand : ICommand
     {
         private readonly ICommandHandler<TCommand> _decorated;
         private readonly IRejectedEvent<TCommand> _rejectedEvent;
+        private readonly IAcceptedEvent<TCommand> _acceptedEvent;
         private readonly IBusPublisher _bus;
-        public RejectedEventOnErrorDecorator(ICommandHandler<TCommand> decorated,
+        public PublishEventWhenHandlingDecorator(ICommandHandler<TCommand> decorated,
                                                         IRejectedEvent<TCommand> rejectedEvent,
+                                                        IAcceptedEvent<TCommand> acceptedEvent,
                                                         IBusPublisher bus)
         {
             _decorated = decorated;
             _bus = bus;
             _rejectedEvent = rejectedEvent;
+            _acceptedEvent = acceptedEvent;
         }
         public async Task<Result> Handle(TCommand command)
         {
             try
             {
                 await _decorated.Handle(command);
+                PublishAcceptedEvent(command);
                 return await Task.FromResult(Result.Ok());
             }
             catch (IdentityException ex)
@@ -48,7 +52,12 @@ namespace Identity.Api.Services.HandlersDecorators
 
         private void PublishRejectedEvent(TCommand command, string reason, string code)
         {
-            _bus.PublishAsync<IRejectedEvent<TCommand>>(_rejectedEvent.CreateFrom(command, reason, code));
+            _bus.PublishAsync<IRejectedEvent<TCommand>>(_rejectedEvent.CreateFrom(reason, code, command));
+        }
+
+        private void PublishAcceptedEvent(TCommand command)
+        {
+            _bus.PublishAsync<IAcceptedEvent<TCommand>>(_acceptedEvent.CreateFrom(command));
         }
     }
 }

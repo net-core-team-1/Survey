@@ -6,9 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Exceptions\CustomExceptions\**" />
     <Compile Remove="Identity\Domain\Users\Exceptions\**" />
+    <Content Remove="Exceptions\CustomExceptions\**" />
     <Content Remove="Identity\Domain\Users\Exceptions\**" />
+    <EmbeddedResource Remove="Exceptions\CustomExceptions\**" />
     <EmbeddedResource Remove="Identity\Domain\Users\Exceptions\**" />
+    <None Remove="Exceptions\CustomExceptions\**" />
     <None Remove="Identity\Domain\Users\Exceptions\**" />
   </ItemGroup>
 
@@ -28,11 +32,6 @@
 
 
   <ItemGroup>
-    <Folder Include="Exceptions\CustomExceptions\Features\" />
-    <Folder Include="Exceptions\CustomExceptions\UserRoles\" />
-    <Folder Include="Exceptions\CustomExceptions\RoleFeatures\" />
-    <Folder Include="Exceptions\CustomExceptions\Roles\" />
-    <Folder Include="Exceptions\CustomExceptions\Users\" />
     <Folder Include="Identity\Domain\Civilities\Commands\" />
     <Folder Include="Identity\Domain\Civilities\Queries\" />
     <Folder Include="Identity\Services\Civilities\" />

@@ -35,7 +35,6 @@ namespace Identity.Api.Services.Users.CommandHandlers
 
             user.MarkAsDeleted(deleteInfoResult.Value);
             await _userService.UpdateAsync(user);
-            _busPublisher.PublishAsync<UserUnregistred>(new UserUnregistred(command.UserId, command.Reason, command.DeletedAt));
             return await Task.FromResult(Result.Ok());
         }
     }

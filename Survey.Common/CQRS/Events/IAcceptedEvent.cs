@@ -6,13 +6,10 @@ using System.Text;
 
 namespace Survey.Common.CQRS.Events
 {
-    public interface IRejectedEvent<T> : IEvent
+    public interface IAcceptedEvent<T> : IEvent
         where T : ICommand
     {
         IEventKey Key { get; }
-        string Reason { get; }
-        string Code { get; }
-        T Command { get; }
-        IRejectedEvent<T> CreateFrom(string reason, string code, T command);
+        IAcceptedEvent<T> CreateFrom(T command);
     }
 }

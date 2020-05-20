@@ -35,7 +35,6 @@ namespace Identity.Api.Services.Users.CommandHandlers
                 throw new IdentityException("USER_NOT_FOUND", "User not found in database");
             user.EditPersonalInfo(fullNameResult.Value, civility);
             await _userService.UpdateAsync(user);
-            _busPublisher.PublishAsync<UserEdited>(new UserEdited(command.UserId, command.FirstName, command.LastName, command.CivilityId));
             return await Task<Result>.FromResult(Result.Ok());
         }
     }

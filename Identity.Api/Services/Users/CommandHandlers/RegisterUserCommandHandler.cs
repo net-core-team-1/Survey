@@ -53,8 +53,6 @@ namespace Identity.Api.Services.Users.CommandHandlers
             var result = await _userService.RegisterNewAsync(user, passwordResult.Value);
             result.Validate();
 
-            _bus.PublishAsync<UserRegistered>(new UserRegistered(user.Id, user.FullName.FirstName, user.FullName.LastName, user.Email));
-
             return await Task.FromResult(Result.Ok());
         }
     }

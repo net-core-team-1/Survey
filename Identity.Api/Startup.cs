@@ -27,6 +27,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Survey.Common.CQRS.ServiceBus.RabbitMQ;
 using Survey.Common.Messages;
+using Identity.Api.Identity.Domain.Users.Events.RejectedEvents;
 
 namespace Identity.Api
 {
@@ -130,10 +131,10 @@ namespace Identity.Api
             subscriberBus.SubscribeCommand<RegisterStructureUserCommand>();
             subscriberBus.SubscribeCommand<UnregisterStructureUserCommand>();
 
-            subscriberBus.SubscribeEvent<UserRegistered>();
-            subscriberBus.SubscribeEvent<UserUnregistred>();
-            subscriberBus.SubscribeEvent<UserEdited>();
-            subscriberBus.SubscribeEvent<UserRegistrationRejected>();
+            //subscriberBus.SubscribeEvent<UserRegistredEvent>();
+            //subscriberBus.SubscribeEvent<UserUnregistredEvent>();
+            //subscriberBus.SubscribeEvent<UserEditedEvent>();
+            //subscriberBus.SubscribeEvent<UserRegistrationRejectedEvent>();
         }
     }
 }
