@@ -17,7 +17,7 @@ namespace Identity.Api.Identity.Domain.Users.Commands
         public Guid StructureId { get; }
         public List<Guid> Permissions { get; }
 
-        [FieldAnonymizer("Value Anonymized")]
+        [FieldAnonymizer("******")]
         private string password;
         public string Password { get { return password; } }
 

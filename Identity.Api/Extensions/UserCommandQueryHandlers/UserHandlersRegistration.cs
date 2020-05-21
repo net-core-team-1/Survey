@@ -1,5 +1,6 @@
 ﻿using Identity.Api.Contrat.Users.Responses;
 using Identity.Api.Contrats.Users.Responses.UserInfo;
+using Identity.Api.Contrats.Users.Responses.UserStructures;
 using Identity.Api.Identity.Domain.Users.Commands;
 using Identity.Api.Identity.Domain.Users.Events;
 using Identity.Api.Identity.Domain.Users.Events.RejectedEvents;
@@ -49,7 +50,7 @@ namespace Identity.Api.Extensions.UserCommandQueryHandlers
             services.AddTransient<IQueryHandler<GetUserByIdQuery, UserResponse>, GetUserByIdQueryHandler>();
             services.AddTransient<IQueryHandler<GetRolesByUserIdQuery, UserRolesResponse>, GetRolesByUserIdQueryHandler>();
             services.AddTransient<IQueryHandler<GetUserPermissionsInfoByIdQuery, UserPermissionInfoResponse>, GetUserPermissionsInfoByIdQueryHandler>();
-
+            services.AddTransient<IQueryHandler<GetUserStructuresById, UserStructureResponse>, GetUserStructuresByIdHandler>();
         }
     }
 }
