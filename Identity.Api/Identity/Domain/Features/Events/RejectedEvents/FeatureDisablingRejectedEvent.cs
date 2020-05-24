@@ -10,16 +10,16 @@ namespace Identity.Api.Identity.Domain.Features.Events.RejectedEvents
 {
     public class FeatureDisablingRejectedEvent : RejectedEventBase<DisableFeatureCommand>
     {
-        public FeatureDisablingRejectedEvent():base()
+        public FeatureDisablingRejectedEvent() : base()
         {
         }
-         private FeatureDisablingRejectedEvent(string reason, string code, DisableFeatureCommand command)
-         : base(new FeatureIdEventKey(command.FeatureId), reason, code, command)
+        private FeatureDisablingRejectedEvent(string reason, string code, DisableFeatureCommand command)
+        : base(new FeatureIdEventKey(command.FeatureId), reason, code, command)
         {
         }
         public override IRejectedEvent<DisableFeatureCommand> CreateFrom(string reason, string code, DisableFeatureCommand command)
         {
-            return new FeatureAppServiceEditingRejectedEvent(reason, code, command);
+            return new FeatureDisablingRejectedEvent(reason, code, command);
         }
     }
 }

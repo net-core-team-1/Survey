@@ -1,7 +1,6 @@
 ﻿using Common.Types.Types.Events;
 using Identity.Api.Identity.Domain.Users.Commands;
 using Identity.Api.Identity.Domain.Users.Events.EventKeys;
-using Identity.Api.Identity.Domain.Users.Events.EventsPayLoad;
 using Survey.Common.CQRS.Events;
 using Survey.Common.Types;
 using System;

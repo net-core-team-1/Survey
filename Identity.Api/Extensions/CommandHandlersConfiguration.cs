@@ -25,7 +25,7 @@ namespace Identity.Api.Extensions.CommandHandlersRegistration
             services.RegisterRoleCommandQueryHandlers();
             services.RegisterFeatureCommandQueryHandlers();
             services.RegisterStructureCommandQueryHandlers();
-
+             
             services.AddTransient<ICommandHandler<RegisterAppServiceCommand>, RegisterAppServiceCommandHandler>();
             services.AddTransient<ICommandHandler<EditAppServiceCommand>, EditAppServiceCommandHandler>();
             services.AddTransient<ICommandHandler<DeleteAppServiceCommand>, DeleteAppServiceCommandHandler>();
