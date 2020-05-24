@@ -38,7 +38,7 @@ namespace Identity.Api.Controllers
         [HttpPut]
         public IActionResult Edit([FromBody] EditAppServiceFeaturesRequest request)
         {
-            var command = _mapper.Map<EditFeatureAppServiceCommand>(request);
+            var command = _mapper.Map<EditAppServiceFeaturesCommand>(request);
 
             _busPublisher.SendAsync(command);
             return Ok(request);

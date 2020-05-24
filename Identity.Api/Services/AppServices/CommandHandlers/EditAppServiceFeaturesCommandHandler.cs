@@ -10,30 +10,34 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Identity.Api.Data.Repositories.Features;
 
 namespace Identity.Api.Services.AppServices.CommandHandlers
 {
     public class EditAppServiceFeaturesCommandHandler : ICommandHandler<EditAppServiceFeaturesCommand>
     {
         private readonly IAppServiceRepository _appServiceRepository;
-        public EditAppServiceFeaturesCommandHandler(IAppServiceRepository appServiceRepository)
+        private readonly IFeatureRepository _featureRepository;
+        public EditAppServiceFeaturesCommandHandler(IAppServiceRepository appServiceRepository
+            , IFeatureRepository featureRepository)
         {
             _appServiceRepository = appServiceRepository;
+            _featureRepository = featureRepository;
         }
         public Task<Result> Handle(EditAppServiceFeaturesCommand command)
         {
-            throw new NotImplementedException();
-            //var service = _appServiceRepository.FindByKey(command.AppServiceId);
-            //if (service == null)
-            //    throw new IdentityException("Service not found");
+            var service = _appServiceRepository.FindByKey(command.AppServiceId);
+            if (service == null)
+                throw new IdentityException("Service not found");
+            var features = _featureRepository.FindByInclude(x => command.Features.Contains(x.Id)).ToList();
+            if(features.Count() != command.Features.Count())
+                throw new IdentityException("One or more features not found");
 
-            //var items = command.Features.Select(x => new AppServiceFeature(command.AppServiceId, x)).ToList();
-            //var serviceFeatures = new AppServiceFeatureCollection(items);
+            foreach (var item in features)
+                item.ChangeService(service);
 
-            //service.EditFeatures(serviceFeatures);
-            //_appServiceRepository.Update(service);
-            //_appServiceRepository.Save();
-            //return Task.FromResult(Result.Success());
+            _featureRepository.Save();
+            return Task.FromResult(Result.Success());
         }
     }
 }

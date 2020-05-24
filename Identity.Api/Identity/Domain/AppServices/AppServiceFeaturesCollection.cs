@@ -14,7 +14,7 @@ namespace Identity.Api.Identity.Domain.AppServices
         public AppServiceFeaturesCollection()
         {
         }
-        protected AppServiceFeaturesCollection(List<Feature> items)
+        public AppServiceFeaturesCollection(List<Feature> items)
         {
             _items = items;
         }

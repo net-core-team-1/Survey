@@ -50,7 +50,7 @@ namespace Identity.Api.Utils.AutoMapper
             CreateMap<DisableAppServiceRequest, DisableAppServiceCommand>();
             CreateMap<DeleteAppServiceRequest, DeleteAppServiceCommand>();
             CreateMap<EditAppServiceFeaturesRequest, EditAppServiceFeaturesCommand>();
-            CreateMap<RegisterAppServiceFeatureRequest, EditFeatureAppServiceCommand>();
+            //CreateMap<EditAppServiceFeaturesRequest, EditFeatureAppServiceCommand>();
 
             CreateMap<RegisterStructureRequest, RegisterStructureCommand>();
             CreateMap<EditStructureRequest, EditStructureCommand>();

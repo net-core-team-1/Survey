@@ -24,9 +24,10 @@ namespace Identity.Api.Identity.Domain.Features
         {
             RoleFeatures = new AppRoleFeaturesCollection();
         }
-        public Feature(Guid featureId)
+        public Feature(Guid featureId, Guid serviceId)
         {
             this.Id = featureId;
+            this.ServiceId = serviceId;
 
         }
         public Feature(FeatureInfo featureInfo, CreateInfo creationInfo, AppService appService)
