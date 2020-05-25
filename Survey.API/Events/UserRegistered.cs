@@ -1,9 +1,6 @@
-﻿using Common.Types.Types.Events;
-using Survey.Common.Messages;
+﻿using Survey.CQRS.Events;
+using Survey.CQRS.Messages;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Survey.Api.Events
 {

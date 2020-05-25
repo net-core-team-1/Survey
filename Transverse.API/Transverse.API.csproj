@@ -10,17 +10,15 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="9.0.0" />
-    <PackageReference Include="CSharpFunctionalExtensions" Version="2.2.2" />
     <PackageReference Include="FluentValidation" Version="8.5.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.4.10" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.4" />
-    <PackageReference Include="RabbitMQ.Client" Version="5.1.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Survey.Common\Survey.Common.csproj" />
+    <ProjectReference Include="..\Survey\Survey.csproj" />
     <ProjectReference Include="..\Transverse.Contract\Transverse.Contract.csproj" />
     <ProjectReference Include="..\Transverse.Domain\Transverse.Domain.csproj" />
     <ProjectReference Include="..\Transverse.Infrastracture\Transverse.Infrastracture.csproj" />

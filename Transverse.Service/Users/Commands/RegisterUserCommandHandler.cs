@@ -1,7 +1,7 @@
-﻿using Common.Types.Types.ServiceBus;
-using CSharpFunctionalExtensions;
-using Survey.Common.Auth;
-using Survey.Common.Types;
+﻿using CSharpFunctionalExtensions;
+using Survey.Auth;
+using Survey.CQRS.Commands;
+using Survey.CQRS.ServiceBus;
 using Survey.Transverse.Domain.Users;
 using Survey.Transverse.Domain.Users.Commands;
 using System.Threading.Tasks;

@@ -1,5 +1,5 @@
 ﻿using Dapper;
-using Survey.Common.Types;
+using Survey.CQRS.Commands;
 using Survey.Transverse.Contract.Features.Responses;
 using Survey.Transverse.Domain.Features.Queries;
 using Survey.Transverse.Service.Users;

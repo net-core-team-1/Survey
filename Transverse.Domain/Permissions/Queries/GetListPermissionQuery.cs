@@ -1,4 +1,4 @@
-﻿using Survey.Common.Types;
+﻿using Survey.CQRS.Commands;
 using Survey.Transverse.Contract.Permissions.Responses;
 using System;
 using System.Collections.Generic;

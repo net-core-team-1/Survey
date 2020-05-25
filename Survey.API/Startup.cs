@@ -1,25 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Common.Types.Types.Events;
-using Common.Types.Types.ServiceBus;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Survey.Api.Domain.Repositories;
 using Survey.Api.Events;
 using Survey.Api.Handlers;
 using Survey.Api.Repositories;
 using Survey.Api.Services;
 using Survey.Api.Utility;
-using Survey.Common.Auth;
-using Survey.Common.CQRS.ServiceBus.RabbitMQ;
-using Survey.Common.MongoDb;
+using Survey.Auth;
+using Survey.CQRS.Events;
+using Survey.CQRS.ServiceBus;
+using Survey.CQRS.ServiceBus.RabbitMQ;
+using Survey.MongoDb;
 
 namespace Survey.Api
 {

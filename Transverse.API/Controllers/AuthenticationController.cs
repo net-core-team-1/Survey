@@ -2,13 +2,13 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using Survey.Common.Messages;
 using Survey.Transverse.Contract;
 using Survey.Transverse.Contract.Identity.Requests;
 using Survey.Transverse.Domain.Users.Authentication.Commands;
 using CSharpFunctionalExtensions;
 using System;
 using Survey.Transverse.Contract.Authentication.Requests;
+using Survey.Messaging;
 
 namespace Survey.Transverse.API.Controllers
 {

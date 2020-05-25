@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Survey.Transverse.API.Util;
 using CSharpFunctionalExtensions;
 using AutoMapper;
-using Survey.Common.Messages;
+using Survey.Messaging;
 
 namespace Survey.Transverse.API.Controllers
 {

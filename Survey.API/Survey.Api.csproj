@@ -12,7 +12,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Survey.Common\Survey.Common.csproj" />
+    <ProjectReference Include="..\Survey.Auth\Survey.Auth.csproj" />
+    <ProjectReference Include="..\Survey.CQRS\Survey.CQRS.csproj" />
+    <ProjectReference Include="..\Survey.Mongo\Survey.Mongo.csproj" />
+    <ProjectReference Include="..\Survey\Survey.csproj" />
     <ProjectReference Include="..\Transverse.Contract\Transverse.Contract.csproj" />
   </ItemGroup>
 

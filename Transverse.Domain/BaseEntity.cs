@@ -1,7 +1,4 @@
-﻿using Survey.Common.Types;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
 
 namespace Survey.Transverse.Domain
 {

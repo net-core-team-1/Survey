@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using AutoMapper;
-using Common.Types.Types.ServiceBus;
-using CSharpFunctionalExtensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Survey.Api.Commands.Permissions;
-using Survey.Common.Messages;
+using Survey.CQRS.ServiceBus;
+using Survey.Messaging;
 using Survey.Transverse.Contract;
 using Survey.Transverse.Contract.Permissions.Requests;
-using Survey.Transverse.Contract.Permissions.Responses;
 
 namespace Survey.Transverse.API.Controllers
 {

@@ -1,8 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
-using Survey.Common.Auth;
-using System;
+using Survey.Auth;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Survey.Transverse.Domain.Users
 {

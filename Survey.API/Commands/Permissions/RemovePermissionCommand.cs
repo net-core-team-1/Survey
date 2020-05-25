@@ -1,8 +1,6 @@
-﻿using Survey.Common.Messages;
-using Survey.Common.Types;
+﻿using Survey.CQRS.Commands;
+using Survey.CQRS.Messages;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Survey.Api.Commands.Permissions
 {

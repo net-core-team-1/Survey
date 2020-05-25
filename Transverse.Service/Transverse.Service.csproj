@@ -5,13 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CSharpFunctionalExtensions" Version="2.2.2" />
     <PackageReference Include="Dapper" Version="2.0.30" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Survey.Common\Survey.Common.csproj" />
     <ProjectReference Include="..\Transverse.Domain\Transverse.Domain.csproj" />
   </ItemGroup>
 

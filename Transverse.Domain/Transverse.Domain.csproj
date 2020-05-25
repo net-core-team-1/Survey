@@ -5,7 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Survey.Common\Survey.Common.csproj" />
+    <PackageReference Include="CSharpFunctionalExtensions" Version="2.7.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Survey.Auth\Survey.Auth.csproj" />
+    <ProjectReference Include="..\Survey.CQRS\Survey.CQRS.csproj" />
     <ProjectReference Include="..\Transverse.Contract\Transverse.Contract.csproj" />
   </ItemGroup>
 

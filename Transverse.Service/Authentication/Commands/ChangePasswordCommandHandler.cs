@@ -1,9 +1,9 @@
 ﻿using CSharpFunctionalExtensions;
-using Survey.Common.Types;
+using Survey.CQRS.Commands;
 using Survey.Transverse.Domain.Users.Authentication.Commands;
 using Survey.Transverse.Domain.Users;
-using Survey.Common.Auth;
 using System.Threading.Tasks;
+using Survey.Auth;
 
 namespace Survey.Transverse.Service.Authentication.Commands
 {

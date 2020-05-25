@@ -6,7 +6,7 @@ using AutoMapper;
 using CSharpFunctionalExtensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Survey.Common.Messages;
+using Survey.Messaging;
 using Survey.Transverse.Contract;
 using Survey.Transverse.Contract.Features.Requests;
 using Survey.Transverse.Contract.Features.Responses;

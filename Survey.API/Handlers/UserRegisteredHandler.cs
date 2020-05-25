@@ -1,11 +1,9 @@
-﻿using Common.Types.Types.Events;
-using CSharpFunctionalExtensions;
+﻿using CSharpFunctionalExtensions;
 using Survey.Api.Domain.Models;
 using Survey.Api.Events;
 using Survey.Api.Services;
+using Survey.CQRS.Events;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Survey.Api.Handlers

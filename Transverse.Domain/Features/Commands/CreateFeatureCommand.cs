@@ -1,7 +1,5 @@
-﻿using Survey.Common.Types;
+﻿using Survey.CQRS.Commands;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Survey.Transverse.Domain.Features.Commands
 {

@@ -1,5 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
-using Survey.Common.Types;
+using Survey.CQRS.Commands;
 using Survey.Transverse.Domain.Users.Authentication.Commands;
 using Survey.Transverse.Domain.Users;
 using System.Threading.Tasks;

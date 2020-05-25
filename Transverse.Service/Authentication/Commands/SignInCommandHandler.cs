@@ -1,6 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
-using Survey.Common.Auth;
-using Survey.Common.Types;
+using Survey.Auth;
+using Survey.CQRS.Commands;
 using Survey.Transverse.Domain.Users;
 using Survey.Transverse.Domain.Users.Authentication.Commands;
 using System.Linq;

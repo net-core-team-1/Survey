@@ -1,12 +1,9 @@
 ﻿using AutoMapper;
-using Common.Types.Types.ServiceBus;
-using CSharpFunctionalExtensions;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
-using Survey.Common.Messages;
+using Survey.CQRS.ServiceBus;
+using Survey.Messaging;
 using Survey.Transverse.Contract;
 using Survey.Transverse.Contract.Users.Requests;
 using Survey.Transverse.Contract.Users.Responses;

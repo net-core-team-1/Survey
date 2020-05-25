@@ -1,7 +1,5 @@
-﻿using Common.Types.Types.Events;
+﻿using Survey.CQRS.Events;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Transverse.Domain.Users.Events
 {

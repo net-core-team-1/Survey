@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
-using Survey.Common.Types;
+using Survey.CQRS.Commands;
 using Survey.Transverse.Infrastracture.Data;
 using System;
 using System.Collections.Generic;
