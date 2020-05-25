@@ -11,6 +11,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Survey.Identity.Services.Users;
+using Survey.Outbox;
+using Survey.Outbox.EntityFramwork;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,6 +53,9 @@ namespace Identity.Api.Extensions.IdentityServiceRegistration
             {
                 return new RoleService(sp.GetRequiredService<RoleManager<AppRole>>());
             });
+
+            services.RegisterEntityFrameworkOutbox<TransverseIdentityDbContext>();
+            services.RegisterOutbox(configuration);
         }
     }
 }

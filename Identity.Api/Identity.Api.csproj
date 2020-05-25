@@ -30,7 +30,6 @@
     <PackageReference Include="System.Data.SqlClient" Version="4.8.1" />
   </ItemGroup>
 
-
   <ItemGroup>
     <Folder Include="Identity\Domain\Civilities\Commands\" />
     <Folder Include="Identity\Domain\Civilities\Queries\" />
@@ -39,9 +38,10 @@
     <Folder Include="Services\Authentications\Queries\" />
   </ItemGroup>
 
-
   <ItemGroup>
     <ProjectReference Include="..\Survey.Common\Survey.Common.csproj" />
+    <ProjectReference Include="..\Survey.Outbox.EntityFramwork\Survey.Outbox.EntityFramwork.csproj" />
+    <ProjectReference Include="..\Survey.Outbox\Survey.Outbox.csproj" />
   </ItemGroup>
 
 </Project>

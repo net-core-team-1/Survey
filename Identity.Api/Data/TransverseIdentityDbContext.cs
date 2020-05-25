@@ -10,6 +10,9 @@ using Identity.Api.Identity.Domain.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Survey.Outbox.EntityFramwork.Mapping;
+using Survey.Outbox.Messages;
+using Survey.Outbox.Processors;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,6 +48,8 @@ namespace Identity.Api.Data
             builder.ApplyConfiguration(new AppServiceMapping());
             builder.ApplyConfiguration(new StructureMapping());
             builder.ApplyConfiguration(new StructureUsersMapping());
+            builder.ApplyConfiguration(new InboxMessageMapping());
+            builder.ApplyConfiguration(new OutboxMessageMapping());
 
             foreach (var relationship in builder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
             {
@@ -62,6 +67,9 @@ namespace Identity.Api.Data
         public DbSet<AppService> AppServices { get; set; }
         public DbSet<Structure> Structures { get; set; }
         public DbSet<StructureUsers> StructureUsers { get; set; }
+        public DbSet<InboxMessage> InboxMessages { get; set; }
+        public DbSet<OutboxMessage> OutboxMessages { get; set; }
+
     }
 
 }

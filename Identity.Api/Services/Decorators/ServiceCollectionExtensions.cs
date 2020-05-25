@@ -5,6 +5,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.DependencyInjection;
 using Survey.Common.CQRS.Events;
 using Survey.Common.Types;
+using Survey.Outbox;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +27,8 @@ namespace Identity.Api.Services.Decorators
                                         (createCustomerHandler
                                         , provider.GetService<IRejectedEvent<TCommand>>()
                                         , provider.GetService<IAcceptedEvent<TCommand>>()
-                                        , provider.GetService<IBusPublisher>()))
+                                        , provider.GetService<IBusPublisher>()
+                                        , provider.GetService<IMessageOutbox>()))
                 .Register();
         }
     }

@@ -5,6 +5,7 @@ using Identity.Api.Exceptions;
 using Identity.Api.Services.Decorators;
 using Survey.Common.CQRS.Events;
 using Survey.Common.Types;
+using Survey.Outbox;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,22 +21,30 @@ namespace Identity.Api.Services.HandlersDecorators
         private readonly IRejectedEvent<TCommand> _rejectedEvent;
         private readonly IAcceptedEvent<TCommand> _acceptedEvent;
         private readonly IBusPublisher _bus;
+        private readonly IMessageOutbox _outbox;
         public PublishEventWhenHandlingDecorator(ICommandHandler<TCommand> decorated,
-                                                        IRejectedEvent<TCommand> rejectedEvent,
-                                                        IAcceptedEvent<TCommand> acceptedEvent,
-                                                        IBusPublisher bus)
+                                                 IRejectedEvent<TCommand> rejectedEvent,
+                                                 IAcceptedEvent<TCommand> acceptedEvent,
+                                                 IBusPublisher bus,
+                                                 IMessageOutbox outbox)
         {
             _decorated = decorated;
             _bus = bus;
             _rejectedEvent = rejectedEvent;
             _acceptedEvent = acceptedEvent;
+            _outbox = outbox;
         }
         public async Task<Result> Handle(TCommand command)
         {
             try
             {
                 await _decorated.Handle(command);
-                PublishAcceptedEvent(command);
+                if (_outbox.Enabled)
+                {
+                    await _outbox.SendAsync(GetEvent(command));
+                    //return;
+                }
+                //PublishAcceptedEvent(command);
                 return await Task.FromResult(Result.Ok());
             }
             catch (IdentityException ex)
@@ -59,5 +68,10 @@ namespace Identity.Api.Services.HandlersDecorators
         {
             _bus.PublishAsync<IAcceptedEvent<TCommand>>(_acceptedEvent.CreateFrom(command));
         }
+        private IAcceptedEvent<TCommand> GetEvent(TCommand command)
+        {
+            return _acceptedEvent.CreateFrom(command);
+        }
+
     }
 }

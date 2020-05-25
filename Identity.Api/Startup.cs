@@ -28,6 +28,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Survey.Common.CQRS.ServiceBus.RabbitMQ;
 using Survey.Common.Messages;
 using Identity.Api.Identity.Domain.Users.Events.RejectedEvents;
+using Survey.Outbox;
+using Survey.Outbox.EntityFramwork;
 
 namespace Identity.Api
 {
@@ -64,6 +66,7 @@ namespace Identity.Api
             services.AddTransient<IAppServiceRepository, AppServiceRepository>();
             services.AddTransient<IStructureRepository, StructureRepository>();
             services.RegisterHandlers();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
