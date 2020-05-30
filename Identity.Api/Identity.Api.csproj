@@ -35,6 +35,7 @@
     <Folder Include="Identity\Domain\Civilities\Commands\" />
     <Folder Include="Identity\Domain\Civilities\Queries\" />
     <Folder Include="Identity\Services\Civilities\" />
+    <Folder Include="Infrastructure\Data\Configuration\" />
     <Folder Include="Services\Authentications\CommandHandlers\" />
     <Folder Include="Services\Authentications\Queries\" />
   </ItemGroup>

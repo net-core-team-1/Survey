@@ -1,9 +1,11 @@
-﻿using CSharpFunctionalExtensions;
+﻿using Common.Types.Types.Events;
+using CSharpFunctionalExtensions;
 using Identity.Api.Identity.Domain.AppServices;
 using Identity.Api.Identity.Domain.AppUserRoles;
 using Identity.Api.Identity.Domain.Civilities;
 using Identity.Api.Identity.Domain.Roles;
 using Identity.Api.Identity.Domain.Structures;
+using Identity.Api.Identity.Domain.Users.Events;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -13,10 +15,11 @@ using System.Text;
 
 namespace Identity.Api.Identity.Domain.Users
 {
-    public class AppUser : IdentityUser<Guid>
+    public class AppUser : IdentityUser<Guid>, IDomainEntity
     {
         public virtual FullName FullName { get; protected set; }
         public virtual Civility Civility { get; protected set; }
+        public virtual int CivilityId { get; protected set; }
         public virtual DeleteInfo DeleteInfo { get; protected set; }
         public virtual AppUserRoleCollection UserRoles { get; protected set; }
         public virtual StructureUsersCollection StructureUsers { get; protected set; }
@@ -28,8 +31,11 @@ namespace Identity.Api.Identity.Domain.Users
         public virtual IReadOnlyList<AppUserLogin> Logins => _logins.ToList();
         public virtual IReadOnlyList<AppUserToken> Tokens => _tokens.ToList();
 
+        public List<IEvent> Events { get; set; }
+
         protected AppUser()
         {
+            Events = new List<IEvent>();
             this.Id = Guid.NewGuid();
             UserRoles = new AppUserRoleCollection();
             StructureUsers = new StructureUsersCollection();
@@ -47,9 +53,11 @@ namespace Identity.Api.Identity.Domain.Users
             this.FullName = name;
             this.Email = email.Value;
             this.NormalizedEmail = email.Value;
-            this.Civility = civility;
+            this.CivilityId = civility.Id;
             DeleteInfo = DeleteInfo.Create().Value;
             EditRoles(roles);
+            Events.Add(new UserRegistredEvent(userName.Value, name.FirstName, name.LastName
+                , email.Value, civility.Id, Guid.NewGuid(), roles));
         }
         internal void EditPersonalInfo(FullName fullName, Civility civility)
         {

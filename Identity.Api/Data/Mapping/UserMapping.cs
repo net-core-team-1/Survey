@@ -14,6 +14,7 @@ namespace Identity.Api.Data.Mapping
         {
             builder.ToTable("Users", DatabaseSchema.IdentitySchema);
             builder.HasOne(a => a.Civility).WithMany();
+            builder.Ignore(a => a.Events);
             builder.OwnsOne(a => a.FullName, a =>
             {
                 a.Property(aa => aa.FirstName).HasColumnName("FirstName").HasMaxLength(50);

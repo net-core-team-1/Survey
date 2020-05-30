@@ -28,9 +28,9 @@ namespace Identity.Api.Data.Stores
         {
             cancellationToken.ThrowIfCancellationRequested();
             if (user == null) throw new ArgumentNullException(nameof(user));
-            _context.Civilities.Attach(user.Civility);
+            
             _context.Users.Add(user);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return await Task<IdentityResult>.FromResult(IdentityResult.Success);
         }
         public async Task<IdentityResult> UpdateAsync(AppUser user, CancellationToken cancellationToken)
