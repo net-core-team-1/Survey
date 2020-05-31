@@ -12,13 +12,15 @@ namespace Identity.Api.Identity.Domain.Roles.Commands
         public string Description { get; }
         public Guid CreatedBy { get; }
         public Guid AppServiceId { get; }
+        public Guid StructureId { get; }
 
-        public RegisterRoleCommand(string name, string description, Guid createdBy, Guid appServiceId)
+        public RegisterRoleCommand(string name, string description, Guid createdBy, Guid appServiceId, Guid structureId)
         {
             Name = name;
             Description = description;
             CreatedBy = createdBy;
             AppServiceId = appServiceId;
+            StructureId = structureId;
         }
     }
 }

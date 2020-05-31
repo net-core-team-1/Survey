@@ -34,6 +34,10 @@ namespace Identity.Api.Data.Mapping
                 a.Property(aa => aa.DeletedOn).HasColumnName("DeletedOn").HasDefaultValue(null);
             });
 
+            builder.HasOne(a => a.Structure)
+                .WithMany()
+                .HasForeignKey(a=>a.StructureId);
+
             builder.HasOne(a => a.Service)
                 .WithMany(a => a.Roles)
                 .HasForeignKey(a => a.ServiceId);

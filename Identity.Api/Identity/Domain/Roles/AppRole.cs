@@ -1,6 +1,8 @@
 ﻿using Identity.Api.Identity.Domain.AppServices;
 using Identity.Api.Identity.Domain.Features;
 using Identity.Api.Identity.Domain.RoleFeature;
+using Identity.Api.Identity.Domain.Structures;
+using Identity.Api.Identity.Domain.Structures.Events.EventKeys;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -18,6 +20,8 @@ namespace Identity.Api.Identity.Domain.Roles
         public virtual Guid ServiceId { get; private set; }
         public virtual AppService Service { get; private set; }
         public virtual AppRoleFeaturesCollection RoleFeatures { get; protected set; }
+        public virtual Guid StructureId { get; protected set; }
+        public virtual Structure Structure { get; protected set; }
 
         protected AppRole()
         {
@@ -30,7 +34,7 @@ namespace Identity.Api.Identity.Domain.Roles
             this.Id = roleId;
         }
 
-        public AppRole(CreateInfo createInfo, string roleName, string description, Guid serviceId)
+        public AppRole(CreateInfo createInfo, string roleName, string description, Guid serviceId, Guid structureId)
             : this()
         {
             this.Name = roleName;
@@ -40,7 +44,7 @@ namespace Identity.Api.Identity.Domain.Roles
             DisableInfo = DisabeleInfo.Create().Value;
             DeleteInfo = DeleteInfo.Create().Value;
             this.ServiceId = serviceId;
-            this.Service = new AppService(serviceId);
+            this.StructureId = structureId;
         }
 
         internal void Disable(DisabeleInfo disableInfo)
