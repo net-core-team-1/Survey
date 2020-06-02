@@ -33,7 +33,7 @@ namespace Identity.Api.Services.Structures.Commands
             if (users.Result == null)
                 throw new IdentityException("Invalid_Users", "one or many users not found in database, make sure that users exists");
 
-            structure.UnregisterRegister(new StructureUsers(structure.Id, users.Result.Id));
+            structure.UnregisterUser(new StructureUsers(structure.Id, users.Result.Id));
             _structureRepository.Save();
             return Task.FromResult(Result.Success());
         }

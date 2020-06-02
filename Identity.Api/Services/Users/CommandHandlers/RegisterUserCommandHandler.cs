@@ -47,8 +47,7 @@ namespace Identity.Api.Services.Users.CommandHandlers
                 throw new IdentityException("Structure not found", "No structure found in database with the given key!");
 
             var user = new AppUser(userNameResult.Value, fullNameResult.Value,
-                emailResult.Value, command.Permissions, civility);
-            user.AssignToStructure(structure);
+                emailResult.Value, command.Permissions, civility, structure);
 
             var result = await _userService.RegisterNewAsync(user, passwordResult.Value);
             result.Validate();

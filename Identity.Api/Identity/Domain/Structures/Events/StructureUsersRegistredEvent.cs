@@ -17,7 +17,7 @@ namespace Identity.Api.Identity.Domain.Structures.Events
         {
         }
 
-        private StructureUsersRegistredEvent(Guid structureId, Guid userId)
+        public StructureUsersRegistredEvent(Guid structureId, Guid userId)
             : base(new StructureIdUserIdEventKey(structureId, userId))
         {
             StructureId = structureId;

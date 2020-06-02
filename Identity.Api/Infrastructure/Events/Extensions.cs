@@ -9,11 +9,9 @@ namespace Identity.Api.Infrastructure.Events
 {
     public static class Extensions
     {
-        public static void AddEvents(this IServiceCollection services)
+        public static void AddEventMapper(this IServiceCollection services)
         {
-            List<IEventMapper> eventMappers = new List<IEventMapper>();
-            eventMappers.Add(new UserRegisteredEventMapper());
-            services.AddSingleton(eventMappers);
+            services.AddSingleton<IEventMapper, EventMapper>();
         }
     }
 }

@@ -46,7 +46,7 @@ namespace Identity.Api.Identity.Domain.Users
             this.Id = UserId;
         }
 
-        public AppUser(UserName userName, FullName name, UserEmail email, List<Guid> roles, Civility civility)
+        public AppUser(UserName userName, FullName name, UserEmail email, List<Guid> roles, Civility civility, Structure structure)
             : this()
         {
             this.UserName = userName.Value;
@@ -56,18 +56,23 @@ namespace Identity.Api.Identity.Domain.Users
             this.CivilityId = civility.Id;
             DeleteInfo = DeleteInfo.Create().Value;
             EditRoles(roles);
+            AssignToStructure(structure);
             Events.Add(new UserRegistredEvent(userName.Value, name.FirstName, name.LastName
-                , email.Value, civility.Id, Guid.NewGuid(), roles));
+                , email.Value, civility.Id, structure.Id, roles));
         }
         internal void EditPersonalInfo(FullName fullName, Civility civility)
         {
             this.FullName = fullName;
             this.Civility = civility;
+            Events.Add(new UserEditedEvent(this.Id, fullName.FirstName,
+                fullName.LastName, civility.Id));
         }
 
         internal void MarkAsDeleted(DeleteInfo deleteInfo)
         {
             DeleteInfo = deleteInfo;
+            Events.Add(new UserUnregistredEvent(this.Id, deleteInfo.DeleteReason,
+                deleteInfo.DeletedBy.Value, deleteInfo.DeletedOn.Value));
         }
 
         public void EditRoles(List<Guid> roles)
@@ -75,14 +80,17 @@ namespace Identity.Api.Identity.Domain.Users
             UserRoles.Value.Clear();
             var appRoles = roles.Select(x => new AppUserRole(x, this.Id)).ToList();
             UserRoles = AppUserRoleCollection.Create(appRoles).Value;
+            Events.Add(new UserRolesEditedEvent(this.Id, roles));
         }
         public void AssignRole(AppUserRole appUserRole)
         {
             UserRoles.Value.Add(appUserRole);
+            Events.Add(new UserRoleRegistredEvent(appUserRole.UserId, appUserRole.RoleId));
         }
         public void RemoveRole(AppUserRole appUserRole)
         {
             UserRoles.Value.RemoveAll(x => x.RoleId == appUserRole.RoleId);
+            Events.Add(new UserRoleUnregistredEvent(appUserRole.UserId, appUserRole.RoleId));
         }
         internal void AssignToStructure(Structure structure)
         {

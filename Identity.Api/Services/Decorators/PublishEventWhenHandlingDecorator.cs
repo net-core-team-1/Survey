@@ -35,7 +35,6 @@ namespace Identity.Api.Services.HandlersDecorators
             try
             {
                 await _decorated.Handle(command);
-                PublishAcceptedEvent(command);
                 return await Task.FromResult(Result.Ok());
             }
             catch (IdentityException ex)
@@ -53,11 +52,6 @@ namespace Identity.Api.Services.HandlersDecorators
         private void PublishRejectedEvent(TCommand command, string reason, string code)
         {
             _bus.PublishAsync<IRejectedEvent<TCommand>>(_rejectedEvent.CreateFrom(reason, code, command));
-        }
-
-        private void PublishAcceptedEvent(TCommand command)
-        {
-            _bus.PublishAsync<IAcceptedEvent<TCommand>>(_acceptedEvent.CreateFrom(command));
         }
     }
 }

@@ -27,9 +27,9 @@ namespace Identity.Api.Data
         IdentityDbContext<AppUser, AppRole, Guid, AppUserClaim, AppUserRole,
         AppUserLogin, AppRoleClaim, AppUserToken>
     {
-        private readonly List<IEventMapper> _eventMappers;
+        private readonly IEventMapper _eventMappers;
         public TransverseIdentityDbContext(DbContextOptions<TransverseIdentityDbContext> options
-            , List<IEventMapper> eventMappers)
+            , IEventMapper eventMappers)
             : base(options)
         {
             _eventMappers = eventMappers;
@@ -73,34 +73,31 @@ namespace Identity.Api.Data
         public DbSet<OutboxMessage> OutboxMessages { get; set; }
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
-            var changedEntries = this.ChangeTracker.Entries()
-                                        .Where(entry => entry.State == EntityState.Added
-                                                || entry.State == EntityState.Modified
-                                                || entry.State == EntityState.Deleted)
-                                        .ToList();
+            var changedEntries = GetChangedEntries();
             var eventsDetected = GetEvents(changedEntries);
             if (eventsDetected.Count > 0)
-            {
                 Set<OutboxMessage>().AddRange(eventsDetected);
-            }
 
             var result = await base.SaveChangesAsync(cancellationToken);
             return result;
         }
 
+        private List<EntityEntry> GetChangedEntries()
+        {
+            return this.ChangeTracker.Entries()
+                                        .Where(entry => entry.State == EntityState.Added
+                                                || entry.State == EntityState.Modified
+                                                || entry.State == EntityState.Deleted)
+                                        .ToList();
+        }
         private IReadOnlyCollection<OutboxMessage> GetEvents(IEnumerable<EntityEntry> entities)
         {
             var now = DateTime.UtcNow;
             List<OutboxMessage> messages = new List<OutboxMessage>();
             foreach (var entry in entities)
-            {
                 if (entry.Entity is IDomainEntity)
-                {
-                    messages.AddRange(_eventMappers
-                       .SelectMany(mapper => mapper.Map((IDomainEntity)entry.Entity, now))
-                       .ToList());
-                }
-            }
+                    messages.AddRange(_eventMappers.Map((IDomainEntity)entry.Entity, now).ToList());
+
             return messages;
         }
     }

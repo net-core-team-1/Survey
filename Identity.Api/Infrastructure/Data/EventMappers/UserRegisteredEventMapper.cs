@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Identity.Api.Infrastructure.Data.EventMappers
 {
-    public class UserRegisteredEventMapper : IEventMapper
+    public class EventMapper : IEventMapper
     {
         public IEnumerable<OutboxMessage> Map(IDomainEntity entity, DateTime occurredAt)
         {

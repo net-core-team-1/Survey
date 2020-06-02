@@ -13,12 +13,12 @@ namespace Identity.Api.Identity.Domain.Structures.Events
     {
         public Guid StructureId { get; }
         public Guid UserId { get; }
-        public StructureUsersUnregistredEvent():base()
+        public StructureUsersUnregistredEvent() : base()
         {
         }
 
-        private StructureUsersUnregistredEvent(Guid structureId, Guid userId)
-            :base(new StructureIdUserIdEventKey(structureId,userId))
+        public StructureUsersUnregistredEvent(Guid structureId, Guid userId)
+            : base(new StructureIdUserIdEventKey(structureId, userId))
         {
             StructureId = structureId;
             UserId = userId;

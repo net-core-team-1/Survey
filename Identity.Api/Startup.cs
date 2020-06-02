@@ -57,7 +57,7 @@ namespace Identity.Api
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             // Custom services injections
-            services.AddEvents();
+            services.AddEventMapper();
             services.AddIdentityServices(Configuration);
             services.AddAutoMapper();
             services.ConfigureServiceBus(Configuration);
