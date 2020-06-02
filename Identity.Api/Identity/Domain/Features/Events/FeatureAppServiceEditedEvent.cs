@@ -23,9 +23,5 @@ namespace Identity.Api.Identity.Domain.Features.Events
             FeatureId = featureId;
         }
 
-        public override IAcceptedEvent<EditFeatureAppServiceCommand> CreateFrom(EditFeatureAppServiceCommand command)
-        {
-            return new FeatureAppServiceEditedEvent(command.AppServiceId, command.FeatureId);
-        }
     }
 }

@@ -23,9 +23,5 @@ namespace Identity.Api.Identity.Domain.Structures.Events
             DisabledBy = disabledBy;
         }
 
-        public override IAcceptedEvent<DisableStructureCommand> CreateFrom(DisableStructureCommand command)
-        {
-            return new StructureDisabledEvent(command.StructureId, command.DisabledBy);
-        }
     }
 }

@@ -28,10 +28,5 @@ namespace Identity.Api.Identity.Domain.Roles.Events
             StructureId = structureId;
         }
 
-        public override IAcceptedEvent<RegisterRoleCommand> CreateFrom(RegisterRoleCommand command)
-        {
-            return new RoleRegistredEvent(command.Name, command.Description, command.CreatedBy
-                , command.AppServiceId, command.StructureId);
-        }
     }
 }

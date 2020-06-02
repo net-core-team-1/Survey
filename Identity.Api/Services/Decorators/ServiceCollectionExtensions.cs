@@ -25,7 +25,6 @@ namespace Identity.Api.Services.Decorators
                                 new PublishEventWhenHandlingDecorator<TCommand>
                                         (createCustomerHandler
                                         , provider.GetService<IRejectedEvent<TCommand>>()
-                                        , provider.GetService<IAcceptedEvent<TCommand>>()
                                         , provider.GetService<IBusPublisher>()))
                 .Register();
         }

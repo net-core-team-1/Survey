@@ -27,9 +27,5 @@ namespace Identity.Api.Identity.Domain.Roles.Events
             Reason = reason;
         }
 
-        public override IAcceptedEvent<UnregisterRoleCommand> CreateFrom(UnregisterRoleCommand command)
-        {
-            return new RoleUnregistredEvent(command.Id, command.DeletedBy, command.DeleteOn, command.Reason);
-        }
     }
 }

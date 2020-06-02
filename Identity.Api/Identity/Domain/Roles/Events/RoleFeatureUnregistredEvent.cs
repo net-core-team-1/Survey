@@ -23,9 +23,5 @@ namespace Identity.Api.Identity.Domain.Roles.Events
             FeatureId = featureId;
         }
 
-        public override IAcceptedEvent<UnregisterRoleFeatureCommand> CreateFrom(UnregisterRoleFeatureCommand command)
-        {
-            return new RoleFeatureUnregistredEvent(command.RoleId, command.FeatureId);
-        }
     }
 }

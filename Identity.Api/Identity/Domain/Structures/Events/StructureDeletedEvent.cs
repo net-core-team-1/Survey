@@ -25,9 +25,5 @@ namespace Identity.Api.Identity.Domain.Structures.Events
             DeletedBy = deletedBy;
         }
 
-        public override IAcceptedEvent<DeleteStructureCommand> CreateFrom(DeleteStructureCommand command)
-        {
-            return new StructureDeletedEvent(command.StructureId, command.Reason, command.DeletedBy);
-        }
     }
 }

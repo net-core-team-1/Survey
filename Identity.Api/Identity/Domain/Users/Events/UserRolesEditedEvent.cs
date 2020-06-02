@@ -24,9 +24,5 @@ namespace Identity.Api.Identity.Domain.Users.Events
 
         public UserRolesEditedEvent() : base() { }
 
-        public override IAcceptedEvent<EditUserRolesCommad> CreateFrom(EditUserRolesCommad command)
-        {
-            return new UserRolesEditedEvent(command.UserId, command.Roles);
-        }
     }
 }

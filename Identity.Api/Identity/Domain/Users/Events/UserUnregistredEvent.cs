@@ -28,9 +28,5 @@ namespace Identity.Api.Identity.Domain.Users.Events
 
         public UserUnregistredEvent() : base() { }
 
-        public override IAcceptedEvent<UnregisterUserCommand> CreateFrom(UnregisterUserCommand command)
-        {
-            return new UserUnregistredEvent(command.UserId, command.Reason, command.DeletedBy, command.DeletedAt);
-        }
     }
 }

@@ -35,10 +35,5 @@ namespace Identity.Api.Identity.Domain.Users.Events
 
         public UserRegistredEvent() : base() { }
 
-        public override IAcceptedEvent<RegisterUserCommand> CreateFrom(RegisterUserCommand command)
-        {
-            return new UserRegistredEvent(command.UserName, command.FirstName, command.LastName, command.Email,
-                                          command.CivilityId, command.StructureId, command.Permissions);
-        }
     }
 }

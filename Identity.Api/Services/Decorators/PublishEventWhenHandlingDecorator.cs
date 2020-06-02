@@ -18,17 +18,14 @@ namespace Identity.Api.Services.HandlersDecorators
     {
         private readonly ICommandHandler<TCommand> _decorated;
         private readonly IRejectedEvent<TCommand> _rejectedEvent;
-        private readonly IAcceptedEvent<TCommand> _acceptedEvent;
         private readonly IBusPublisher _bus;
         public PublishEventWhenHandlingDecorator(ICommandHandler<TCommand> decorated,
                                                         IRejectedEvent<TCommand> rejectedEvent,
-                                                        IAcceptedEvent<TCommand> acceptedEvent,
                                                         IBusPublisher bus)
         {
             _decorated = decorated;
             _bus = bus;
             _rejectedEvent = rejectedEvent;
-            _acceptedEvent = acceptedEvent;
         }
         public async Task<Result> Handle(TCommand command)
         {

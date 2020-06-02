@@ -10,6 +10,5 @@ namespace Survey.Common.CQRS.Events
         where T : ICommand
     {
         IEventKey Key { get; }
-        IAcceptedEvent<T> CreateFrom(T command);
     }
 }

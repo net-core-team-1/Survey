@@ -26,9 +26,5 @@ namespace Identity.Api.Identity.Domain.Roles.Events
             Features = features;
         }
 
-        public override IAcceptedEvent<EditRoleFeatureCommand> CreateFrom(EditRoleFeatureCommand command)
-        {
-            return new RoleFeatureEditedEvent(command.AssignedBy, command.RoleId, command.Features);
-        }
     }
 }

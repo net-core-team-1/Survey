@@ -23,9 +23,5 @@ namespace Identity.Api.Identity.Domain.AppServices.Events
             Features = features;
         }
 
-        public override IAcceptedEvent<EditAppServiceFeaturesCommand> CreateFrom(EditAppServiceFeaturesCommand command)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

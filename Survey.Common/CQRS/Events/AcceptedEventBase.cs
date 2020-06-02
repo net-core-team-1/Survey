@@ -14,7 +14,5 @@ namespace Survey.Common.CQRS.Events
         {
             Key = key;
         }
-
-        public abstract IAcceptedEvent<T> CreateFrom(T command);
     }
 }

@@ -23,9 +23,5 @@ namespace Identity.Api.Identity.Domain.Roles.Events
         {
         }
 
-        public override IAcceptedEvent<DisableRoleCommand> CreateFrom(DisableRoleCommand command)
-        {
-            return new RoleDisabledEvent(command.Id, command.DisabledBy);
-        }
     }
 }

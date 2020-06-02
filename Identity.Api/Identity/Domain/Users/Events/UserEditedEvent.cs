@@ -28,9 +28,5 @@ namespace Identity.Api.Identity.Domain.Users.Events
 
         public UserEditedEvent() : base() { }
 
-        public override IAcceptedEvent<EditUserCommand> CreateFrom(EditUserCommand command)
-        {
-            return new UserEditedEvent(command.UserId, command.FirstName, command.LastName, command.CivilityId);
-        }
     }
 }

@@ -25,9 +25,5 @@ namespace Identity.Api.Identity.Domain.Structures.Events
             CreatedBy = createdBy;
         }
 
-        public override IAcceptedEvent<RegisterStructureCommand> CreateFrom(RegisterStructureCommand command)
-        {
-            return new StructureRegistredEvent(command.Name, command.Description, command.CreatedBy);
-        }
     }
 }

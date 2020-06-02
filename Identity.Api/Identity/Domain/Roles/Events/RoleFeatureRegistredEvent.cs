@@ -25,9 +25,5 @@ namespace Identity.Api.Identity.Domain.Roles.Events
             AssignedBy = assignedBy;
         }
 
-        public override IAcceptedEvent<RegisterRoleFeatureCommand> CreateFrom(RegisterRoleFeatureCommand command)
-        {
-            return new RoleFeatureRegistredEvent(command.RoleId, command.FeatureId, command.AssignedBy);
-        }
     }
 }

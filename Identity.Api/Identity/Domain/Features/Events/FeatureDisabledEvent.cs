@@ -23,9 +23,5 @@ namespace Identity.Api.Identity.Domain.Features.Events
             DisabledBy = disabledBy;
         }
 
-        public override IAcceptedEvent<DisableFeatureCommand> CreateFrom(DisableFeatureCommand command)
-        {
-            return new FeatureDisabledEvent(command.FeatureId, command.DisabledBy, command.Reason);
-        }
     }
 }

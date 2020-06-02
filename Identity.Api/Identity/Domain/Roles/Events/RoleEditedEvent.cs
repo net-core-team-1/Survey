@@ -27,9 +27,5 @@ namespace Identity.Api.Identity.Domain.Roles.Events
             AppServiceId = appServiceId;
         }
 
-        public override IAcceptedEvent<EditRoleCommand> CreateFrom(EditRoleCommand command)
-        {
-            return new RoleEditedEvent(command.Id, command.Name, command.Description, command.AppServiceId);
-        }
     }
 }

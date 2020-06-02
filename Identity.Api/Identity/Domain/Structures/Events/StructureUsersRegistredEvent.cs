@@ -23,10 +23,5 @@ namespace Identity.Api.Identity.Domain.Structures.Events
             StructureId = structureId;
             UserId = userId;
         }
-
-        public override IAcceptedEvent<RegisterStructureUserCommand> CreateFrom(RegisterStructureUserCommand command)
-        {
-            return new StructureUsersRegistredEvent(command.StructureId, command.UserId);
-        }
     }
 }

@@ -25,9 +25,5 @@ namespace Identity.Api.Identity.Domain.Structures.Events
             Description = description;
         }
 
-        public override IAcceptedEvent<EditStructureCommand> CreateFrom(EditStructureCommand command)
-        {
-            return new StructureEditedEvent(command.StructureId, command.Name, command.Description);
-        }
     }
 }

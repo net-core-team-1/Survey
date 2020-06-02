@@ -26,9 +26,5 @@ namespace Identity.Api.Identity.Domain.Structures.Events
             Users = users;
         }
 
-        public override IAcceptedEvent<EditStructureUsersCommand> CreateFrom(EditStructureUsersCommand command)
-        {
-            return new StructureUsersEditedEvent(command.StructureId, command.AssignedBy, command.Users);
-        }
     }
 }

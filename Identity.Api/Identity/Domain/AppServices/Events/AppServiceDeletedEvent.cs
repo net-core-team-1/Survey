@@ -23,10 +23,5 @@ namespace Identity.Api.Identity.Domain.AppServices.Events
             AppServiceId = appServiceId;
             DeletedBy = deletedBy;
         }
-
-        public override IAcceptedEvent<DeleteAppServiceCommand> CreateFrom(DeleteAppServiceCommand command)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

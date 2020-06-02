@@ -23,9 +23,5 @@ namespace Identity.Api.Identity.Domain.AppServices.Events
             DisableddBy = disableddBy;
         }
 
-        public override IAcceptedEvent<DisableAppServiceCommand> CreateFrom(DisableAppServiceCommand command)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

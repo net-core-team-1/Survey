@@ -33,11 +33,5 @@ namespace Identity.Api.Identity.Domain.Features.Events
             CreatedBy = createdBy;
             AppServiceId = appServiceId;
         }
-
-        public override IAcceptedEvent<RegisterFeatureCommand> CreateFrom(RegisterFeatureCommand command)
-        {
-            return new FeatureRegistredEvent(command.Label, command.Description, command.ControllerName,
-                command.ControllerActionName, command.Action, command.CreatedBy, command.AppServiceId);
-        }
     }
 }

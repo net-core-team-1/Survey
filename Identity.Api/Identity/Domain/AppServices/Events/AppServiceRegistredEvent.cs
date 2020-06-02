@@ -25,9 +25,5 @@ namespace Identity.Api.Identity.Domain.AppServices.Events
             CreatedBy = createdBy;
         }
 
-        public override IAcceptedEvent<RegisterAppServiceCommand> CreateFrom(RegisterAppServiceCommand command)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

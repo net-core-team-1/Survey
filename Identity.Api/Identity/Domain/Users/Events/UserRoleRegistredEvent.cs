@@ -24,9 +24,5 @@ namespace Identity.Api.Identity.Domain.Users.Events
 
         public UserRoleRegistredEvent() : base() { }
 
-        public override IAcceptedEvent<RegisterUserRoleCommand> CreateFrom(RegisterUserRoleCommand command)
-        {
-            return new UserRoleRegistredEvent(command.UserId, command.RoleId);
-        }
     }
 }

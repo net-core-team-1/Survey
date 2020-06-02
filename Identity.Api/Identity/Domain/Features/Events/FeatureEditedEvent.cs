@@ -32,10 +32,5 @@ namespace Identity.Api.Identity.Domain.Features.Events
             Action = action;
         }
 
-        public override IAcceptedEvent<EditFeatureCommand> CreateFrom(EditFeatureCommand command)
-        {
-            return new FeatureEditedEvent(command.FeatureId, command.Label, command.Description, command.ControllerName,
-                command.ControllerActionName, command.Action);
-        }
     }
 }

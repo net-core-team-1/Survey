@@ -24,9 +24,5 @@ namespace Identity.Api.Identity.Domain.Features.Events
             Reason = reason;
         }
 
-        public override IAcceptedEvent<UnRegisterFeatureCommand> CreateFrom(UnRegisterFeatureCommand command)
-        {
-            return new FeatureUnregistredEvent(command.FeatureId, command.DeletedBy, command.Reason);
-        }
     }
 }
