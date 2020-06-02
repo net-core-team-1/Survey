@@ -12,17 +12,15 @@ namespace Identity.Api.Identity.Domain.Features.Events
     {
         public Guid FeatureId { get; }
         public Guid DisabledBy { get; }
-        public String Reason { get; }
         public FeatureDisabledEvent() : base()
         {
         }
 
-        private FeatureDisabledEvent(Guid featureId, Guid disabledBy, string reason)
+        public FeatureDisabledEvent(Guid featureId, Guid disabledBy)
             : base(new FeatureIdEventKey(featureId))
         {
             FeatureId = featureId;
             DisabledBy = disabledBy;
-            Reason = reason;
         }
 
         public override IAcceptedEvent<DisableFeatureCommand> CreateFrom(DisableFeatureCommand command)

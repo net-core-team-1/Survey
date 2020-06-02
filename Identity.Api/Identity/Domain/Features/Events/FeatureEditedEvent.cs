@@ -16,13 +16,12 @@ namespace Identity.Api.Identity.Domain.Features.Events
         public string ControllerName { get; }
         public string ControllerActionName { get; }
         public string Action { get; }
-        public Guid AppServiceId { get; }
         public FeatureEditedEvent() : base()
         {
         }
 
-        private FeatureEditedEvent(Guid featureId, string label, string description, string controllerName
-            , string controllerActionName, string action, Guid appServiceId)
+        public FeatureEditedEvent(Guid featureId, string label, string description, string controllerName
+            , string controllerActionName, string action)
             : base(new FeatureIdEventKey(featureId))
         {
             FeatureId = featureId;
@@ -31,13 +30,12 @@ namespace Identity.Api.Identity.Domain.Features.Events
             ControllerName = controllerName;
             ControllerActionName = controllerActionName;
             Action = action;
-            AppServiceId = appServiceId;
         }
 
         public override IAcceptedEvent<EditFeatureCommand> CreateFrom(EditFeatureCommand command)
         {
             return new FeatureEditedEvent(command.FeatureId, command.Label, command.Description, command.ControllerName,
-                command.ControllerActionName, command.Action, command.AppServiceId);
+                command.ControllerActionName, command.Action);
         }
     }
 }

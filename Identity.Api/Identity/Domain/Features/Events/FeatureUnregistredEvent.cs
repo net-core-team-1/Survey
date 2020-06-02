@@ -16,7 +16,7 @@ namespace Identity.Api.Identity.Domain.Features.Events
         public FeatureUnregistredEvent() : base()
         {
         }
-        private FeatureUnregistredEvent(Guid featureId, Guid deletedBy, string reason)
+        public FeatureUnregistredEvent(Guid featureId, Guid deletedBy, string reason)
             : base(new FeatureIdEventKey(featureId))
         {
             FeatureId = featureId;
