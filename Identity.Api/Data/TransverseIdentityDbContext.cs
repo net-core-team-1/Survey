@@ -90,7 +90,10 @@ namespace Identity.Api.Data
             if (eventsDetected.Count > 0)
                 Set<OutboxMessage>().AddRange(eventsDetected);
 
+            ClearEntriesEvents(changedEntries);
+
             var result = base.SaveChanges();
+            
             return result;
         }
 
@@ -99,6 +102,13 @@ namespace Identity.Api.Data
             return this.ChangeTracker.Entries()
                                         .Where(entry => entry.IsChanged())
                                         .ToList();
+        }
+
+        private void ClearEntriesEvents(IEnumerable<EntityEntry> entities)
+        {
+            foreach (var entry in entities)
+                if (entry.Entity is IDomainEntity)
+                    ((IDomainEntity)entry.Entity).Events.Clear();
         }
         private IReadOnlyCollection<OutboxMessage> GetEvents(IEnumerable<EntityEntry> entities)
         {

@@ -34,8 +34,6 @@ namespace Identity.Api.Data.Repositories.Features
         public bool Save()
         {
             var result = _context.SaveChanges() < 0;
-            // To refactor
-            _context.Features.ForEachAsync(x => x.Events.Clear());
             return result;
         }
 
