@@ -13,6 +13,7 @@ namespace Identity.Api.Data.Mapping
         {
             builder.ToTable("Roles", DatabaseSchema.IdentitySchema);
             builder.Property(x => x.Description).HasMaxLength(250);
+            builder.Ignore(a => a.Events);
             builder.OwnsOne(a => a.CreateInfo, a =>
             {
 

@@ -14,7 +14,7 @@ namespace Identity.Api.Data.Mapping
         {
             builder.ToTable("AppServices", schema: DatabaseSchema.IdentitySchema);
             builder.HasKey(a => a.Id);
-
+            builder.Ignore(a => a.Events);
             builder.OwnsOne(a => a.ServiceInfo, a =>
             {
                 a.Property(aa => aa.Name).HasColumnName("Name").HasMaxLength(50).IsRequired();

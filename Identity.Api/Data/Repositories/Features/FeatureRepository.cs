@@ -1,4 +1,6 @@
 ﻿using Identity.Api.Identity.Domain.Features;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query.ExpressionVisitors.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,17 +25,18 @@ namespace Identity.Api.Data.Repositories.Features
 
         public void Insert(Feature entity)
         {
-            _context.AppServices.Attach(entity.Service);
             _context.Features.Add(entity);
         }
         public void Update(Feature entity)
         {
-            _context.AppServices.Attach(entity.Service);
-            _context.Features.Attach(entity);
+            _context.Features.Update(entity);
         }
         public bool Save()
         {
-            return _context.SaveChanges() < 0;
+            var result = _context.SaveChanges() < 0;
+            // To refactor
+            _context.Features.ForEachAsync(x => x.Events.Clear());
+            return result;
         }
 
         IEnumerable<Feature> IFeatureRepository.FindBy(Expression<Func<Feature, bool>> predicate)

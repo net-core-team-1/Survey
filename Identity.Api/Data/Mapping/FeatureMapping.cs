@@ -15,7 +15,7 @@ namespace Identity.Api.Data.Mapping
             builder.ToTable("Features", schema: DatabaseSchema.IdentitySchema);
             builder.HasKey(a => a.Id);
             builder.Property(a => a.Timestamp).IsRowVersion();
-
+            builder.Ignore(a => a.Events);
             builder.OwnsOne(a => a.FeatureInfo, a =>
             {
                 a.Property(aa => aa.Label).HasColumnName("Label").HasMaxLength(50);

@@ -41,7 +41,7 @@ namespace Identity.Api.Data.Stores
             cancellationToken.ThrowIfCancellationRequested();
             if (role == null) throw new ArgumentNullException(nameof(role));
             _context.Roles.Attach(role);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return await Task<IdentityResult>.FromResult(IdentityResult.Success);
         }
 

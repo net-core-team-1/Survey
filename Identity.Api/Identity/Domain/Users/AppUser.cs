@@ -60,12 +60,12 @@ namespace Identity.Api.Identity.Domain.Users
             Events.Add(new UserRegistredEvent(userName.Value, name.FirstName, name.LastName
                 , email.Value, civility.Id, structure.Id, roles));
         }
-        internal void EditPersonalInfo(FullName fullName, Civility civility)
+        internal void EditPersonalInfo(FullName fullName, int civilityId)
         {
             this.FullName = fullName;
-            this.Civility = civility;
+            this.CivilityId = civilityId;
             Events.Add(new UserEditedEvent(this.Id, fullName.FirstName,
-                fullName.LastName, civility.Id));
+                fullName.LastName, civilityId));
         }
 
         internal void MarkAsDeleted(DeleteInfo deleteInfo)

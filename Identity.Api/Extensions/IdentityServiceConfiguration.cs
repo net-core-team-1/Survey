@@ -26,7 +26,7 @@ namespace Identity.Api.Extensions.IdentityServiceRegistration
             configuration.GetSection("SurveyIdentity").Bind(configOptions);
 
             services.AddDbContext<TransverseIdentityDbContext>(options =>
-                options.UseSqlServer(configOptions.ConnectionString).UseLazyLoadingProxies())
+                options.UseSqlServer(configOptions.ConnectionString).UseLazyLoadingProxies(),ServiceLifetime.Scoped)
                ;
 
             services

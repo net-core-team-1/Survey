@@ -1,4 +1,5 @@
 ﻿using Identity.Api.Data.Mapping;
+using Identity.Api.Extensions;
 using Identity.Api.Identity.Domain;
 using Identity.Api.Identity.Domain.AppServices;
 using Identity.Api.Identity.Domain.AppUserRoles;
@@ -82,12 +83,21 @@ namespace Identity.Api.Data
             return result;
         }
 
+        public override int SaveChanges()
+        {
+            var changedEntries = GetChangedEntries();
+            var eventsDetected = GetEvents(changedEntries);
+            if (eventsDetected.Count > 0)
+                Set<OutboxMessage>().AddRange(eventsDetected);
+
+            var result = base.SaveChanges();
+            return result;
+        }
+
         private List<EntityEntry> GetChangedEntries()
         {
             return this.ChangeTracker.Entries()
-                                        .Where(entry => entry.State == EntityState.Added
-                                                || entry.State == EntityState.Modified
-                                                || entry.State == EntityState.Deleted)
+                                        .Where(entry => entry.IsChanged())
                                         .ToList();
         }
         private IReadOnlyCollection<OutboxMessage> GetEvents(IEnumerable<EntityEntry> entities)

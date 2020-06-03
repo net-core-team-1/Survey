@@ -35,6 +35,7 @@ namespace Identity.Api.Identity.Domain.Features
             this.ServiceId = serviceId;
         }
         public Feature(FeatureInfo featureInfo, CreateInfo creationInfo, AppService appService)
+            : this()
         {
             Id = Guid.NewGuid();
             FeatureInfo = featureInfo;

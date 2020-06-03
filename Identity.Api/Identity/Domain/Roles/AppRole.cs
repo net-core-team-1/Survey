@@ -65,13 +65,13 @@ namespace Identity.Api.Identity.Domain.Roles
                 , deleteInfo.DeletedOn.Value, deleteInfo.DeleteReason));
         }
 
-        public void EditRoleInfo(string name, string description, AppService appService)
+        public void EditRoleInfo(string name, string description, Guid appServiceId)
         {
             this.Name = name;
             this.NormalizedName = name.ToUpper();
             this.Description = description;
-            this.Service = appService;
-            Events.Add(new RoleEditedEvent(this.Id, name, description, appService.Id));
+            this.ServiceId = appServiceId;
+            Events.Add(new RoleEditedEvent(this.Id, name, description, appServiceId));
         }
 
         public void EditFeatures(Guid createdby, List<Feature> features)

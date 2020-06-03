@@ -27,8 +27,8 @@ namespace Identity.Api.Services.Roles.CommandHandlers
             var role = _roleService.FindRoleById(command.Id).Result;
             if (role == null)
                 throw new IdentityException("ROLE_NOT_FOUND", "Role not found in database");
-            var appService = new AppService(command.AppServiceId);
-            role.EditRoleInfo(command.Name, command.Description, appService);
+            //var appService = new AppService(command.AppServiceId);
+            role.EditRoleInfo(command.Name, command.Description, command.AppServiceId);
             await _roleService.UpdateAsync(role);
             return await Task.FromResult(Result.Ok());
         }

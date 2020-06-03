@@ -14,7 +14,6 @@ namespace Identity.Api.Data.Mapping
         {
             builder.ToTable("StructureUsers", DatabaseSchema.IdentitySchema);
             builder.HasKey(x => new { x.StructureId, x.UserId });
-
             builder.HasOne(x => x.Structure)
                    .WithMany(x => x.StructureUsers)
                    .HasForeignKey(x => x.StructureId);

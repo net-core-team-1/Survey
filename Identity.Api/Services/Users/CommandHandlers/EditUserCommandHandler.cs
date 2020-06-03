@@ -29,11 +29,10 @@ namespace Identity.Api.Services.Users.CommandHandlers
         public async Task<Result> Handle(EditUserCommand command)
         {
             var fullNameResult = FullName.Create(command.FirstName, command.LastName).Validate();
-            var civility = new Civility(command.CivilityId);
             var user = _userService.FindUserByUserIdAsync(command.UserId).Result;
             if (user == null)
                 throw new IdentityException("USER_NOT_FOUND", "User not found in database");
-            user.EditPersonalInfo(fullNameResult.Value, civility);
+            user.EditPersonalInfo(fullNameResult.Value, command.CivilityId);
             await _userService.UpdateAsync(user);
             return await Task<Result>.FromResult(Result.Ok());
         }
