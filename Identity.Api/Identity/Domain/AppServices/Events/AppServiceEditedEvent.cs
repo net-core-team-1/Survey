@@ -14,12 +14,11 @@ namespace Identity.Api.Identity.Domain.AppServices.Events
         public string Name { get; }
         public string Description { get; }
 
-        public AppServiceEditedEvent()
+        public AppServiceEditedEvent() : base()
         {
-
         }
         public AppServiceEditedEvent(Guid appServiceId, string name, string description)
-            : base(new AppServiceIdKey(appServiceId))
+            : this()
         {
             AppServiceId = appServiceId;
             Name = name;

@@ -27,6 +27,7 @@ namespace Identity.Api.Identity.Domain.AppServices
         }
 
         public AppService(Guid appServiceId)
+            :this()
         {
             Id = appServiceId;
         }

@@ -8,11 +8,8 @@ namespace Survey.Common.CQRS.Events
     public abstract class AcceptedEventBase<T> : IAcceptedEvent<T>
         where T : ICommand
     {
-        public IEventKey Key { get; }
+        
         protected AcceptedEventBase() { }
-        protected AcceptedEventBase(IEventKey key)
-        {
-            Key = key;
-        }
+        
     }
 }

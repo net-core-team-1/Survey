@@ -18,7 +18,7 @@ namespace Identity.Api.Identity.Domain.Structures.Events
         {
         }
         public StructureEditedEvent(Guid structureId, string name, string description)
-            : base(new StructureIdEventKey(structureId))
+            : this()
         {
             StructureId = structureId;
             Name = name;

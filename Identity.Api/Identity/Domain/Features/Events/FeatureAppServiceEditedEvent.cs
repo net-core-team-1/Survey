@@ -17,7 +17,7 @@ namespace Identity.Api.Identity.Domain.Features.Events
         }
 
         public FeatureAppServiceEditedEvent(Guid appServiceId, Guid featureId)
-            : base(new FeatureIdEventKey(featureId))
+            : this()
         {
             AppServiceId = appServiceId;
             FeatureId = featureId;

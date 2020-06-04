@@ -19,7 +19,7 @@ namespace Identity.Api.Identity.Domain.Structures.Events
         {
         }
         public StructureUsersEditedEvent(Guid structureId, Guid assignedBy, List<Guid> users)
-            : base(new StructureIdEventKey(structureId))
+            : this()
         {
             StructureId = structureId;
             AssignedBy = assignedBy;

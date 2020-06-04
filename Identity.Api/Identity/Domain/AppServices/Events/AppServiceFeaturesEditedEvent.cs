@@ -12,12 +12,12 @@ namespace Identity.Api.Identity.Domain.AppServices.Events
     {
         public Guid AppServiceId { get; }
         public List<Guid> Features { get; }
-        public AppServiceFeaturesEditedEvent()
+        public AppServiceFeaturesEditedEvent() : base()
         {
         }
 
         public AppServiceFeaturesEditedEvent(Guid appServiceId, List<Guid> features)
-            : base(new AppServiceIdKey(appServiceId))
+            : this()
         {
             AppServiceId = appServiceId;
             Features = features;

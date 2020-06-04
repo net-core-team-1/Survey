@@ -18,7 +18,7 @@ namespace Identity.Api.Identity.Domain.Structures.Events
         }
 
         public StructureRegistredEvent(string name, string description, Guid createdBy)
-            : base(new StructureNameEventKey(name))
+            : this()
         {
             Name = name;
             Description = description;

@@ -17,7 +17,7 @@ namespace Identity.Api.Identity.Domain.Roles.Events
         }
 
         public RoleFeatureUnregistredEvent(Guid roleId, Guid featureId)
-            :base(new RoleIdFeatureIdEventKey(roleId,featureId))
+            :this()
         {
             RoleId = roleId;
             FeatureId = featureId;

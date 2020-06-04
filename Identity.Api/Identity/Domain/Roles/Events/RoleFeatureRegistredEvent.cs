@@ -18,7 +18,7 @@ namespace Identity.Api.Identity.Domain.Roles.Events
         }
 
         public RoleFeatureRegistredEvent(Guid roleId, Guid featureId, Guid assignedBy)
-            : base(new RoleIdFeatureIdEventKey(roleId, featureId))
+            : this()
         {
             RoleId = roleId;
             FeatureId = featureId;

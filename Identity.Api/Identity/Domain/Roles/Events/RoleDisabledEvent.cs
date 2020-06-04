@@ -14,7 +14,7 @@ namespace Identity.Api.Identity.Domain.Roles.Events
         public Guid DisabledBy { get; }
 
         public RoleDisabledEvent(Guid id, Guid disabledBy)
-            : base(new RoleIdEventKey(id))
+            : this()
         {
             Id = id;
             DisabledBy = disabledBy;

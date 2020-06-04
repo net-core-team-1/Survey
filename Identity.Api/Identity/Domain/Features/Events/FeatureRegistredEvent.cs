@@ -23,7 +23,7 @@ namespace Identity.Api.Identity.Domain.Features.Events
 
         public FeatureRegistredEvent(string label, string description, string controllerName,
             string controllerActionName, string action, Guid createdBy, Guid appServiceId)
-            : base(new FeatureCompositKey(label, controllerName, controllerActionName, action, appServiceId))
+            : this()
         {
             Label = label;
             Description = description;

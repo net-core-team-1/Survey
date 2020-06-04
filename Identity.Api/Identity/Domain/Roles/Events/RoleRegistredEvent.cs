@@ -19,7 +19,7 @@ namespace Identity.Api.Identity.Domain.Roles.Events
         {
         }
         public RoleRegistredEvent(string name, string description, Guid createdBy, Guid appServiceId, Guid structureId)
-            : base(new RoleNameEventKey(name))
+            : this()
         {
             Name = name;
             Description = description;

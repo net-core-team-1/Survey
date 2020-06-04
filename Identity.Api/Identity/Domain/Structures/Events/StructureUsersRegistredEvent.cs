@@ -18,7 +18,7 @@ namespace Identity.Api.Identity.Domain.Structures.Events
         }
 
         public StructureUsersRegistredEvent(Guid structureId, Guid userId)
-            : base(new StructureIdUserIdEventKey(structureId, userId))
+            : this()
         {
             StructureId = structureId;
             UserId = userId;

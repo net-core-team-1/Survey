@@ -12,12 +12,11 @@ namespace Identity.Api.Identity.Domain.AppServices.Events
     {
         public Guid AppServiceId { get; }
         public Guid DisableddBy { get; }
-        public AppServiceDisabledEvent()
+        public AppServiceDisabledEvent():base()
         {
         }
-
         public AppServiceDisabledEvent(Guid appServiceId, Guid disableddBy)
-            : base(new AppServiceIdKey(appServiceId))
+            : this()
         {
             AppServiceId = appServiceId;
             DisableddBy = disableddBy;

@@ -15,9 +15,9 @@ namespace Identity.Api.Identity.Domain.AppServices.Events
         public string Description { get; }
         public Guid CreatedBy { get; }
 
-        public AppServiceRegistredEvent() { }
+        public AppServiceRegistredEvent():base() { }
         public AppServiceRegistredEvent(Guid appServiceId, string name, string description, Guid createdBy)
-            : base(new AppServiceIdKey(appServiceId))
+            : this()
         {
             AppServiceId = appServiceId;
             Name = name;

@@ -19,7 +19,7 @@ namespace Identity.Api.Identity.Domain.Roles.Events
         }
 
         public RoleUnregistredEvent(Guid id, Guid deletedBy, DateTime deleteOn, string reason)
-            : base(new RoleIdEventKey(id))
+            : this()
         {
             Id = id;
             DeletedBy = deletedBy;

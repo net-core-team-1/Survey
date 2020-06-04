@@ -18,7 +18,7 @@ namespace Identity.Api.Identity.Domain.Users.Events
         public int Civility { get; }
 
         public UserEditedEvent(Guid id, string firsName, string lastName, int civility)
-             : base(new UserIdEventKey(id))
+             : this()
         {
             Id = id;
             FirsName = firsName;

@@ -12,13 +12,11 @@ namespace Identity.Api.Identity.Domain.AppServices.Events
     {
         public Guid AppServiceId { get; }
         public Guid DeletedBy { get; }
-        public AppServiceDeletedEvent()
+        public AppServiceDeletedEvent() : base()
         {
 
         }
-
-        public AppServiceDeletedEvent(Guid appServiceId, Guid deletedBy)
-            : base(new AppServiceIdKey(appServiceId))
+        public AppServiceDeletedEvent(Guid appServiceId, Guid deletedBy) : this()
         {
             AppServiceId = appServiceId;
             DeletedBy = deletedBy;

@@ -18,7 +18,7 @@ namespace Identity.Api.Identity.Domain.Users.Events
         public DateTime DeletedAt { get; }
 
         public UserUnregistredEvent(Guid userId, string reason, Guid deletedBy, DateTime deletedAt)
-            : base(new UserIdEventKey(userId))
+            : this()
         {
             UserId = userId;
             Reason = reason;

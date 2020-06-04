@@ -17,7 +17,7 @@ namespace Identity.Api.Identity.Domain.Features.Events
         }
 
         public FeatureDisabledEvent(Guid featureId, Guid disabledBy)
-            : base(new FeatureIdEventKey(featureId))
+            : this()
         {
             FeatureId = featureId;
             DisabledBy = disabledBy;

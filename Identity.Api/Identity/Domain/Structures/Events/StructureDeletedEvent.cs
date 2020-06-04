@@ -18,7 +18,7 @@ namespace Identity.Api.Identity.Domain.Structures.Events
         }
 
         public StructureDeletedEvent(Guid structureId, string reason, Guid deletedBy)
-            : base(new StructureIdEventKey(structureId))
+            : this()
         {
             StructureId = structureId;
             Reason = reason;

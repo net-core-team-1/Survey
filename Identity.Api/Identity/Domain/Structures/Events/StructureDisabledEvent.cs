@@ -17,7 +17,7 @@ namespace Identity.Api.Identity.Domain.Structures.Events
         {
         }
         public StructureDisabledEvent(Guid structureId, Guid disabledBy)
-            : base(new StructureIdEventKey(structureId))
+            : this()
         {
             StructureId = structureId;
             DisabledBy = disabledBy;

@@ -22,7 +22,7 @@ namespace Identity.Api.Identity.Domain.Features.Events
 
         public FeatureEditedEvent(Guid featureId, string label, string description, string controllerName
             , string controllerActionName, string action)
-            : base(new FeatureIdEventKey(featureId))
+            : this()
         {
             FeatureId = featureId;
             Label = label;

@@ -9,6 +9,5 @@ namespace Survey.Common.CQRS.Events
     public interface IAcceptedEvent<T> : IEvent
         where T : ICommand
     {
-        IEventKey Key { get; }
     }
 }

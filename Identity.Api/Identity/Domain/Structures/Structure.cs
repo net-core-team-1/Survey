@@ -25,6 +25,7 @@ namespace Identity.Api.Identity.Domain.Structures
         }
 
         public Structure(StructureInfo structureInfo, CreateInfo createInfo)
+            :this()
         {
             Id = Guid.NewGuid();
             StructureInfo = structureInfo;

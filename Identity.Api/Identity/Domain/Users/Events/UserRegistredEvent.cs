@@ -22,7 +22,7 @@ namespace Identity.Api.Identity.Domain.Users.Events
 
         public UserRegistredEvent(string userName, string firstName, string lastName, string email,
             int civilityId, Guid structureId, List<Guid> permissions)
-            : base(new UserNameEventKey(userName))
+            : this()
         {
             UserName = userName;
             FirstName = firstName;

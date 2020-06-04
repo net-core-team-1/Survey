@@ -19,7 +19,7 @@ namespace Identity.Api.Identity.Domain.Roles.Events
         {
         }
         public RoleFeatureEditedEvent(Guid assignedBy, Guid roleId, List<Guid> features)
-            : base(new RoleIdEventKey(roleId))
+            : this()
         {
             AssignedBy = assignedBy;
             RoleId = roleId;

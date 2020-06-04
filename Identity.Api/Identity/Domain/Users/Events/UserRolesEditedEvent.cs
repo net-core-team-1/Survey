@@ -16,7 +16,7 @@ namespace Identity.Api.Identity.Domain.Users.Events
         public List<Guid> Roles { get; }
 
         public UserRolesEditedEvent(Guid userId, List<Guid> roles)
-            : base(new UserIdEventKey(userId))
+            :this()
         {
             UserId = userId;
             Roles = roles;

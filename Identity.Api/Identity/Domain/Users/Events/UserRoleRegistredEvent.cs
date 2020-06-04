@@ -16,7 +16,7 @@ namespace Identity.Api.Identity.Domain.Users.Events
         public Guid RoleId { get; }
 
         public UserRoleRegistredEvent(Guid userId, Guid roleId)
-              : base(new UserIdRoleIdEventKey(userId, roleId))
+              : this()
         {
             UserId = userId;
             RoleId = roleId;
