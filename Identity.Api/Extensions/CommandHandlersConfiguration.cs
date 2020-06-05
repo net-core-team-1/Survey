@@ -1,4 +1,5 @@
 ﻿using Identity.Api.Contrats.Structures.Responses;
+using Identity.Api.Extensions.AppServiceCommandQueryHandlers;
 using Identity.Api.Extensions.FeatureCommandQueryHandlers;
 using Identity.Api.Extensions.RoleCommandQueryHandlers;
 using Identity.Api.Extensions.StructureCommandQueryHandlers;
@@ -25,13 +26,7 @@ namespace Identity.Api.Extensions.CommandHandlersRegistration
             services.RegisterRoleCommandQueryHandlers();
             services.RegisterFeatureCommandQueryHandlers();
             services.RegisterStructureCommandQueryHandlers();
-             
-            services.AddTransient<ICommandHandler<RegisterAppServiceCommand>, RegisterAppServiceCommandHandler>();
-            services.AddTransient<ICommandHandler<EditAppServiceCommand>, EditAppServiceCommandHandler>();
-            services.AddTransient<ICommandHandler<DeleteAppServiceCommand>, DeleteAppServiceCommandHandler>();
-            services.AddTransient<ICommandHandler<DisableAppServiceCommand>, DisableAppServiceCommandHandler>();
-            services.AddTransient<ICommandHandler<EditAppServiceFeaturesCommand>, EditAppServiceFeaturesCommandHandler>();
-
+            services.RegisterAppServiceCommandQueryHandlers();
         }
     }
 }

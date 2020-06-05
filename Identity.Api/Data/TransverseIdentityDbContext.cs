@@ -74,16 +74,17 @@ namespace Identity.Api.Data
         public DbSet<OutboxMessage> OutboxMessages { get; set; }
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
-            var changedEntries = GetChangedEntries();
-            var eventsDetected = GetEvents(changedEntries);
-            if (eventsDetected.Count > 0)
-                Set<OutboxMessage>().AddRange(eventsDetected);
-
-            var result = await base.SaveChangesAsync(cancellationToken);
-            return result;
+            SetOutboxMessage();
+            return await base.SaveChangesAsync(cancellationToken);
         }
 
         public override int SaveChanges()
+        {
+            SetOutboxMessage();
+            return base.SaveChanges();
+        }
+
+        private void SetOutboxMessage()
         {
             var changedEntries = GetChangedEntries();
             var eventsDetected = GetEvents(changedEntries);
@@ -91,10 +92,6 @@ namespace Identity.Api.Data
                 Set<OutboxMessage>().AddRange(eventsDetected);
 
             ClearEntriesEvents(changedEntries);
-
-            var result = base.SaveChanges();
-            
-            return result;
         }
 
         private List<EntityEntry> GetChangedEntries()

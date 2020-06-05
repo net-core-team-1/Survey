@@ -6,6 +6,7 @@ using AutoMapper;
 using Common.Types.Types.ServiceBus;
 using Identity.Api.Contrat.AppServices.Requests;
 using Identity.Api.Identity.Domain.AppServices.Commands;
+using Identity.Api.Identity.Domain.AppServices.Queries;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Survey.Common.Messages;
@@ -30,15 +31,19 @@ namespace Identity.Api.Controllers
         [HttpGet("GetService")]
         public IActionResult GetService(Guid serviceId)
         {
-            throw new NotImplementedException();
-            //   return Ok(_dispatcher.Dispatch(new GetFeatureQuery(featureId)));
+            return Ok(_dispatcher.Dispatch(new GetAppServiceByIdQuery(serviceId)));
         }
 
         [HttpGet("GetServiceList")]
         public IActionResult GetAllServices()
         {
-            throw new NotImplementedException();
-            //  return Ok(_dispatcher.Dispatch(new GetListFeaturesQuery()));
+            return Ok(_dispatcher.Dispatch(new GetListAppServiceQuery()));
+        }
+
+        [HttpGet("GetDetailledServiceInfo")]
+        public IActionResult GetDetailledServiceInfo(Guid serviceId)
+        {
+            return Ok(_dispatcher.Dispatch(new GetDetailledAppServiceQuery(serviceId)));
         }
 
         [HttpPost()]
