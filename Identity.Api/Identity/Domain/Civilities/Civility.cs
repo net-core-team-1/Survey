@@ -18,16 +18,11 @@ namespace Identity.Api.Identity.Domain.Civilities
         {
             this.Id = Id;
         }
-        private Civility(string name, string description)
-            : this()
+        public Civility(int id, string name, string description)
+            : this(id)
         {
             this.Name = name;
             this.Description = description;
-        }
-
-        public static Civility Create(string name, string description)
-        {
-            return new Civility(name, description);
         }
     }
 }

@@ -29,6 +29,8 @@ using Survey.Common.CQRS.ServiceBus.RabbitMQ;
 using Survey.Common.Messages;
 using Identity.Api.Identity.Domain.Users.Events.RejectedEvents;
 using Identity.Api.Infrastructure.Events;
+using Survey.Common.Seeding;
+using Identity.Api.Services.Seeders;
 
 namespace Identity.Api
 {
@@ -66,7 +68,14 @@ namespace Identity.Api
             services.AddTransient<IAppServiceRepository, AppServiceRepository>();
             services.AddTransient<IStructureRepository, StructureRepository>();
             services.RegisterHandlers();
-           
+            services.RegisterSeeders();
+            services.AddScoped<IDatabaseInitializer, IdentityDatabaseInitialier>();
+            services.AddScoped<IDatabaseSeeder, IdentitySeeder>();
+            using (var scope = services.BuildServiceProvider().CreateScope())
+            {
+                var dabaseInitializer = scope.ServiceProvider.GetRequiredService<IDatabaseInitializer>();
+                dabaseInitializer.InitializeAsync();
+            }
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -82,6 +91,7 @@ namespace Identity.Api
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

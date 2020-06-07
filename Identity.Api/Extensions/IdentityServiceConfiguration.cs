@@ -43,14 +43,17 @@ namespace Identity.Api.Extensions.IdentityServiceRegistration
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddScoped<IUserService, UserService>(sp =>
-            {
-                return new UserService(sp.GetRequiredService<UserManager<AppUser>>());
-            });
-            services.AddScoped<IRoleService, RoleService>(sp =>
-            {
-                return new RoleService(sp.GetRequiredService<RoleManager<AppRole>>());
-            });
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IRoleService, RoleService>();
+
+            //services.AddScoped<IUserService, UserService>(sp =>
+            //{
+            //    return new UserService(sp.GetRequiredService<UserManager<AppUser>>());
+            //});
+            //services.AddScoped<IRoleService, RoleService>(sp =>
+            //{
+            //    return new RoleService(sp.GetRequiredService<RoleManager<AppRole>>());
+            //});
         }
     }
 }

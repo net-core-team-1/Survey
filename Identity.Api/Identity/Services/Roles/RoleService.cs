@@ -70,5 +70,10 @@ namespace Identity.Api.Identity.Services.Roles
                                         Where(x => roleIds.Contains(x.Id))
                                         .ToList());
         }
+
+        public Task<AppRole> FindRoleByName(string roleName)
+        {
+            return _roleManager.FindByNameAsync(roleName);
+        }
     }
 }

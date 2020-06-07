@@ -77,7 +77,7 @@ namespace Identity.Api.Identity.Domain.Roles
         public void EditFeatures(Guid createdby, List<Feature> features)
         {
             var toAdd = features.Where(f => RoleFeatures.Where(x => x.Feature.Id == f.Id).Count() == 0)
-                                            .Select(s => new AppRoleFeatures(this, s, createdby))
+                                            .Select(s => new AppRoleFeatures(this.Id, s.Id, createdby))
                                             .ToList();
 
             var toRemove = RoleFeatures.Where(f => features.Where(x => x.Id == f.FeatureId).Count() == 0)
