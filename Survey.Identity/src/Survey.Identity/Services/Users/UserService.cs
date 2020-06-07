@@ -58,7 +58,7 @@ namespace Survey.Identity.Services.Users
 
             string token = await _userManager.GenerateChangeEmailTokenAsync(user, email);
             var result = await _userManager.ChangeEmailAsync(user, email, token);
-
+            user.ChangeEmail(email);// added to rise the event from the domaine
             if (!result.Succeeded)
                 return await Task<Result>.FromResult(Result.Failure("user_counld_not_change_email"));
 
@@ -68,17 +68,19 @@ namespace Survey.Identity.Services.Users
         public async Task<Result> EditInfo(Guid userId, string firstName, string lastName, Guid entityId, List<Guid> roles = null)
         {
             var user = await _userManager.FindByIdAsync(userId.ToString());
+;
             if (user == null)
-                return await Task<Result>.FromResult(Result.Failure($"User_not_exist "));
+                return await Task<Result>.FromResult(Result.Failure($"user_not_exist "));
 
-            if (user.DeleteInfo.Deleted)
-                return await Task<Result>.FromResult(Result.Failure($"user_already_unregistred"));
+            if (user.DeleteInfo != null)
+                if (user.DeleteInfo.Deleted)
+                    return await Task<Result>.FromResult(Result.Failure($"user_already_unregistred"));
 
             Result<FullName> fullNameResult = FullName.Create(firstName, lastName);
             if (fullNameResult.IsFailure)
                 return await Task<Result>.FromResult(Result.Failure(fullNameResult.Error));
             var entity = user.Entity;
-            if (user.Entity.Id != entityId)//to correct
+            if (user.Entity?.Id != entityId || user.Entity == null)//to correct
             {
                 entity = _entityRepository.FindByKey(entityId);
                 if (entity == null)
@@ -87,8 +89,8 @@ namespace Survey.Identity.Services.Users
 
             user.EditUser(fullNameResult.Value, entity, roles);
 
-            var result = _userManager.UpdateAsync(user);
-            if (!result.Result.Succeeded)
+            var result = await _userManager.UpdateAsync(user);
+            if (!result.Succeeded)
                 return await Task<Result>.FromResult(Result.Failure("user_editInfo_save_error"));
 
             return await Task<Result>.FromResult(Result.Ok());

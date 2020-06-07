@@ -1,5 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Identity.Domain.Users.Events;
+using Microsoft.AspNetCore.Identity;
+using Survey.CQRS.Events;
 using Survey.Identity.Domain.Entities;
+using Survey.Identity.Domain.Users.Events;
+using Survey.Identity.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Survey.Identity.Domain.Users
 {
-    public class User : IdentityUser<Guid>
+    public class User : IdentityUser<Guid>, IEventEntity
     {
         #region Fields 
 
@@ -20,11 +24,14 @@ namespace Survey.Identity.Domain.Users
 
         public DateTime? LastConnexionOn { get; private set; }
 
+
         public virtual Entity Entity { get; private set; }
 
         private readonly List<UserRole> _userRoles = new List<UserRole>();
 
         public virtual IReadOnlyList<UserRole> UserRoles => _userRoles.ToList();
+
+        public List<IEvent> Events { get; set; }
 
 
         #endregion
@@ -44,6 +51,7 @@ namespace Survey.Identity.Domain.Users
             CreateInfo = CreateInfo.Create().Value;
             DeleteInfo = DeleteInfo.Create().Value;
             AssignRoles(roles);
+            Rise(new UserRegistered(Id, FullName.FirstName, FullName.LastName, Email, CreateInfo.CreatedOn ?? DateTime.Now));
         }
 
         #endregion 
@@ -70,15 +78,22 @@ namespace Survey.Identity.Domain.Users
             if (DeleteInfo.Deleted)
                 throw new SurveyException("user_already_unregistred");
             this.MarkAsDeleted(deleteInfo);
+            Rise(new UserDeleted(Id, DeleteInfo.DeleteReason, DeleteInfo.DeletedOn ?? DateTime.Now));
+
         }
 
 
-
-        public void EditUser(FullName fullName,Entity entity, List<Guid> roles = null)
+        public void ChangeEmail(string email)
+        {
+            Email = email;
+            Rise(new UserEmailChanged(Id, Email));
+        }
+        public void EditUser(FullName fullName, Entity entity, List<Guid> roles = null)
         {
             this.EditPersonalInfo(fullName);
             this.EditRoles(roles);
             SetNewEntity(entity);
+
 
         }
         private void SetNewEntity(Entity entity)
@@ -87,8 +102,11 @@ namespace Survey.Identity.Domain.Users
         }
         private void EditPersonalInfo(FullName fullName)
         {
-            if (this.FullName != fullName)
-                this.FullName = fullName;
+            if (FullName != fullName)
+            {
+                FullName.Update(fullName);
+                Rise(new UserNameUpdated(Id, FullName.FirstName, FullName.LastName));
+            }
         }
         private void EditRoles(List<Guid> roles)
         {
@@ -107,6 +125,19 @@ namespace Survey.Identity.Domain.Users
         {
             DeleteInfo = deletionObj;
         }
+
+        public void ClearEvent()
+        {
+            Events.Clear();
+        }
+
+        public void Rise(IEvent @event)
+        {
+            Events ??= new List<IEvent>();
+            Events.Add(@event);
+        }
+
+
 
 
         #endregion

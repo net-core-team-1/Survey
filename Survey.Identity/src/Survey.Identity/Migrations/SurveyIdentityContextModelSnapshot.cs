@@ -15,60 +15,60 @@ namespace Survey.Identity.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
+                .HasAnnotation("ProductVersion", "3.1.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("Survey.Identity.Data.OutBox.OutboxMessage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValue(new Guid("b6db6f6c-4199-43fd-a888-b9e0cc7e923b"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Event")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ProcessedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("OUTBOX_MESSAGES");
+                });
 
             modelBuilder.Entity("Survey.Identity.Domain.Entities.Entity", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<Guid?>("EntityLevelId");
-
-                    b.Property<Guid?>("ParentId");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<byte[]>("Timestamp")
                         .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate();
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("EntityLevelId");
-
-                    b.HasIndex("ParentId");
 
                     b.ToTable("ENTITIES","Identity");
-                });
-
-            modelBuilder.Entity("Survey.Identity.Domain.Entities.EntityLevel", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<Guid?>("ParentId");
-
-                    b.Property<byte[]>("Timestamp")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate();
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ParentId");
-
-                    b.ToTable("ENTITIES_LEVELS","Identity");
                 });
 
             modelBuilder.Entity("Survey.Identity.Domain.Features.Feature", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("MicroServiceId");
+                    b.Property<Guid?>("MicroServiceId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<byte[]>("Timestamp")
                         .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate();
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
 
                     b.HasKey("Id");
 
@@ -80,27 +80,36 @@ namespace Survey.Identity.Migrations
             modelBuilder.Entity("Survey.Identity.Domain.Identity.RefreshToken", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("CreationDate");
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("ExpiryDate");
+                    b.Property<DateTime>("ExpiryDate")
+                        .HasColumnType("datetime2");
 
-                    b.Property<bool>("Invalidated");
+                    b.Property<bool>("Invalidated")
+                        .HasColumnType("bit");
 
                     b.Property<string>("JwtId")
+                        .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
                     b.Property<byte[]>("Timestamp")
                         .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate();
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
 
                     b.Property<string>("Token")
+                        .HasColumnType("nvarchar(250)")
                         .HasMaxLength(250);
 
-                    b.Property<bool>("Used");
+                    b.Property<bool>("Used")
+                        .HasColumnType("bit");
 
-                    b.Property<Guid>("UserId");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -112,20 +121,25 @@ namespace Survey.Identity.Migrations
             modelBuilder.Entity("Survey.Identity.Domain.Roles.Role", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken();
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
+                        .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
 
                     b.Property<string>("NormalizedName")
+                        .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
 
                     b.Property<byte[]>("Timestamp")
                         .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate();
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
 
                     b.HasKey("Id");
 
@@ -141,13 +155,17 @@ namespace Survey.Identity.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ClaimType");
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ClaimValue");
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("RoleId");
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -158,15 +176,19 @@ namespace Survey.Identity.Migrations
 
             modelBuilder.Entity("Survey.Identity.Domain.Roles.RoleFeature", b =>
                 {
-                    b.Property<Guid>("FeatureId");
+                    b.Property<Guid>("FeatureId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("RoleId");
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("AssociatedOn");
+                    b.Property<DateTime>("AssociatedOn")
+                        .HasColumnType("datetime2");
 
                     b.Property<byte[]>("Timestamp")
                         .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate();
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
 
                     b.HasKey("FeatureId", "RoleId");
 
@@ -178,17 +200,21 @@ namespace Survey.Identity.Migrations
             modelBuilder.Entity("Survey.Identity.Domain.Services.MicroService", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
+                        .HasColumnType("nvarchar(255)")
                         .HasMaxLength(255);
 
                     b.Property<string>("Name")
+                        .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
                     b.Property<byte[]>("Timestamp")
                         .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate();
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
 
                     b.HasKey("Id");
 
@@ -198,47 +224,65 @@ namespace Survey.Identity.Migrations
             modelBuilder.Entity("Survey.Identity.Domain.Users.User", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("AccessFailedCount");
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken();
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
+                        .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
 
-                    b.Property<bool>("EmailConfirmed");
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
 
-                    b.Property<Guid?>("EntityId");
+                    b.Property<Guid?>("EntityId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime?>("LastConnexionOn");
+                    b.Property<DateTime?>("LastConnexionOn")
+                        .HasColumnType("datetime2");
 
-                    b.Property<bool>("LockoutEnabled");
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
 
-                    b.Property<DateTimeOffset?>("LockoutEnd");
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("NormalizedEmail")
+                        .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
 
                     b.Property<string>("NormalizedUserName")
+                        .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
 
-                    b.Property<string>("PasswordHash");
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PhoneNumber");
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("PhoneNumberConfirmed");
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
 
-                    b.Property<string>("SecurityStamp");
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<byte[]>("Timestamp")
                         .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate();
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
 
-                    b.Property<bool>("TwoFactorEnabled");
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
 
                     b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
 
                     b.HasKey("Id");
@@ -260,13 +304,17 @@ namespace Survey.Identity.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ClaimType");
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ClaimValue");
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("UserId");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -277,13 +325,17 @@ namespace Survey.Identity.Migrations
 
             modelBuilder.Entity("Survey.Identity.Domain.Users.UserLogin", b =>
                 {
-                    b.Property<string>("LoginProvider");
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("ProviderKey");
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("ProviderDisplayName");
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("UserId");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -294,15 +346,19 @@ namespace Survey.Identity.Migrations
 
             modelBuilder.Entity("Survey.Identity.Domain.Users.UserRole", b =>
                 {
-                    b.Property<Guid>("UserId");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("RoleId");
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("AssociatedOn");
+                    b.Property<DateTime>("AssociatedOn")
+                        .HasColumnType("datetime2");
 
                     b.Property<byte[]>("Timestamp")
                         .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate();
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
 
                     b.HasKey("UserId", "RoleId");
 
@@ -313,13 +369,17 @@ namespace Survey.Identity.Migrations
 
             modelBuilder.Entity("Survey.Identity.Domain.Users.UserToken", b =>
                 {
-                    b.Property<Guid>("UserId");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("LoginProvider");
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Value");
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
@@ -328,199 +388,106 @@ namespace Survey.Identity.Migrations
 
             modelBuilder.Entity("Survey.Identity.Domain.Entities.Entity", b =>
                 {
-                    b.HasOne("Survey.Identity.Domain.Entities.EntityLevel", "EntityLevel")
-                        .WithMany()
-                        .HasForeignKey("EntityLevelId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                    b.OwnsOne("Survey.Identity.Domain.CreateInfo", "CreateInfo", b1 =>
+                        {
+                            b1.Property<Guid>("EntityId")
+                                .HasColumnType("uniqueidentifier");
 
-                    b.HasOne("Survey.Identity.Domain.Entities.Entity", "ParentEntity")
-                        .WithMany()
-                        .HasForeignKey("ParentId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                            b1.Property<Guid?>("CreatedBy")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnName("CreatedBy")
+                                .HasColumnType("uniqueidentifier")
+                                .HasDefaultValue(null);
+
+                            b1.Property<DateTime?>("CreatedOn")
+                                .IsRequired()
+                                .ValueGeneratedOnAdd()
+                                .HasColumnName("CreatedOn")
+                                .HasColumnType("datetime2")
+                                .HasDefaultValue(new DateTime(2020, 6, 4, 9, 44, 11, 347, DateTimeKind.Local).AddTicks(5528));
+
+                            b1.HasKey("EntityId");
+
+                            b1.ToTable("ENTITIES");
+
+                            b1.WithOwner()
+                                .HasForeignKey("EntityId");
+                        });
+
+                    b.OwnsOne("Survey.Identity.Domain.DeleteInfo", "DeleteInfo", b1 =>
+                        {
+                            b1.Property<Guid>("EntityId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("DeleteReason")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnName("DeletReason")
+                                .HasColumnType("nvarchar(250)")
+                                .HasMaxLength(250)
+                                .HasDefaultValue(null);
+
+                            b1.Property<Guid?>("DeletedBy")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnName("DeletedBy")
+                                .HasColumnType("uniqueidentifier")
+                                .HasDefaultValue(null);
+
+                            b1.Property<DateTime?>("DeletedOn")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnName("DeletedOn")
+                                .HasColumnType("datetime2")
+                                .HasDefaultValue(null);
+
+                            b1.HasKey("EntityId");
+
+                            b1.ToTable("ENTITIES");
+
+                            b1.WithOwner()
+                                .HasForeignKey("EntityId");
+                        });
 
                     b.OwnsOne("Survey.Identity.Domain.Entities.FunctionalCode", "FuncCode", b1 =>
                         {
-                            b1.Property<Guid>("EntityId");
+                            b1.Property<Guid>("EntityId")
+                                .HasColumnType("uniqueidentifier");
 
                             b1.Property<string>("Code")
                                 .IsRequired()
                                 .HasColumnName("Code")
+                                .HasColumnType("nvarchar(6)")
                                 .HasMaxLength(6);
 
                             b1.HasKey("EntityId");
 
-                            b1.ToTable("ENTITIES","Identity");
+                            b1.ToTable("ENTITIES");
 
-                            b1.HasOne("Survey.Identity.Domain.Entities.Entity")
-                                .WithOne("FuncCode")
-                                .HasForeignKey("Survey.Identity.Domain.Entities.FunctionalCode", "EntityId")
-                                .OnDelete(DeleteBehavior.Cascade);
-                        });
-
-                    b.OwnsOne("Survey.Identity.Domain.CreateInfo", "CreateInfo", b1 =>
-                        {
-                            b1.Property<Guid>("EntityId");
-
-                            b1.Property<Guid?>("CreatedBy")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnName("CreatedBy")
-                                .HasDefaultValue(null);
-
-                            b1.Property<DateTime?>("CreatedOn")
-                                .IsRequired()
-                                .ValueGeneratedOnAdd()
-                                .HasColumnName("CreatedOn")
-                                .HasDefaultValue(new DateTime(2020, 5, 24, 16, 23, 30, 997, DateTimeKind.Local).AddTicks(5573));
-
-                            b1.HasKey("EntityId");
-
-                            b1.ToTable("ENTITIES","Identity");
-
-                            b1.HasOne("Survey.Identity.Domain.Entities.Entity")
-                                .WithOne("CreateInfo")
-                                .HasForeignKey("Survey.Identity.Domain.CreateInfo", "EntityId")
-                                .OnDelete(DeleteBehavior.Cascade);
-                        });
-
-                    b.OwnsOne("Survey.Identity.Domain.DeleteInfo", "DeleteInfo", b1 =>
-                        {
-                            b1.Property<Guid>("EntityId");
-
-                            b1.Property<string>("DeleteReason")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnName("DeletReason")
-                                .HasMaxLength(250)
-                                .HasDefaultValue(null);
-
-                            b1.Property<Guid?>("DeletedBy")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnName("DeletedBy")
-                                .HasDefaultValue(null);
-
-                            b1.Property<DateTime?>("DeletedOn")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnName("DeletedOn")
-                                .HasDefaultValue(null);
-
-                            b1.HasKey("EntityId");
-
-                            b1.ToTable("ENTITIES","Identity");
-
-                            b1.HasOne("Survey.Identity.Domain.Entities.Entity")
-                                .WithOne("DeleteInfo")
-                                .HasForeignKey("Survey.Identity.Domain.DeleteInfo", "EntityId")
-                                .OnDelete(DeleteBehavior.Cascade);
+                            b1.WithOwner()
+                                .HasForeignKey("EntityId");
                         });
 
                     b.OwnsOne("Survey.Identity.Domain.Entities.NameDesc", "NameDesciption", b1 =>
                         {
-                            b1.Property<Guid>("EntityId");
+                            b1.Property<Guid>("EntityId")
+                                .HasColumnType("uniqueidentifier");
 
                             b1.Property<string>("Description")
                                 .IsRequired()
                                 .HasColumnName("Description")
+                                .HasColumnType("nvarchar(255)")
                                 .HasMaxLength(255);
 
                             b1.Property<string>("Name")
                                 .IsRequired()
                                 .HasColumnName("Name")
+                                .HasColumnType("nvarchar(50)")
                                 .HasMaxLength(50);
 
                             b1.HasKey("EntityId");
 
-                            b1.ToTable("ENTITIES","Identity");
+                            b1.ToTable("ENTITIES");
 
-                            b1.HasOne("Survey.Identity.Domain.Entities.Entity")
-                                .WithOne("NameDesciption")
-                                .HasForeignKey("Survey.Identity.Domain.Entities.NameDesc", "EntityId")
-                                .OnDelete(DeleteBehavior.Cascade);
-                        });
-                });
-
-            modelBuilder.Entity("Survey.Identity.Domain.Entities.EntityLevel", b =>
-                {
-                    b.HasOne("Survey.Identity.Domain.Entities.EntityLevel", "Parent")
-                        .WithMany()
-                        .HasForeignKey("ParentId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.OwnsOne("Survey.Identity.Domain.CreateInfo", "CreateInfo", b1 =>
-                        {
-                            b1.Property<Guid>("EntityLevelId");
-
-                            b1.Property<Guid?>("CreatedBy")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnName("CreatedBy")
-                                .HasDefaultValue(null);
-
-                            b1.Property<DateTime?>("CreatedOn")
-                                .IsRequired()
-                                .ValueGeneratedOnAdd()
-                                .HasColumnName("CreatedOn")
-                                .HasDefaultValue(new DateTime(2020, 5, 24, 16, 23, 30, 984, DateTimeKind.Local).AddTicks(58));
-
-                            b1.HasKey("EntityLevelId");
-
-                            b1.ToTable("ENTITIES_LEVELS","Identity");
-
-                            b1.HasOne("Survey.Identity.Domain.Entities.EntityLevel")
-                                .WithOne("CreateInfo")
-                                .HasForeignKey("Survey.Identity.Domain.CreateInfo", "EntityLevelId")
-                                .OnDelete(DeleteBehavior.Cascade);
-                        });
-
-                    b.OwnsOne("Survey.Identity.Domain.DeleteInfo", "DeleteInfo", b1 =>
-                        {
-                            b1.Property<Guid>("EntityLevelId");
-
-                            b1.Property<string>("DeleteReason")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnName("DeletReason")
-                                .HasMaxLength(250)
-                                .HasDefaultValue(null);
-
-                            b1.Property<Guid?>("DeletedBy")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnName("DeletedBy")
-                                .HasDefaultValue(null);
-
-                            b1.Property<DateTime?>("DeletedOn")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnName("DeletedOn")
-                                .HasDefaultValue(null);
-
-                            b1.HasKey("EntityLevelId");
-
-                            b1.ToTable("ENTITIES_LEVELS","Identity");
-
-                            b1.HasOne("Survey.Identity.Domain.Entities.EntityLevel")
-                                .WithOne("DeleteInfo")
-                                .HasForeignKey("Survey.Identity.Domain.DeleteInfo", "EntityLevelId")
-                                .OnDelete(DeleteBehavior.Cascade);
-                        });
-
-                    b.OwnsOne("Survey.Identity.Domain.Entities.NameDesc", "NameDesciption", b1 =>
-                        {
-                            b1.Property<Guid>("EntityLevelId");
-
-                            b1.Property<string>("Description")
-                                .IsRequired()
-                                .HasColumnName("Description")
-                                .HasMaxLength(255);
-
-                            b1.Property<string>("Name")
-                                .IsRequired()
-                                .HasColumnName("Name")
-                                .HasMaxLength(50);
-
-                            b1.HasKey("EntityLevelId");
-
-                            b1.ToTable("ENTITIES_LEVELS","Identity");
-
-                            b1.HasOne("Survey.Identity.Domain.Entities.EntityLevel")
-                                .WithOne("NameDesciption")
-                                .HasForeignKey("Survey.Identity.Domain.Entities.NameDesc", "EntityLevelId")
-                                .OnDelete(DeleteBehavior.Cascade);
+                            b1.WithOwner()
+                                .HasForeignKey("EntityId");
                         });
                 });
 
@@ -531,118 +498,126 @@ namespace Survey.Identity.Migrations
                         .HasForeignKey("MicroServiceId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.OwnsOne("Survey.Identity.Domain.Features.FeatureInfo", "FeatureInfo", b1 =>
-                        {
-                            b1.Property<Guid>("FeatureId");
-
-                            b1.Property<string>("Action")
-                                .IsRequired()
-                                .HasColumnName("Action")
-                                .HasMaxLength(50);
-
-                            b1.Property<string>("Controller")
-                                .IsRequired()
-                                .HasColumnName("Controller")
-                                .HasMaxLength(50);
-
-                            b1.Property<string>("ControllerActionName")
-                                .HasColumnName("ControllerActionName");
-
-                            b1.Property<string>("Description")
-                                .HasColumnName("Description")
-                                .HasMaxLength(500);
-
-                            b1.Property<string>("Label")
-                                .HasColumnName("Label")
-                                .HasMaxLength(50);
-
-                            b1.HasKey("FeatureId");
-
-                            b1.ToTable("FEATURES","Identity");
-
-                            b1.HasOne("Survey.Identity.Domain.Features.Feature")
-                                .WithOne("FeatureInfo")
-                                .HasForeignKey("Survey.Identity.Domain.Features.FeatureInfo", "FeatureId")
-                                .OnDelete(DeleteBehavior.Cascade);
-                        });
-
                     b.OwnsOne("Survey.Identity.Domain.CreateInfo", "CreateInfo", b1 =>
                         {
-                            b1.Property<Guid>("FeatureId");
+                            b1.Property<Guid>("FeatureId")
+                                .HasColumnType("uniqueidentifier");
 
                             b1.Property<Guid?>("CreatedBy")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnName("CreatedBy")
+                                .HasColumnType("uniqueidentifier")
                                 .HasDefaultValue(null);
 
                             b1.Property<DateTime?>("CreatedOn")
                                 .IsRequired()
                                 .ValueGeneratedOnAdd()
                                 .HasColumnName("CreatedOn")
-                                .HasDefaultValue(new DateTime(2020, 5, 24, 16, 23, 30, 942, DateTimeKind.Local).AddTicks(5728));
+                                .HasColumnType("datetime2")
+                                .HasDefaultValue(new DateTime(2020, 6, 4, 9, 44, 11, 303, DateTimeKind.Local).AddTicks(3701));
 
                             b1.HasKey("FeatureId");
 
-                            b1.ToTable("FEATURES","Identity");
+                            b1.ToTable("FEATURES");
 
-                            b1.HasOne("Survey.Identity.Domain.Features.Feature")
-                                .WithOne("CreateInfo")
-                                .HasForeignKey("Survey.Identity.Domain.CreateInfo", "FeatureId")
-                                .OnDelete(DeleteBehavior.Cascade);
+                            b1.WithOwner()
+                                .HasForeignKey("FeatureId");
                         });
 
                     b.OwnsOne("Survey.Identity.Domain.DeleteInfo", "DeleteInfo", b1 =>
                         {
-                            b1.Property<Guid>("FeatureId");
+                            b1.Property<Guid>("FeatureId")
+                                .HasColumnType("uniqueidentifier");
 
                             b1.Property<string>("DeleteReason")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnName("DeletReason")
+                                .HasColumnType("nvarchar(250)")
                                 .HasMaxLength(250)
                                 .HasDefaultValue(null);
 
                             b1.Property<Guid?>("DeletedBy")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnName("DeletedBy")
+                                .HasColumnType("uniqueidentifier")
                                 .HasDefaultValue(null);
 
                             b1.Property<DateTime?>("DeletedOn")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnName("DeletedOn")
+                                .HasColumnType("datetime2")
                                 .HasDefaultValue(null);
 
                             b1.HasKey("FeatureId");
 
-                            b1.ToTable("FEATURES","Identity");
+                            b1.ToTable("FEATURES");
 
-                            b1.HasOne("Survey.Identity.Domain.Features.Feature")
-                                .WithOne("DeleteInfo")
-                                .HasForeignKey("Survey.Identity.Domain.DeleteInfo", "FeatureId")
-                                .OnDelete(DeleteBehavior.Cascade);
+                            b1.WithOwner()
+                                .HasForeignKey("FeatureId");
                         });
 
                     b.OwnsOne("Survey.Identity.Domain.DisableInfo", "DisableInfo", b1 =>
                         {
-                            b1.Property<Guid>("FeatureId");
+                            b1.Property<Guid>("FeatureId")
+                                .HasColumnType("uniqueidentifier");
 
                             b1.Property<Guid?>("DisabledBy")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnName("DisabledBy")
+                                .HasColumnType("uniqueidentifier")
                                 .HasDefaultValue(null);
 
                             b1.Property<DateTime?>("DisabledOn")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnName("DisabledOn")
+                                .HasColumnType("datetime2")
                                 .HasDefaultValue(null);
 
                             b1.HasKey("FeatureId");
 
-                            b1.ToTable("FEATURES","Identity");
+                            b1.ToTable("FEATURES");
 
-                            b1.HasOne("Survey.Identity.Domain.Features.Feature")
-                                .WithOne("DisableInfo")
-                                .HasForeignKey("Survey.Identity.Domain.DisableInfo", "FeatureId")
-                                .OnDelete(DeleteBehavior.Cascade);
+                            b1.WithOwner()
+                                .HasForeignKey("FeatureId");
+                        });
+
+                    b.OwnsOne("Survey.Identity.Domain.Features.FeatureInfo", "FeatureInfo", b1 =>
+                        {
+                            b1.Property<Guid>("FeatureId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("Action")
+                                .IsRequired()
+                                .HasColumnName("Action")
+                                .HasColumnType("nvarchar(50)")
+                                .HasMaxLength(50);
+
+                            b1.Property<string>("Controller")
+                                .IsRequired()
+                                .HasColumnName("Controller")
+                                .HasColumnType("nvarchar(50)")
+                                .HasMaxLength(50);
+
+                            b1.Property<string>("ControllerActionName")
+                                .HasColumnName("ControllerActionName")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("Description")
+                                .HasColumnName("Description")
+                                .HasColumnType("nvarchar(500)")
+                                .HasMaxLength(500);
+
+                            b1.Property<string>("Label")
+                                .HasColumnName("Label")
+                                .HasColumnType("nvarchar(50)")
+                                .HasMaxLength(50);
+
+                            b1.HasKey("FeatureId");
+
+                            b1.ToTable("FEATURES");
+
+                            b1.WithOwner()
+                                .HasForeignKey("FeatureId");
                         });
                 });
 
@@ -651,97 +626,103 @@ namespace Survey.Identity.Migrations
                     b.HasOne("Survey.Identity.Domain.Users.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Survey.Identity.Domain.Roles.Role", b =>
                 {
                     b.OwnsOne("Survey.Identity.Domain.CreateInfo", "CreateInfo", b1 =>
                         {
-                            b1.Property<Guid>("RoleId");
+                            b1.Property<Guid>("RoleId")
+                                .HasColumnType("uniqueidentifier");
 
                             b1.Property<Guid?>("CreatedBy")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnName("CreatedBy")
+                                .HasColumnType("uniqueidentifier")
                                 .HasDefaultValue(null);
 
                             b1.Property<DateTime?>("CreatedOn")
                                 .IsRequired()
                                 .ValueGeneratedOnAdd()
                                 .HasColumnName("CreatedOn")
-                                .HasDefaultValue(new DateTime(2020, 5, 24, 16, 23, 30, 956, DateTimeKind.Local).AddTicks(8056));
+                                .HasColumnType("datetime2")
+                                .HasDefaultValue(new DateTime(2020, 6, 4, 9, 44, 11, 320, DateTimeKind.Local).AddTicks(8444));
 
                             b1.HasKey("RoleId");
 
-                            b1.ToTable("ROLES","Identity");
+                            b1.ToTable("ROLES");
 
-                            b1.HasOne("Survey.Identity.Domain.Roles.Role")
-                                .WithOne("CreateInfo")
-                                .HasForeignKey("Survey.Identity.Domain.CreateInfo", "RoleId")
-                                .OnDelete(DeleteBehavior.Cascade);
+                            b1.WithOwner()
+                                .HasForeignKey("RoleId");
                         });
 
                     b.OwnsOne("Survey.Identity.Domain.DeleteInfo", "DeleteInfo", b1 =>
                         {
-                            b1.Property<Guid>("RoleId");
+                            b1.Property<Guid>("RoleId")
+                                .HasColumnType("uniqueidentifier");
 
                             b1.Property<string>("DeleteReason")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnName("DeletReason")
+                                .HasColumnType("nvarchar(250)")
                                 .HasMaxLength(250)
                                 .HasDefaultValue(null);
 
                             b1.Property<Guid?>("DeletedBy")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnName("DeletedBy")
+                                .HasColumnType("uniqueidentifier")
                                 .HasDefaultValue(null);
 
                             b1.Property<DateTime?>("DeletedOn")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnName("DeletedOn")
+                                .HasColumnType("datetime2")
                                 .HasDefaultValue(null);
 
                             b1.HasKey("RoleId");
 
-                            b1.ToTable("ROLES","Identity");
+                            b1.ToTable("ROLES");
 
-                            b1.HasOne("Survey.Identity.Domain.Roles.Role")
-                                .WithOne("DeleteInfo")
-                                .HasForeignKey("Survey.Identity.Domain.DeleteInfo", "RoleId")
-                                .OnDelete(DeleteBehavior.Cascade);
+                            b1.WithOwner()
+                                .HasForeignKey("RoleId");
                         });
 
                     b.OwnsOne("Survey.Identity.Domain.DisableInfo", "DisableInfo", b1 =>
                         {
-                            b1.Property<Guid>("RoleId");
+                            b1.Property<Guid>("RoleId")
+                                .HasColumnType("uniqueidentifier");
 
                             b1.Property<Guid?>("DisabledBy")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnName("DisabledBy")
+                                .HasColumnType("uniqueidentifier")
                                 .HasDefaultValue(null);
 
                             b1.Property<DateTime?>("DisabledOn")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnName("DisabledOn")
+                                .HasColumnType("datetime2")
                                 .HasDefaultValue(null);
 
                             b1.HasKey("RoleId");
 
-                            b1.ToTable("ROLES","Identity");
+                            b1.ToTable("ROLES");
 
-                            b1.HasOne("Survey.Identity.Domain.Roles.Role")
-                                .WithOne("DisableInfo")
-                                .HasForeignKey("Survey.Identity.Domain.DisableInfo", "RoleId")
-                                .OnDelete(DeleteBehavior.Cascade);
+                            b1.WithOwner()
+                                .HasForeignKey("RoleId");
                         });
                 });
 
             modelBuilder.Entity("Survey.Identity.Domain.Roles.RoleClaim", b =>
                 {
-                    b.HasOne("Survey.Identity.Domain.Roles.Role")
+                    b.HasOne("Survey.Identity.Domain.Roles.Role", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Survey.Identity.Domain.Roles.RoleFeature", b =>
@@ -749,69 +730,74 @@ namespace Survey.Identity.Migrations
                     b.HasOne("Survey.Identity.Domain.Features.Feature", "Feature")
                         .WithMany()
                         .HasForeignKey("FeatureId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("Survey.Identity.Domain.Roles.Role", "Role")
                         .WithMany("RoleFeatures")
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Survey.Identity.Domain.Services.MicroService", b =>
                 {
                     b.OwnsOne("Survey.Identity.Domain.CreateInfo", "CreateInfo", b1 =>
                         {
-                            b1.Property<Guid>("MicroServiceId");
+                            b1.Property<Guid>("MicroServiceId")
+                                .HasColumnType("uniqueidentifier");
 
                             b1.Property<Guid?>("CreatedBy")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnName("CreatedBy")
+                                .HasColumnType("uniqueidentifier")
                                 .HasDefaultValue(null);
 
                             b1.Property<DateTime?>("CreatedOn")
                                 .IsRequired()
                                 .ValueGeneratedOnAdd()
                                 .HasColumnName("CreatedOn")
-                                .HasDefaultValue(new DateTime(2020, 5, 24, 16, 23, 31, 5, DateTimeKind.Local).AddTicks(9082));
+                                .HasColumnType("datetime2")
+                                .HasDefaultValue(new DateTime(2020, 6, 4, 9, 44, 11, 358, DateTimeKind.Local).AddTicks(4280));
 
                             b1.HasKey("MicroServiceId");
 
-                            b1.ToTable("MICRO_SERVICES","Identity");
+                            b1.ToTable("MICRO_SERVICES");
 
-                            b1.HasOne("Survey.Identity.Domain.Services.MicroService")
-                                .WithOne("CreateInfo")
-                                .HasForeignKey("Survey.Identity.Domain.CreateInfo", "MicroServiceId")
-                                .OnDelete(DeleteBehavior.Cascade);
+                            b1.WithOwner()
+                                .HasForeignKey("MicroServiceId");
                         });
 
                     b.OwnsOne("Survey.Identity.Domain.DeleteInfo", "DeleteInfo", b1 =>
                         {
-                            b1.Property<Guid>("MicroServiceId");
+                            b1.Property<Guid>("MicroServiceId")
+                                .HasColumnType("uniqueidentifier");
 
                             b1.Property<string>("DeleteReason")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnName("DeletReason")
+                                .HasColumnType("nvarchar(250)")
                                 .HasMaxLength(250)
                                 .HasDefaultValue(null);
 
                             b1.Property<Guid?>("DeletedBy")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnName("DeletedBy")
+                                .HasColumnType("uniqueidentifier")
                                 .HasDefaultValue(null);
 
                             b1.Property<DateTime?>("DeletedOn")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnName("DeletedOn")
+                                .HasColumnType("datetime2")
                                 .HasDefaultValue(null);
 
                             b1.HasKey("MicroServiceId");
 
-                            b1.ToTable("MICRO_SERVICES","Identity");
+                            b1.ToTable("MICRO_SERVICES");
 
-                            b1.HasOne("Survey.Identity.Domain.Services.MicroService")
-                                .WithOne("DeleteInfo")
-                                .HasForeignKey("Survey.Identity.Domain.DeleteInfo", "MicroServiceId")
-                                .OnDelete(DeleteBehavior.Cascade);
+                            b1.WithOwner()
+                                .HasForeignKey("MicroServiceId");
                         });
                 });
 
@@ -821,98 +807,104 @@ namespace Survey.Identity.Migrations
                         .WithMany()
                         .HasForeignKey("EntityId");
 
-                    b.OwnsOne("Survey.Identity.Domain.Users.FullName", "FullName", b1 =>
-                        {
-                            b1.Property<Guid>("UserId");
-
-                            b1.Property<string>("FirstName")
-                                .HasColumnName("FirstName")
-                                .HasMaxLength(50);
-
-                            b1.Property<string>("LastName")
-                                .HasColumnName("LastName")
-                                .HasMaxLength(50);
-
-                            b1.HasKey("UserId");
-
-                            b1.ToTable("USERS","Identity");
-
-                            b1.HasOne("Survey.Identity.Domain.Users.User")
-                                .WithOne("FullName")
-                                .HasForeignKey("Survey.Identity.Domain.Users.FullName", "UserId")
-                                .OnDelete(DeleteBehavior.Cascade);
-                        });
-
                     b.OwnsOne("Survey.Identity.Domain.CreateInfo", "CreateInfo", b1 =>
                         {
-                            b1.Property<Guid>("UserId");
+                            b1.Property<Guid>("UserId")
+                                .HasColumnType("uniqueidentifier");
 
                             b1.Property<Guid?>("CreatedBy")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnName("CreatedBy")
+                                .HasColumnType("uniqueidentifier")
                                 .HasDefaultValue(null);
 
                             b1.Property<DateTime?>("CreatedOn")
                                 .IsRequired()
                                 .ValueGeneratedOnAdd()
                                 .HasColumnName("CreatedOn")
-                                .HasDefaultValue(new DateTime(2020, 5, 24, 16, 23, 30, 914, DateTimeKind.Local).AddTicks(6291));
+                                .HasColumnType("datetime2")
+                                .HasDefaultValue(new DateTime(2020, 6, 4, 9, 44, 11, 243, DateTimeKind.Local).AddTicks(935));
 
                             b1.HasKey("UserId");
 
-                            b1.ToTable("USERS","Identity");
+                            b1.ToTable("USERS");
 
-                            b1.HasOne("Survey.Identity.Domain.Users.User")
-                                .WithOne("CreateInfo")
-                                .HasForeignKey("Survey.Identity.Domain.CreateInfo", "UserId")
-                                .OnDelete(DeleteBehavior.Cascade);
+                            b1.WithOwner()
+                                .HasForeignKey("UserId");
                         });
 
                     b.OwnsOne("Survey.Identity.Domain.DeleteInfo", "DeleteInfo", b1 =>
                         {
-                            b1.Property<Guid>("UserId");
+                            b1.Property<Guid>("UserId")
+                                .HasColumnType("uniqueidentifier");
 
                             b1.Property<string>("DeleteReason")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnName("DeletReason")
+                                .HasColumnType("nvarchar(250)")
                                 .HasMaxLength(250)
                                 .HasDefaultValue(null);
 
                             b1.Property<Guid?>("DeletedBy")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnName("DeletedBy")
+                                .HasColumnType("uniqueidentifier")
                                 .HasDefaultValue(null);
 
                             b1.Property<DateTime?>("DeletedOn")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnName("DeletedOn")
+                                .HasColumnType("datetime2")
                                 .HasDefaultValue(null);
 
                             b1.HasKey("UserId");
 
-                            b1.ToTable("USERS","Identity");
+                            b1.ToTable("USERS");
 
-                            b1.HasOne("Survey.Identity.Domain.Users.User")
-                                .WithOne("DeleteInfo")
-                                .HasForeignKey("Survey.Identity.Domain.DeleteInfo", "UserId")
-                                .OnDelete(DeleteBehavior.Cascade);
+                            b1.WithOwner()
+                                .HasForeignKey("UserId");
+                        });
+
+                    b.OwnsOne("Survey.Identity.Domain.Users.FullName", "FullName", b1 =>
+                        {
+                            b1.Property<Guid>("UserId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("FirstName")
+                                .HasColumnName("FirstName")
+                                .HasColumnType("nvarchar(50)")
+                                .HasMaxLength(50);
+
+                            b1.Property<string>("LastName")
+                                .HasColumnName("LastName")
+                                .HasColumnType("nvarchar(50)")
+                                .HasMaxLength(50);
+
+                            b1.HasKey("UserId");
+
+                            b1.ToTable("USERS");
+
+                            b1.WithOwner()
+                                .HasForeignKey("UserId");
                         });
                 });
 
             modelBuilder.Entity("Survey.Identity.Domain.Users.UserClaim", b =>
                 {
-                    b.HasOne("Survey.Identity.Domain.Users.User")
+                    b.HasOne("Survey.Identity.Domain.Users.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Survey.Identity.Domain.Users.UserLogin", b =>
                 {
-                    b.HasOne("Survey.Identity.Domain.Users.User")
+                    b.HasOne("Survey.Identity.Domain.Users.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Survey.Identity.Domain.Users.UserRole", b =>
@@ -920,20 +912,23 @@ namespace Survey.Identity.Migrations
                     b.HasOne("Survey.Identity.Domain.Roles.Role", "Role")
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("Survey.Identity.Domain.Users.User", "User")
                         .WithMany("UserRoles")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Survey.Identity.Domain.Users.UserToken", b =>
                 {
-                    b.HasOne("Survey.Identity.Domain.Users.User")
+                    b.HasOne("Survey.Identity.Domain.Users.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

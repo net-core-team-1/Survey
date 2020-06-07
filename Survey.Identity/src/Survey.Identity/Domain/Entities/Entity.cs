@@ -12,9 +12,9 @@ namespace Survey.Identity.Domain.Entities
         public virtual DeleteInfo DeleteInfo { get; private set; }
         public virtual CreateInfo CreateInfo { get; private set; }
 
-        public virtual EntityLevel EntityLevel { get; private set; }
-        public virtual Guid? ParentId { get; private set; }
-        public virtual Entity ParentEntity { get; private set; }
+        //public virtual EntityLevel EntityLevel { get; private set; }
+        //public virtual Guid? ParentId { get; private set; }
+        //public virtual Entity ParentEntity { get; private set; }
 
 
         #endregion
@@ -25,27 +25,27 @@ namespace Survey.Identity.Domain.Entities
 
         }
         public Entity(NameDesc nameDescription, FunctionalCode code,
-                     EntityLevel entityLevel, CreateInfo createInfo,
-                     Entity parent = null)
+                     /*EntityLevel entityLevel,*/ CreateInfo createInfo
+                     /*Entity parent = null*/)
         {
             Id = Guid.NewGuid();
             NameDesciption = nameDescription;
             FuncCode = code;
             CreateInfo = createInfo;
             DeleteInfo = DeleteInfo.Create().Value;
-            SetHierarchy(parent, entityLevel);
+            //SetHierarchy(parent, entityLevel);
         }
         #endregion
 
         #region Methods 
-        public void EditInfo(NameDesc nameDescription, FunctionalCode funcCode, Entity parent, EntityLevel entityLevel)
+        public void EditInfo(NameDesc nameDescription, FunctionalCode funcCode/*, Entity parent, EntityLevel entityLeve*/)
         {
             if (NameDesciption != nameDescription)
                 NameDesciption = nameDescription;
 
             if (FuncCode != funcCode)
                 FuncCode = funcCode;
-            SetHierarchy(parent, entityLevel);
+            //SetHierarchy(parent, entityLevel);
         }
         public void Delete(DeleteInfo deleteInfo)
         {
@@ -54,17 +54,17 @@ namespace Survey.Identity.Domain.Entities
             DeleteInfo = deleteInfo;
         }
 
-        private void SetHierarchy(Entity parent, EntityLevel entityLevel)
-        {
-            if (parent != null)
-                if (parent.EntityLevel.Id != entityLevel.Parent.Id)
-                    throw new SurveyException("invalid_parent");
-            if (parent == null && entityLevel.Parent != null)
-                throw new SurveyException("invalid_parent");
-            ParentEntity = parent;
-            EntityLevel = entityLevel;
+        //private void SetHierarchy(Entity parent, EntityLevel entityLevel)
+        //{
+        //    if (parent != null)
+        //        if (parent.EntityLevel.Id != entityLevel.Parent.Id)
+        //            throw new SurveyException("invalid_parent");
+        //    if (parent == null && entityLevel.Parent != null)
+        //        throw new SurveyException("invalid_parent");
+        //    ParentEntity = parent;
+        //    EntityLevel = entityLevel;
 
-        }
+        //}
         #endregion
     }
 }

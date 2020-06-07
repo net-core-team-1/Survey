@@ -16,10 +16,7 @@ namespace Survey.Identity.Controllers
         private readonly LinkGenerator _linkGenerator;
         private readonly DispatcherAsync _dispatcher;
 
-        public UsersController(
-                               IMapper mapper,
-                               LinkGenerator linkGenerator,
-                               DispatcherAsync dispatcher)
+        public UsersController(IMapper mapper,LinkGenerator linkGenerator,DispatcherAsync dispatcher)
         {
             _mapper = mapper;
             _linkGenerator = linkGenerator;
@@ -40,6 +37,7 @@ namespace Survey.Identity.Controllers
         {
             editInfoRequest.Id = id;
             var editInfoCommand = _mapper.Map<EditUserInfoCommand>(editInfoRequest);
+            editInfoCommand.Roles = editInfoRequest.Roles;
             var result = await _dispatcher.Dispatch(editInfoCommand);
             return FromResult(result);
         }

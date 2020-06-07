@@ -11,15 +11,15 @@ namespace Survey.Identity.Services.Entities
     public class EntityService : IEntityService
     {
         private readonly IEntityRepository _entityRepository;
-        private IEntityLevelRepository _entityLevelRepository;
+        //private IEntityLevelRepository _entityLevelRepository;
 
-        public EntityService(IEntityRepository entityRepository, IEntityLevelRepository entityLevelRepository)
+        public EntityService(IEntityRepository entityRepository/*, IEntityLevelRepository entityLevelRepository*/)
         {
             _entityRepository = entityRepository;
-            _entityLevelRepository = entityLevelRepository;
+            //_entityLevelRepository = entityLevelRepository;
         }
         public async Task<Result> Create(string name, string description, string code,
-                                   Guid? parentId, Guid levelId, Guid createdBy)
+                                   /*Guid? parentId, Guid levelId,*/ Guid createdBy)
         {
             var entity = _entityRepository.FindByCode(code);
             if (entity != null)
@@ -37,18 +37,19 @@ namespace Survey.Identity.Services.Entities
             if (createInfoResult.IsFailure)
                 return await Task<Result>.FromResult(Result.Failure(createInfoResult.Error));
 
-            var levelEntity = _entityLevelRepository.FindByKey(levelId);
-            if (levelEntity == null)
-                return await Task<Result>.FromResult(Result.Failure($"entity_mast_have_a_level_in_heirarchy"));
+            //var levelEntity = _entityLevelRepository.FindByKey(levelId);
+            //if (levelEntity == null)
+            //    return await Task<Result>.FromResult(Result.Failure($"entity_mast_have_a_level_in_heirarchy"));
 
 
-            var parent = _entityRepository.FindByKey(parentId);
-            if (parent == null && levelEntity.Parent != null)
-                return await Task<Result>.FromResult(Result.Failure($"entity_must_have_a_parent"));
+            //var parent = _entityRepository.FindByKey(parentId);
+            //if (parent == null && levelEntity.Parent != null)
+            //    return await Task<Result>.FromResult(Result.Failure($"entity_must_have_a_parent"));
 
 
             var newEntity = new Entity(nameDescriptionResult.Value, functionalCodeResult.Value,
-                                    levelEntity, createInfoResult.Value, parent);
+                                        createInfoResult.Value
+                                    /*levelEntity,  parent*/);
 
             _entityRepository.Insert(newEntity);
 
@@ -80,7 +81,7 @@ namespace Survey.Identity.Services.Entities
             return await Task<Result>.FromResult(Result.Ok());
         }
 
-        public Task<Result> EditInfo(Guid id, string name, string description, string code, Guid? parentId, Guid levelId)
+        public Task<Result> EditInfo(Guid id, string name, string description, string code/*, Guid? parentId, Guid levelId*/)
         {
             var entity = _entityRepository.FindByKey(id);
             if (entity == null)
@@ -94,17 +95,17 @@ namespace Survey.Identity.Services.Entities
             if (functionalCodeResult.IsFailure)
                 return Task<Result>.FromResult(Result.Failure(functionalCodeResult.Error));
 
-            var levelEntity = _entityLevelRepository.FindByKey(levelId);
-            if (levelEntity == null)
-                return Task<Result>.FromResult(Result.Failure($"entity_mast_have_a_level_in_heirarchy"));
+            //var levelEntity = _entityLevelRepository.FindByKey(levelId);
+            //if (levelEntity == null)
+            //    return Task<Result>.FromResult(Result.Failure($"entity_mast_have_a_level_in_heirarchy"));
 
 
-            var parent = _entityRepository.FindByKey(parentId);
+            //var parent = _entityRepository.FindByKey(parentId);
 
-            if (parent == null && levelEntity.Parent != null)
-                return Task<Result>.FromResult(Result.Failure($"entity_must_have_a_parent"));
+            //if (parent == null && levelEntity.Parent != null)
+            //    return Task<Result>.FromResult(Result.Failure($"entity_must_have_a_parent"));
 
-            entity.EditInfo(nameDescriptionResult.Value, functionalCodeResult.Value, parent, levelEntity);
+            entity.EditInfo(nameDescriptionResult.Value, functionalCodeResult.Value/*, parent, levelEntity*/);
 
 
             if (!_entityRepository.Save())

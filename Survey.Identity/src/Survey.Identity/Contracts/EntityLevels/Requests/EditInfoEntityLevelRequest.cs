@@ -5,12 +5,12 @@ using System.Threading.Tasks;
 
 namespace Survey.Identity.Contracts.EntityLevels.Requests
 {
-    public class EditInfoEntityLevelRequest
-    {
-        public Guid Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
+    //public class EditInfoEntityLevelRequest
+    //{
+    //    public Guid Id { get; set; }
+    //    public string Name { get; set; }
+    //    public string Description { get; set; }
 
-        public Guid ParentId { get; set; }
-    }
+    //    public Guid ParentId { get; set; }
+    //}
 }

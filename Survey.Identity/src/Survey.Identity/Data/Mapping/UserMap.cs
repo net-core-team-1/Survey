@@ -49,7 +49,8 @@ namespace Survey.Identity.Data.Mapping
                    .WithOne(a => a.User)
                    .HasForeignKey(a => a.UserId)
                     .OnDelete(DeleteBehavior.Restrict)
-                    .Metadata.PrincipalToDependent.SetPropertyAccessMode(PropertyAccessMode.Field); 
+                    .Metadata.PrincipalToDependent.SetPropertyAccessMode(PropertyAccessMode.Field);
+            builder.Ignore(a => a.Events);
         }
     }
 }

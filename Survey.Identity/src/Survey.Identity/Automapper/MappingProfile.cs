@@ -47,9 +47,9 @@ namespace Survey.Identity.API.Automapper
             CreateMap<DeleteEntityRequest, DeleteEntityCommand>();
 
             //EntityLevels
-            CreateMap<AddEntityLevelRequest, AddEntityLevelCommand>();
-            CreateMap<EditInfoEntityLevelRequest, EditInfoEntityLevelCommand>();
-            CreateMap<DeleteEntityRequest, DeleteEntityCommand>();
+            //CreateMap<AddEntityLevelRequest, AddEntityLevelCommand>();
+            //CreateMap<EditInfoEntityLevelRequest, EditInfoEntityLevelCommand>();
+            //CreateMap<DeleteEntityRequest, DeleteEntityCommand>();
 
         }
     }

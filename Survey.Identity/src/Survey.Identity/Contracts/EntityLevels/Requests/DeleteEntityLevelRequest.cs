@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace Survey.Identity.Contracts.EntityLevels.Requests
 {
-    public class DeleteEntityLevelRequest
-    {
-        public Guid Id { get; set; }
-        public Guid By { get; set; }
-        public string Reason { get; set; }
-    }
+    //public class DeleteEntityLevelRequest
+    //{
+    //    public Guid Id { get; set; }
+    //    public Guid By { get; set; }
+    //    public string Reason { get; set; }
+    //}
 }

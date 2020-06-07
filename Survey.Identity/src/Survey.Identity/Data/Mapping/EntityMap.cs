@@ -42,14 +42,14 @@ namespace Survey.Identity.Data.Mapping
             });
 
 
-            builder.HasOne<EntityLevel>(a => a.EntityLevel)
-                    .WithMany()
-                    .OnDelete(DeleteBehavior.Restrict);
+            //builder.HasOne<EntityLevel>(a => a.EntityLevel)
+            //        .WithMany()
+            //        .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne<Entity>(a => a.ParentEntity)
-                   .WithMany()
-                   .HasForeignKey(a => a.ParentId)
-                   .OnDelete(DeleteBehavior.Restrict);
+            //builder.HasOne<Entity>(a => a.ParentEntity)
+            //       .WithMany()
+            //       .HasForeignKey(a => a.ParentId)
+            //       .OnDelete(DeleteBehavior.Restrict);
 
         }
 

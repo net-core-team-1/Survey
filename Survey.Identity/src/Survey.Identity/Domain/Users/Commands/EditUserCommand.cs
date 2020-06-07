@@ -12,7 +12,7 @@ namespace Survey.Identity.Domain.Users.Commands
         public string LastName { get; }
         public Guid EntityId { get;  }
 
-        public List<Guid> Roles { get; }
+        public List<Guid> Roles { get; set; }
         public EditUserInfoCommand(Guid id,string firstName,string lastName,Guid entityId,
                                List<Guid> roles=null)
         {

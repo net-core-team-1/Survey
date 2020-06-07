@@ -9,13 +9,16 @@ namespace Survey.Identity.Extensions
     {
         public static IServiceCollection AddSurveyIdentityDbContext(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContextPool<SurveyIdentityContext>(options =>
+
+            services.AddEntityFrameworkSqlServer()
+                    .AddEntityFrameworkProxies();
+
+
+            services.AddDbContextPool<SurveyIdentityContext>((serviceProvider, optionsBuilder) =>
             {
-
-                options.UseSqlServer(configuration.GetConnectionString("IdentityConnectionString"))
-                       .UseLazyLoadingProxies();
-
-
+                optionsBuilder.UseSqlServer(configuration.GetConnectionString("IdentityConnectionString"))
+                      .UseLazyLoadingProxies();
+                optionsBuilder.UseInternalServiceProvider(serviceProvider);
 
             });
             return services;

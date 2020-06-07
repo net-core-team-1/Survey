@@ -20,7 +20,7 @@ namespace Survey.Identity.Handlers.Entities
         public async Task<Result> Handle(CreateEntityCommand command)
         {
             return await _entityService.Create( command.Name, command.Description,
-                                               command.Code, command.ParentId, command.LevelId,
+                                               command.Code,/* command.ParentId, command.LevelId,*/
                                                command.CreatedBy);
         }
     }

@@ -10,18 +10,18 @@ using System.Threading.Tasks;
 
 namespace Survey.Identity.Handlers.EntityLevels
 {
-    public class AddEntityLevelHandler : ICommandHandler<AddEntityLevelCommand>
-    {
-        private readonly IEntityLevelService _levelService;
+    //public class AddEntityLevelHandler : ICommandHandler<AddEntityLevelCommand>
+    //{
+    //    private readonly IEntityLevelService _levelService;
 
-        public AddEntityLevelHandler(IEntityLevelService levelService)
-        {
-            _levelService = levelService;
-        }
-        public async Task<Result> Handle(AddEntityLevelCommand command)
-        {
-            return await _levelService.Create(command.Id, command.Name, command.Description, command.ParentId,
-                                               command.CreatedBy);
-        }
-    }
+    //    public AddEntityLevelHandler(IEntityLevelService levelService)
+    //    {
+    //        _levelService = levelService;
+    //    }
+    //    public async Task<Result> Handle(AddEntityLevelCommand command)
+    //    {
+    //        return await _levelService.Create(command.Id, command.Name, command.Description, command.ParentId,
+    //                                           command.CreatedBy);
+    //    }
+    //}
 }

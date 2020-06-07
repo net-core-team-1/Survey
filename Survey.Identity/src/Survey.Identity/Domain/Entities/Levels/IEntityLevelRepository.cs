@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace Survey.Identity.Domain.Entities
 {
-    public interface IEntityLevelRepository
-    {
-        EntityLevel FindByKey(Guid? id);
-        void Insert(EntityLevel entity);
-        bool IsNameAvailibale(string name);
-        bool Save();
-    }
+    //public interface IEntityLevelRepository
+    //{
+    //    EntityLevel FindByKey(Guid? id);
+    //    void Insert(EntityLevel entity);
+    //    bool IsNameAvailibale(string name);
+    //    bool Save();
+    //}
 }

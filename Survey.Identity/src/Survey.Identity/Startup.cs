@@ -31,6 +31,7 @@ using Survey.Identity.Handlers.Entities;
 using Survey.Identity.Domain.Entities.Commands;
 using Survey.Identity.Domain.Services;
 using Survey.Identity.Data.Repositories;
+using Microsoft.Extensions.Hosting;
 
 namespace Survey.Identity
 {
@@ -46,6 +47,8 @@ namespace Survey.Identity
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddEvents();
+
             services.AddSurveyIdentityDbContext(Configuration)
                     .AddSurveyIdentity()
                     .AddAutoMapper()
@@ -60,7 +63,7 @@ namespace Survey.Identity
 
 
             services.AddScoped<IFeatureRepository, FeatureRepository>();
-            services.AddScoped<IEntityLevelRepository, EntityLevelRepository>();
+            //services.AddScoped<IEntityLevelRepository, EntityLevelRepository>();
             services.AddScoped<IEntityRepository, EntityRepository>();
             services.AddScoped<IMicroServiceRepository, MicroServiceRepository>();
 
@@ -70,8 +73,8 @@ namespace Survey.Identity
             services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<IFeatureService, FeatureService>();
 
-            services.AddScoped<IEntityLevelService, EntityLevelService>();
-            services.AddScoped<IEntityService, EntityService>();
+            //services.AddScoped<IEntityLevelService, EntityLevelService>();
+            //services.AddScoped<IEntityService, EntityService>();
 
             //user commands
             services.AddScoped<ICommandHandler<RegisterUserCommand>, RegisterUserHandler>();
@@ -100,9 +103,9 @@ namespace Survey.Identity
             services.AddScoped<ICommandHandler<ActivateFeatureCommand>, ActivateFeatureHandler>();
 
             //Entity levels
-            services.AddScoped<ICommandHandler<AddEntityLevelCommand>, AddEntityLevelHandler>();
-            services.AddScoped<ICommandHandler<EditInfoEntityLevelCommand>, EditInfoEntityLevelHandler>();
-            services.AddScoped<ICommandHandler<DeleteEntityLevelCommand>, DeleteEntityLevelHandler>();
+            //services.AddScoped<ICommandHandler<AddEntityLevelCommand>, AddEntityLevelHandler>();
+            //services.AddScoped<ICommandHandler<EditInfoEntityLevelCommand>, EditInfoEntityLevelHandler>();
+            //services.AddScoped<ICommandHandler<DeleteEntityLevelCommand>, DeleteEntityLevelHandler>();
 
             //Entity 
             services.AddScoped<ICommandHandler<CreateEntityCommand>, CreateEntityHandler>();
@@ -111,11 +114,13 @@ namespace Survey.Identity
 
 
             services.AddScoped<DispatcherAsync>();
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddScoped<Dispatcher>();
+            //services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+            services.AddRazorPages();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -127,8 +132,11 @@ namespace Survey.Identity
             //exchangeInitializer.Initialize();
 
             //subscriberBus.SubscribeCommand<RegisterUserCommand>();
+            app.UseRouting();
+            app.UseEndpoints(endpoints => {
+                endpoints.MapControllers();
+            });
 
-            app.UseMvc();
         }
     }
 }

@@ -37,6 +37,12 @@ namespace Survey.Identity.Domain.Users
 
             return Result.Success(new FullName(firstName, lastName));
         }
+        public void Update(FullName name)
+        {
+            FirstName = name.FirstName;
+            LastName = name.LastName;
+        }
+
         protected override IEnumerable<object> GetEqualityComponents()
         {
             yield return FirstName;

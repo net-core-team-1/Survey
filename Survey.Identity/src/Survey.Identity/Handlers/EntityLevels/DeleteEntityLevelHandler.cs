@@ -10,17 +10,17 @@ using System.Threading.Tasks;
 
 namespace Survey.Identity.Handlers.Entities
 {
-    public class DeleteEntityLevelHandler : ICommandHandler<DeleteEntityLevelCommand>
-    {
-        private readonly IEntityLevelService _levelService;
+    //public class DeleteEntityLevelHandler : ICommandHandler<DeleteEntityLevelCommand>
+    //{
+    //    private readonly IEntityLevelService _levelService;
 
-        public DeleteEntityLevelHandler(IEntityLevelService levelService)
-        {
-            _levelService = levelService;
-        }
-        public async Task<Result> Handle(DeleteEntityLevelCommand command)
-        {
-            return await _levelService.Delete(command.Id, command.By, command.Reason);
-        }
-    }
+    //    public DeleteEntityLevelHandler(IEntityLevelService levelService)
+    //    {
+    //        _levelService = levelService;
+    //    }
+    //    public async Task<Result> Handle(DeleteEntityLevelCommand command)
+    //    {
+    //        return await _levelService.Delete(command.Id, command.By, command.Reason);
+    //    }
+    //}
 }

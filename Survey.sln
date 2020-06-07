@@ -35,11 +35,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{EA0C21DC
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Survey.Identity", "Survey.Identity\src\Survey.Identity\Survey.Identity.csproj", "{A48CC3B1-C0FD-40EF-8A37-F1399F5928CB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Survey.CQRS", "Survey.CQRS\Survey.CQRS.csproj", "{7824BD9C-AB23-4F34-8B9E-3C17FE696E6A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Survey.CQRS", "Survey.CQRS\Survey.CQRS.csproj", "{7824BD9C-AB23-4F34-8B9E-3C17FE696E6A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Survey.Mongo", "Survey.Mongo\Survey.Mongo.csproj", "{D173CACA-98EE-4C06-A3E6-AD70A2BF2BC9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Survey.Mongo", "Survey.Mongo\Survey.Mongo.csproj", "{D173CACA-98EE-4C06-A3E6-AD70A2BF2BC9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Survey.Auth", "Survey.Auth\Survey.Auth.csproj", "{8FA40C5A-B514-4ECF-B0CC-5BCABD6B2E27}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Survey.Auth", "Survey.Auth\Survey.Auth.csproj", "{8FA40C5A-B514-4ECF-B0CC-5BCABD6B2E27}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Survey.Identity.UnitTests", "Survey.Identity.UnitTests\Survey.Identity.UnitTests.csproj", "{A379FC7C-D213-4119-B422-215435AA92CD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -95,6 +97,10 @@ Global
 		{8FA40C5A-B514-4ECF-B0CC-5BCABD6B2E27}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8FA40C5A-B514-4ECF-B0CC-5BCABD6B2E27}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8FA40C5A-B514-4ECF-B0CC-5BCABD6B2E27}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A379FC7C-D213-4119-B422-215435AA92CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A379FC7C-D213-4119-B422-215435AA92CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A379FC7C-D213-4119-B422-215435AA92CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A379FC7C-D213-4119-B422-215435AA92CD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -114,6 +120,7 @@ Global
 		{7824BD9C-AB23-4F34-8B9E-3C17FE696E6A} = {C103BB93-9FD9-408D-A117-198FAF3D7393}
 		{D173CACA-98EE-4C06-A3E6-AD70A2BF2BC9} = {C103BB93-9FD9-408D-A117-198FAF3D7393}
 		{8FA40C5A-B514-4ECF-B0CC-5BCABD6B2E27} = {C103BB93-9FD9-408D-A117-198FAF3D7393}
+		{A379FC7C-D213-4119-B422-215435AA92CD} = {EA0C21DC-9D5C-4162-B2D3-43B1D19213E9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5BAB4434-154A-4BB3-8339-51997B1BE3FD}
