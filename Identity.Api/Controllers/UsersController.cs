@@ -22,15 +22,15 @@ namespace Identity.Api.Controllers
     {
         private readonly IMapper _mapper;
         private readonly LinkGenerator _linkGenerator;
-        private readonly IBusPublisher _busPublisher;
+        private readonly ICommandSender _commandSender;
         private readonly Dispatcher _dispatcher;
 
         public UsersController(IMapper mapper, LinkGenerator linkGenerator,
-                             IBusPublisher busPublisher, Dispatcher dispatcher)
+                             ICommandSender commandSender, Dispatcher dispatcher)
         {
             _mapper = mapper;
             _linkGenerator = linkGenerator;
-            _busPublisher = busPublisher;
+            _commandSender = commandSender;
             _dispatcher = dispatcher;
         }
 
@@ -56,25 +56,31 @@ namespace Identity.Api.Controllers
         [HttpPost()]
         public IActionResult Register([FromBody] RegisterUserRequest registerRequest)
         {
-            var registerCommand = _mapper.Map<RegisterUserCommand>(registerRequest);
-            _busPublisher.SendAsync(registerCommand);
-            return Ok();
+            var command = _mapper.Map<RegisterUserCommand>(registerRequest);
+            var result = _commandSender.Send(command);
+            if (result.IsFailure)
+                return BadRequest(result);
+            return Ok(result);
         }
 
         [HttpDelete]
         public IActionResult UnregisterUser([FromBody] UnregisterUserRequest unregisterUserRequest)
         {
-            var unregisterUserCommand = _mapper.Map<UnregisterUserCommand>(unregisterUserRequest);
-            _busPublisher.SendAsync(unregisterUserCommand);
-            return Ok();
+            var command = _mapper.Map<UnregisterUserCommand>(unregisterUserRequest);
+            var result = _commandSender.Send(command);
+            if (result.IsFailure)
+                return BadRequest(result);
+            return Ok(result);
         }
 
         [HttpPatch]
         public IActionResult EditUser([FromBody] EditUserRequest editUserRequest)
         {
-            var editUserCommand = _mapper.Map<EditUserCommand>(editUserRequest);
-            _busPublisher.SendAsync(editUserCommand);
-            return Ok();
+            var command = _mapper.Map<EditUserCommand>(editUserRequest);
+            var result = _commandSender.Send(command);
+            if (result.IsFailure)
+                return BadRequest(result);
+            return Ok(result);
         }
     }
 }

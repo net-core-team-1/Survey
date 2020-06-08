@@ -18,13 +18,13 @@ namespace Identity.Api.Controllers
     public class RolesController : ControllerBase
     {
         private readonly IMapper _mapper;
-        private readonly IBusPublisher _busPublisher;
+        private readonly ICommandSender _commandSender;
         private readonly Dispatcher _dispatcher;
 
-        public RolesController(IMapper mapper, IBusPublisher busPublisher, Dispatcher dispatcher)
+        public RolesController(IMapper mapper, ICommandSender commandSender, Dispatcher dispatcher)
         {
             _mapper = mapper;
-            _busPublisher = busPublisher;
+            _commandSender = commandSender;
             _dispatcher = dispatcher;
         }
 
@@ -44,32 +44,40 @@ namespace Identity.Api.Controllers
         public IActionResult Register([FromBody] RegisterRoleRequest request)
         {
             var command = _mapper.Map<RegisterRoleCommand>(request);
-            _busPublisher.SendAsync(command);
-            return Ok(request);
+            var result = _commandSender.Send(command);
+            if (result.IsFailure)
+                return BadRequest(result);
+            return Ok(result);
         }
 
         [HttpPut]
         public IActionResult Edit([FromBody] EditRoleRequest request)
         {
             var command = _mapper.Map<EditRoleCommand>(request);
-            _busPublisher.SendAsync(command);
-            return Ok(request);
+            var result = _commandSender.Send(command);
+            if (result.IsFailure)
+                return BadRequest(result);
+            return Ok(result);
         }
 
         [HttpDelete]
         public IActionResult Unregister([FromBody] UnregisterRoleRequest request)
         {
             var command = _mapper.Map<UnregisterRoleCommand>(request);
-            _busPublisher.SendAsync(command);
-            return Ok(request);
+            var result = _commandSender.Send(command);
+            if (result.IsFailure)
+                return BadRequest(result);
+            return Ok(result);
         }
 
         [HttpPatch]
         public IActionResult Disable([FromBody] DisableRoleRequest request)
         {
             var command = _mapper.Map<DisableRoleCommand>(request);
-            _busPublisher.SendAsync(command);
-            return Ok(request);
+            var result = _commandSender.Send(command);
+            if (result.IsFailure)
+                return BadRequest(result);
+            return Ok(result);
         }
     }
 }

@@ -21,8 +21,12 @@ namespace Survey.Common.Messages
             Type handlerType = type.MakeGenericType(typeArgs);
 
             dynamic handler = _provider.GetService(handlerType);
-            Result result = handler.Handle((dynamic)command);
-            return result;
+            var handlerResult = handler.Handle((dynamic)command);
+            if (handlerResult is Result)
+                return (Result)handlerResult;
+            else if (handlerResult is Task<Result>)
+                return ((Task<Result>)handlerResult).Result;
+            else return Result.Failure("Insupported handler result type");
         }
 
         public T Dispatch<T>(IQuery<T> query)

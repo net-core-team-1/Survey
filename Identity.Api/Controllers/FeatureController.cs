@@ -19,13 +19,13 @@ namespace Identity.Api.Controllers
     public class FeatureController : ControllerBase
     {
         private readonly IMapper _mapper;
-        private readonly IBusPublisher _busPublisher;
+        private readonly ICommandSender _commandSender;
         private readonly Dispatcher _dispatcher;
 
-        public FeatureController(IMapper mapper, IBusPublisher busPublisher, Dispatcher dispatcher)
+        public FeatureController(IMapper mapper, ICommandSender commandSender, Dispatcher dispatcher)
         {
             _mapper = mapper;
-            _busPublisher = busPublisher;
+            _commandSender = commandSender;
             _dispatcher = dispatcher;
         }
 
@@ -45,33 +45,40 @@ namespace Identity.Api.Controllers
         public IActionResult Register([FromBody] RegisterFeatureRequest request)
         {
             var command = _mapper.Map<RegisterFeatureCommand>(request);
-
-            _busPublisher.SendAsync(command);
-            return Ok(request);
+            var result = _commandSender.Send(command);
+            if (result.IsFailure)
+                return BadRequest(result);
+            return Ok(result);
         }
 
         [HttpPut]
         public IActionResult Edit([FromBody] EditFeatureRequest request)
         {
             var command = _mapper.Map<EditFeatureCommand>(request);
-            _busPublisher.SendAsync(command);
-            return Ok(request);
+            var result = _commandSender.Send(command);
+            if (result.IsFailure)
+                return BadRequest(result);
+            return Ok(result);
         }
 
         [HttpPatch]
         public IActionResult Disable([FromBody] DisableFeatureRequest request)
         {
             var command = _mapper.Map<DisableFeatureCommand>(request);
-            _busPublisher.SendAsync(command);
-            return Ok(request);
+            var result = _commandSender.Send(command);
+            if (result.IsFailure)
+                return BadRequest(result);
+            return Ok(result);
         }
 
         [HttpDelete]
         public IActionResult Unregister([FromBody] UnregisterFeatureRequest request)
         {
             var command = _mapper.Map<UnRegisterFeatureCommand>(request);
-            _busPublisher.SendAsync(command);
-            return Ok(request);
+            var result = _commandSender.Send(command);
+            if (result.IsFailure)
+                return BadRequest(result);
+            return Ok(result);
         }
     }
 }

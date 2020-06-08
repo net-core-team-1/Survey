@@ -20,13 +20,13 @@ namespace Identity.Api.Controllers
     public class UserRolesController : ControllerBase
     {
         private readonly IMapper _mapper;
-        private readonly IBusPublisher _busPublisher;
+        private readonly ICommandSender _commandSender;
         private readonly Dispatcher _dispatcher;
 
-        public UserRolesController(IMapper mapper, IBusPublisher busPublisher, Dispatcher dispatcher)
+        public UserRolesController(IMapper mapper, ICommandSender commandSender, Dispatcher dispatcher)
         {
             _mapper = mapper;
-            _busPublisher = busPublisher;
+            _commandSender = commandSender;
             _dispatcher = dispatcher;
         }
 
@@ -40,23 +40,29 @@ namespace Identity.Api.Controllers
         public IActionResult EditRoles([FromBody] EditUserRolesRequest request)
         {
             var command = _mapper.Map<EditUserRolesCommad>(request);
-            _busPublisher.SendAsync<EditUserRolesCommad>(command);
-            return Ok(request);
+            var result = _commandSender.Send(command);
+            if (result.IsFailure)
+                return BadRequest(result);
+            return Ok(result);
         }
 
         [HttpPut]
         public IActionResult AssignUserRole([FromBody] RegisterUserRoleRequest request)
         {
             var command = _mapper.Map<RegisterUserRoleCommand>(request);
-            _busPublisher.SendAsync<RegisterUserRoleCommand>(command);
-            return Ok(request);
+            var result = _commandSender.Send(command);
+            if (result.IsFailure)
+                return BadRequest(result);
+            return Ok(result);
         }
         [HttpDelete]
         public IActionResult RemoveUserRole([FromBody] UnregisterUserRoleRequest request)
         {
             var command = _mapper.Map<UnregisterUserRoleCommand>(request);
-            _busPublisher.SendAsync<UnregisterUserRoleCommand>(command);
-            return Ok(request);
+            var result = _commandSender.Send(command);
+            if (result.IsFailure)
+                return BadRequest(result);
+            return Ok(result);
         }
     }
 }

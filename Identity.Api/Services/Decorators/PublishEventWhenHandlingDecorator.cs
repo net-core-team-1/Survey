@@ -37,12 +37,12 @@ namespace Identity.Api.Services.HandlersDecorators
             catch (IdentityException ex)
             {
                 PublishRejectedEvent(command, ex.Message, ex.Code);
-                throw ex;
+                return await Task<Result>.FromResult(Result.Failure<TCommand>(ex.Message));
             }
             catch (Exception ex)
             {
                 PublishRejectedEvent(command, ex.Message, command.GetType().Name.ToString());
-                throw ex;
+                return await Task<Result>.FromResult(Result.Failure<TCommand>(ex.Message));
             }
         }
 

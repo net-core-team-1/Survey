@@ -18,13 +18,13 @@ namespace Identity.Api.Controllers
     public class AppServiceController : ControllerBase
     {
         private readonly IMapper _mapper;
-        private readonly IBusPublisher _busPublisher;
+        private readonly ICommandSender _commandSender;
         private readonly Dispatcher _dispatcher;
 
-        public AppServiceController(IMapper mapper, IBusPublisher busPublisher, Dispatcher dispatcher)
+        public AppServiceController(IMapper mapper, ICommandSender commandSender, Dispatcher dispatcher)
         {
             _mapper = mapper;
-            _busPublisher = busPublisher;
+            _commandSender = commandSender;
             _dispatcher = dispatcher;
         }
 
@@ -50,32 +50,40 @@ namespace Identity.Api.Controllers
         public IActionResult Register([FromBody] RegisterAppServiceRequest request)
         {
             var command = _mapper.Map<RegisterAppServiceCommand>(request);
-            _busPublisher.SendAsync(command);
-            return Ok(request);
+            var result = _commandSender.Send(command);
+            if (result.IsFailure)
+                return BadRequest(result);
+            return Ok(result);
         }
 
         [HttpPut]
         public IActionResult Edit([FromBody] EditAppServiceRequest request)
         {
             var command = _mapper.Map<EditAppServiceCommand>(request);
-            _busPublisher.SendAsync(command);
-            return Ok(request);
+            var result = _commandSender.Send(command);
+            if (result.IsFailure)
+                return BadRequest(result);
+            return Ok(result);
         }
 
         [HttpPatch]
         public IActionResult Disable([FromBody] DisableAppServiceRequest request)
         {
             var command = _mapper.Map<DisableAppServiceCommand>(request);
-            _busPublisher.SendAsync(command);
-            return Ok(request);
+            var result = _commandSender.Send(command);
+            if (result.IsFailure)
+                return BadRequest(result);
+            return Ok(result);
         }
 
         [HttpDelete]
         public IActionResult Unregister([FromBody] DeleteAppServiceRequest request)
         {
             var command = _mapper.Map<DeleteAppServiceCommand>(request);
-            _busPublisher.SendAsync(command);
-            return Ok(request);
+            var result = _commandSender.Send(command);
+            if (result.IsFailure)
+                return BadRequest(result);
+            return Ok(result);
         }
     }
 }

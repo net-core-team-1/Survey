@@ -71,6 +71,7 @@ namespace Identity.Api
             services.RegisterSeeders();
             services.AddScoped<IDatabaseInitializer, IdentityDatabaseInitialier>();
             services.AddScoped<IDatabaseSeeder, IdentitySeeder>();
+            services.AddScoped<ICommandSender, DispatchCommandSender>();
             using (var scope = services.BuildServiceProvider().CreateScope())
             {
                 var dabaseInitializer = scope.ServiceProvider.GetRequiredService<IDatabaseInitializer>();

@@ -18,13 +18,13 @@ namespace Identity.Api.Controllers
     public class StructureController : ControllerBase
     {
         private readonly IMapper _mapper;
-        private readonly IBusPublisher _busPublisher;
+        private readonly ICommandSender _commandSender;
         private readonly Dispatcher _dispatcher;
 
-        public StructureController(IMapper mapper, IBusPublisher busPublisher, Dispatcher dispatcher)
+        public StructureController(IMapper mapper, ICommandSender commandSender, Dispatcher dispatcher)
         {
             _mapper = mapper;
-            _busPublisher = busPublisher;
+            _commandSender = commandSender;
             _dispatcher = dispatcher;
         }
 
@@ -44,32 +44,40 @@ namespace Identity.Api.Controllers
         public IActionResult Register([FromBody] RegisterStructureRequest request)
         {
             var command = _mapper.Map<RegisterStructureCommand>(request);
-            _busPublisher.SendAsync(command);
-            return Ok(request);
+            var result = _commandSender.Send(command);
+            if (result.IsFailure)
+                return BadRequest(result);
+            return Ok(result);
         }
 
         [HttpPut]
         public IActionResult Edit([FromBody] EditStructureRequest request)
         {
             var command = _mapper.Map<EditStructureCommand>(request);
-            _busPublisher.SendAsync(command);
-            return Ok(request);
+            var result = _commandSender.Send(command);
+            if (result.IsFailure)
+                return BadRequest(result);
+            return Ok(result);
         }
 
         [HttpPatch]
         public IActionResult Disable([FromBody] DisableStructureRequest request)
         {
             var command = _mapper.Map<DisableStructureCommand>(request);
-            _busPublisher.SendAsync(command);
-            return Ok(request);
+            var result = _commandSender.Send(command);
+            if (result.IsFailure)
+                return BadRequest(result);
+            return Ok(result);
         }
 
         [HttpDelete]
         public IActionResult Unregister([FromBody] DeleteStructureRequest request)
         {
             var command = _mapper.Map<DeleteStructureCommand>(request);
-            _busPublisher.SendAsync(command);
-            return Ok(request);
+            var result = _commandSender.Send(command);
+            if (result.IsFailure)
+                return BadRequest(result);
+            return Ok(result);
         }
     }
 }

@@ -19,13 +19,13 @@ namespace Identity.Api.Controllers
     public class FeaturesAppServiceController : ControllerBase
     {
         private readonly IMapper _mapper;
-        private readonly IBusPublisher _busPublisher;
+        private readonly ICommandSender _commandSender;
         private readonly Dispatcher _dispatcher;
 
-        public FeaturesAppServiceController(IMapper mapper, IBusPublisher busPublisher, Dispatcher dispatcher)
+        public FeaturesAppServiceController(IMapper mapper, ICommandSender commandSender, Dispatcher dispatcher)
         {
             _mapper = mapper;
-            _busPublisher = busPublisher;
+            _commandSender = commandSender;
             _dispatcher = dispatcher;
         }
 
@@ -40,8 +40,10 @@ namespace Identity.Api.Controllers
         {
             var command = _mapper.Map<EditAppServiceFeaturesCommand>(request);
 
-            _busPublisher.SendAsync(command);
-            return Ok(request);
+            var result = _commandSender.Send(command);
+            if (result.IsFailure)
+                return BadRequest(result);
+            return Ok(result);
         }
 
     }

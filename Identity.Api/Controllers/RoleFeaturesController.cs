@@ -21,15 +21,15 @@ namespace Identity.Api.Controllers
     {
         private readonly IMapper _mapper;
         private readonly LinkGenerator _linkGenerator;
-        private readonly IBusPublisher _busPublisher;
+        private readonly ICommandSender _commandSender;
         private readonly Dispatcher _dispatcher;
 
         public RoleFeaturesController(IMapper mapper, LinkGenerator linkGenerator,
-                             IBusPublisher busPublisher, Dispatcher dispatcher)
+                             ICommandSender commandSender, Dispatcher dispatcher)
         {
             _mapper = mapper;
             _linkGenerator = linkGenerator;
-            _busPublisher = busPublisher;
+            _commandSender = commandSender;
             _dispatcher = dispatcher;
         }
 
@@ -44,24 +44,30 @@ namespace Identity.Api.Controllers
         public IActionResult Edit([FromBody] EditRoleFeatureRequest request)
         {
             var command = _mapper.Map<EditRoleFeatureCommand>(request);
-            _busPublisher.SendAsync(command);
-            return Ok(request);
+            var result = _commandSender.Send(command);
+            if (result.IsFailure)
+                return BadRequest(result);
+            return Ok(result);
         }
 
         [HttpPut]
         public IActionResult AssignFeature([FromBody] RegisterRoleFeatureRequest request)
         {
             var command = _mapper.Map<RegisterRoleFeatureCommand>(request);
-            _busPublisher.SendAsync(command);
-            return Ok(request);
+            var result = _commandSender.Send(command);
+            if (result.IsFailure)
+                return BadRequest(result);
+            return Ok(result);
         }
 
         [HttpDelete]
         public IActionResult RemoveFeature([FromBody] UnregisterRoleFeatureRequest request)
         {
             var command = _mapper.Map<UnregisterRoleFeatureCommand>(request);
-            _busPublisher.SendAsync(command);
-            return Ok(request);
+            var result = _commandSender.Send(command);
+            if (result.IsFailure)
+                return BadRequest(result);
+            return Ok(result);
         }
     }
 }
