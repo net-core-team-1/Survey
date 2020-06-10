@@ -1,15 +1,9 @@
-﻿using CSharpFunctionalExtensions;
-using Identity.Api.Data.Repositories.Features;
+﻿using Identity.Api.Data.Repositories.Features;
 using Identity.Api.Data.Repositories.Services;
-using Identity.Api.Exceptions;
-using Identity.Api.Identity.Domain;
-using Identity.Api.Identity.Domain.Features;
 using Identity.Api.Identity.Domain.Features.Commands;
-using Identity.Api.Utils.ResultValidator;
-using Microsoft.AspNetCore.Mvc;
+using Survey.Common.Messages;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Identity.Api.Services.Seeders.Modules
@@ -18,12 +12,15 @@ namespace Identity.Api.Services.Seeders.Modules
     {
         private readonly IFeatureRepository _featureRepository;
         private readonly IAppServiceRepository _appServiceRepository;
+        private readonly Dispatcher _dispatcher;
 
         public FeaturesSeeder(IFeatureRepository featureRepository,
-             IAppServiceRepository appServiceRepository)
+             IAppServiceRepository appServiceRepository,
+             Dispatcher dispatcher)
         {
             _featureRepository = featureRepository;
             _appServiceRepository = appServiceRepository;
+            _dispatcher = dispatcher;
         }
 
         public async Task SeedAsync(Dictionary<SeederTypeName, RootSeederResult> rootValues)
@@ -96,31 +93,7 @@ namespace Identity.Api.Services.Seeders.Modules
 
         private async Task Seed(RegisterFeatureCommand command)
         {
-            var count = _featureRepository
-                            .FindBy(x => x.FeatureInfo.Controller == command.ControllerName
-                                    && x.FeatureInfo.ControllerActionName == command.ControllerActionName
-                                    && x.ServiceId == command.AppServiceId
-                                    && x.FeatureInfo.Label == command.Label).Count();
-            if (count != 0)
-                return;
-
-            var service = _appServiceRepository.FindByKey(command.AppServiceId);
-            if (service == null)
-                throw new IdentityException("Service_not_found", "Service not found in database with the given Id");
-
-            var createFeatureResult = FeatureInfo.Create(command.Label, command.Description, command.ControllerName,
-                command.ControllerActionName, command.Action).Validate();
-            var createInfoResult = CreateInfo.Create(command.CreatedBy);
-            var feature = new Feature(createFeatureResult.Value, createInfoResult.Value, service);
-            _featureRepository.Insert(feature);
-            try
-            {
-                _featureRepository.Save();
-            }
-            catch (Exception ex)
-            {
-                string msg = ex.Message;
-            }
+            _dispatcher.Dispatch(command);
         }
     }
 }
