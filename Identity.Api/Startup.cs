@@ -31,6 +31,8 @@ using Identity.Api.Identity.Domain.Users.Events.RejectedEvents;
 using Identity.Api.Infrastructure.Events;
 using Survey.Common.Seeding;
 using Identity.Api.Services.Seeders;
+using Identity.Api.Validation;
+using FluentValidation.AspNetCore;
 
 namespace Identity.Api
 {
@@ -56,10 +58,13 @@ namespace Identity.Api
             var queriesConnectionString = new QueriesConnectionString(Configuration.GetConnectionString("QueriesConnectionString"));
             services.AddSingleton(queriesConnectionString);
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc()
+                .AddFluentValidation()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             // Custom services injections
             services.AddEventMapper();
+            services.AddFluentValidations();
             services.AddIdentityServices(Configuration);
             services.AddAutoMapper();
             services.ConfigureServiceBus(Configuration);

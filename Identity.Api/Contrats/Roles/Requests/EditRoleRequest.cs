@@ -10,14 +10,9 @@ namespace Identity.Api.Contrat.Roles.Requests
         public string Name { get; set; }
         public string Description { get; set; }
         public Guid AppServiceId { get; set; }
-        //public List<Guid> Features { get; set; }
-
-        //public bool DeleteExistingFeatures { get; set; }
 
         public EditRoleRequest()
         {
-            //Features = new List<Guid>();
-            //DeleteExistingFeatures = false;
         }
     }
 }
