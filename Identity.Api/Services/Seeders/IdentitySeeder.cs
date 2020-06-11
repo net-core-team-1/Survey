@@ -1,9 +1,7 @@
 ﻿using Identity.Api.Data.Repositories.Structures;
 using Identity.Api.Services.Seeders.Modules;
-using Remotion.Linq.Parsing.ExpressionVisitors.Transformation.PredefinedTransformations;
 using Survey.Common.Seeding;
 using Survey.Identity.Services.Users;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
