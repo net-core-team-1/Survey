@@ -33,6 +33,9 @@ using Survey.Common.Seeding;
 using Identity.Api.Services.Seeders;
 using Identity.Api.Validation;
 using FluentValidation.AspNetCore;
+using Identity.Api.IdentityServices.Authentication;
+using Identity.Api.Identity.Domain.Authentication;
+using Identity.Api.Data.Repositories.Authentication;
 
 namespace Identity.Api
 {
@@ -72,6 +75,8 @@ namespace Identity.Api
             services.AddTransient<IFeatureRepository, FeatureRepository>();
             services.AddTransient<IAppServiceRepository, AppServiceRepository>();
             services.AddTransient<IStructureRepository, StructureRepository>();
+            services.AddTransient<IRefreshTokenRepository, RefreshTokenRepository>();
+            services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.RegisterHandlers();
             services.RegisterSeeders();
             services.AddScoped<IDatabaseInitializer, IdentityDatabaseInitialier>();

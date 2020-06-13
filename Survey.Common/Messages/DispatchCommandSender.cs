@@ -3,6 +3,7 @@ using Survey.Common.Types;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Survey.Common.Messages
 {
@@ -16,6 +17,11 @@ namespace Survey.Common.Messages
         public Result Send(ICommand command)
         {
             return _dispatcher.Dispatch(command);
+        }
+
+        public async Task<Result> SendAsync(ICommand command)
+        {
+            return await _dispatcher.DispatchAsync(command);
         }
     }
 }

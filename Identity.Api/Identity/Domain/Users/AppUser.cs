@@ -19,6 +19,8 @@ namespace Identity.Api.Identity.Domain.Users
     {
         public virtual FullName FullName { get; protected set; }
         public virtual Civility Civility { get; protected set; }
+        public DateTime? LastConnexionOn { get; private set; }
+
         public virtual int CivilityId { get; protected set; }
         public virtual DeleteInfo DeleteInfo { get; protected set; }
         public virtual AppUserRoleCollection UserRoles { get; protected set; }
@@ -33,7 +35,7 @@ namespace Identity.Api.Identity.Domain.Users
 
         public List<IEvent> Events { get; set; }
 
-        protected AppUser()
+        public AppUser()
         {
             Events = new List<IEvent>();
             this.Id = Guid.NewGuid();
@@ -60,6 +62,12 @@ namespace Identity.Api.Identity.Domain.Users
             Events.Add(new UserRegistredEvent(userName.Value, name.FirstName, name.LastName
                 , email.Value, civility.Id, structure.Id, roles));
         }
+
+        internal void SetLastConnexionDate()
+        {
+            this.LastConnexionOn = DateTime.Now;
+        }
+
         internal void EditPersonalInfo(FullName fullName, int civilityId)
         {
             this.FullName = fullName;

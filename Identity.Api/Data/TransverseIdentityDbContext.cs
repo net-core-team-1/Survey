@@ -3,6 +3,7 @@ using Identity.Api.Extensions;
 using Identity.Api.Identity.Domain;
 using Identity.Api.Identity.Domain.AppServices;
 using Identity.Api.Identity.Domain.AppUserRoles;
+using Identity.Api.Identity.Domain.Authentication;
 using Identity.Api.Identity.Domain.Civilities;
 using Identity.Api.Identity.Domain.Features;
 using Identity.Api.Identity.Domain.Outbox;
@@ -54,6 +55,7 @@ namespace Identity.Api.Data
             builder.ApplyConfiguration(new StructureMapping());
             builder.ApplyConfiguration(new StructureUsersMapping());
             builder.ApplyConfiguration(new OutboxMapping());
+            builder.ApplyConfiguration(new RefreshTokenMapping());
 
             foreach (var relationship in builder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
             {
@@ -72,6 +74,8 @@ namespace Identity.Api.Data
         public DbSet<Structure> Structures { get; set; }
         public DbSet<StructureUsers> StructureUsers { get; set; }
         public DbSet<OutboxMessage> OutboxMessages { get; set; }
+        public virtual DbSet<RefreshToken> RefreshTokens { get; set; }
+
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
             SetOutboxMessage();

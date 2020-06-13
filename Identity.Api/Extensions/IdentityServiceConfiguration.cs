@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Survey.Authentication.Auth;
 using Survey.Identity.Services.Users;
 using System;
 using System.Collections.Generic;
@@ -26,7 +27,7 @@ namespace Identity.Api.Extensions.IdentityServiceRegistration
             configuration.GetSection("SurveyIdentity").Bind(configOptions);
 
             services.AddDbContext<TransverseIdentityDbContext>(options =>
-                options.UseSqlServer(configOptions.ConnectionString).UseLazyLoadingProxies(),ServiceLifetime.Scoped)
+                options.UseSqlServer(configOptions.ConnectionString).UseLazyLoadingProxies(), ServiceLifetime.Scoped)
                ;
 
             services
@@ -37,6 +38,8 @@ namespace Identity.Api.Extensions.IdentityServiceRegistration
                 .AddUserStore<AppUserStore>()
                 .AddRoleStore<AppRoleStore>();
 
+            services.AddAuth(configuration);
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 options.CheckConsentNeeded = context => true;
@@ -45,15 +48,6 @@ namespace Identity.Api.Extensions.IdentityServiceRegistration
 
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IRoleService, RoleService>();
-
-            //services.AddScoped<IUserService, UserService>(sp =>
-            //{
-            //    return new UserService(sp.GetRequiredService<UserManager<AppUser>>());
-            //});
-            //services.AddScoped<IRoleService, RoleService>(sp =>
-            //{
-            //    return new RoleService(sp.GetRequiredService<RoleManager<AppRole>>());
-            //});
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Identity.Api.Contrats.Structures.Responses;
 using Identity.Api.Extensions.AppServiceCommandQueryHandlers;
+using Identity.Api.Extensions.AuthenticationCommandQueryHandler;
 using Identity.Api.Extensions.FeatureCommandQueryHandlers;
 using Identity.Api.Extensions.RoleCommandQueryHandlers;
 using Identity.Api.Extensions.StructureCommandQueryHandlers;
@@ -18,7 +19,7 @@ using Survey.Common.Types;
 
 namespace Identity.Api.Extensions.CommandHandlersRegistration
 {
-    public static class CommandHandlersConfiguration
+    public static class HandlersExtensions
     {
         public static void RegisterHandlers(this IServiceCollection services)
         {
@@ -27,6 +28,7 @@ namespace Identity.Api.Extensions.CommandHandlersRegistration
             services.RegisterFeatureCommandQueryHandlers();
             services.RegisterStructureCommandQueryHandlers();
             services.RegisterAppServiceCommandQueryHandlers();
+            services.RegisterAuthenticationHandlers();
         }
     }
 }

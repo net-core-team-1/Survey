@@ -37,7 +37,7 @@ namespace Identity.Api.Migrations
 
                     b.Property<DateTime>("AssociatedOn")
                         .ValueGeneratedOnAdd()
-                        .HasDefaultValue(new DateTime(2020, 5, 17, 15, 3, 52, 935, DateTimeKind.Utc).AddTicks(5204));
+                        .HasDefaultValue(new DateTime(2020, 6, 13, 20, 7, 26, 343, DateTimeKind.Utc).AddTicks(535));
 
                     b.Property<bool>("Enabled")
                         .ValueGeneratedOnAdd()
@@ -48,6 +48,38 @@ namespace Identity.Api.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("UserRoles","Identity");
+                });
+
+            modelBuilder.Entity("Identity.Api.Identity.Domain.Authentication.RefreshToken", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreationDate");
+
+                    b.Property<DateTime>("ExpiryDate");
+
+                    b.Property<bool>("Invalidated");
+
+                    b.Property<string>("JwtId")
+                        .HasMaxLength(50);
+
+                    b.Property<byte[]>("Timestamp")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
+
+                    b.Property<string>("Token")
+                        .HasMaxLength(250);
+
+                    b.Property<bool>("Used");
+
+                    b.Property<Guid>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("REFRESH_TOKENS","Identity");
                 });
 
             modelBuilder.Entity("Identity.Api.Identity.Domain.Civilities.Civility", b =>
@@ -85,6 +117,22 @@ namespace Identity.Api.Migrations
                     b.ToTable("Features","Identity");
                 });
 
+            modelBuilder.Entity("Identity.Api.Identity.Domain.Outbox.OutboxMessage", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreatedAt");
+
+                    b.Property<string>("Event")
+                        .HasColumnType("nvarchar(Max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("OutboxMessage","outbox");
+                });
+
             modelBuilder.Entity("Identity.Api.Identity.Domain.RoleFeature.AppRoleFeatures", b =>
                 {
                     b.Property<Guid>("RoleId");
@@ -117,6 +165,8 @@ namespace Identity.Api.Migrations
 
                     b.Property<Guid>("ServiceId");
 
+                    b.Property<Guid>("StructureId");
+
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedName")
@@ -125,6 +175,8 @@ namespace Identity.Api.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.HasIndex("ServiceId");
+
+                    b.HasIndex("StructureId");
 
                     b.ToTable("Roles","Identity");
                 });
@@ -148,7 +200,7 @@ namespace Identity.Api.Migrations
                     b.ToTable("RoleClaims","Identity");
                 });
 
-            modelBuilder.Entity("Identity.Api.Identity.Domain.Structure.Structure", b =>
+            modelBuilder.Entity("Identity.Api.Identity.Domain.Structures.Structure", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -158,7 +210,7 @@ namespace Identity.Api.Migrations
                     b.ToTable("Structures","Identity");
                 });
 
-            modelBuilder.Entity("Identity.Api.Identity.Domain.Structure.StructureUsers", b =>
+            modelBuilder.Entity("Identity.Api.Identity.Domain.Structures.StructureUsers", b =>
                 {
                     b.Property<Guid>("StructureId");
 
@@ -178,7 +230,7 @@ namespace Identity.Api.Migrations
 
                     b.Property<int>("AccessFailedCount");
 
-                    b.Property<int?>("CivilityId");
+                    b.Property<int>("CivilityId");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
@@ -187,6 +239,8 @@ namespace Identity.Api.Migrations
                         .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed");
+
+                    b.Property<DateTime?>("LastConnexionOn");
 
                     b.Property<bool>("LockoutEnabled");
 
@@ -324,7 +378,7 @@ namespace Identity.Api.Migrations
                                 .IsRequired()
                                 .ValueGeneratedOnAdd()
                                 .HasColumnName("CreatedOn")
-                                .HasDefaultValue(new DateTime(2020, 5, 17, 17, 3, 52, 940, DateTimeKind.Local).AddTicks(9307));
+                                .HasDefaultValue(new DateTime(2020, 6, 13, 22, 7, 26, 345, DateTimeKind.Local).AddTicks(8605));
 
                             b1.HasKey("AppServiceId");
 
@@ -414,6 +468,14 @@ namespace Identity.Api.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
+            modelBuilder.Entity("Identity.Api.Identity.Domain.Authentication.RefreshToken", b =>
+                {
+                    b.HasOne("Identity.Api.Identity.Domain.Users.AppUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
             modelBuilder.Entity("Identity.Api.Identity.Domain.Features.Feature", b =>
                 {
                     b.HasOne("Identity.Api.Identity.Domain.AppServices.AppService", "Service")
@@ -444,7 +506,7 @@ namespace Identity.Api.Migrations
 
                             b1.Property<string>("Label")
                                 .HasColumnName("Label")
-                                .HasMaxLength(50);
+                                .HasMaxLength(250);
 
                             b1.HasKey("FeatureId");
 
@@ -469,7 +531,7 @@ namespace Identity.Api.Migrations
                                 .IsRequired()
                                 .ValueGeneratedOnAdd()
                                 .HasColumnName("CreatedOn")
-                                .HasDefaultValue(new DateTime(2020, 5, 17, 17, 3, 52, 914, DateTimeKind.Local).AddTicks(4231));
+                                .HasDefaultValue(new DateTime(2020, 6, 13, 22, 7, 26, 336, DateTimeKind.Local).AddTicks(915));
 
                             b1.HasKey("FeatureId");
 
@@ -573,7 +635,7 @@ namespace Identity.Api.Migrations
                                 .IsRequired()
                                 .ValueGeneratedOnAdd()
                                 .HasColumnName("CreatedOn")
-                                .HasDefaultValue(new DateTime(2020, 5, 17, 17, 3, 52, 931, DateTimeKind.Local).AddTicks(6110));
+                                .HasDefaultValue(new DateTime(2020, 6, 13, 22, 7, 26, 342, DateTimeKind.Local).AddTicks(7642));
 
                             b1.HasKey("AppRoleFeaturesRoleId", "AppRoleFeaturesFeatureId");
 
@@ -593,6 +655,11 @@ namespace Identity.Api.Migrations
                         .HasForeignKey("ServiceId")
                         .OnDelete(DeleteBehavior.Restrict);
 
+                    b.HasOne("Identity.Api.Identity.Domain.Structures.Structure", "Structure")
+                        .WithMany()
+                        .HasForeignKey("StructureId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.OwnsOne("Identity.Api.Identity.Domain.CreateInfo", "CreateInfo", b1 =>
                         {
                             b1.Property<Guid>("AppRoleId");
@@ -606,7 +673,7 @@ namespace Identity.Api.Migrations
                                 .IsRequired()
                                 .ValueGeneratedOnAdd()
                                 .HasColumnName("CreatedOn")
-                                .HasDefaultValue(new DateTime(2020, 5, 17, 17, 3, 52, 923, DateTimeKind.Local).AddTicks(7665));
+                                .HasDefaultValue(new DateTime(2020, 6, 13, 22, 7, 26, 339, DateTimeKind.Local).AddTicks(7874));
 
                             b1.HasKey("AppRoleId");
 
@@ -691,9 +758,9 @@ namespace Identity.Api.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
-            modelBuilder.Entity("Identity.Api.Identity.Domain.Structure.Structure", b =>
+            modelBuilder.Entity("Identity.Api.Identity.Domain.Structures.Structure", b =>
                 {
-                    b.OwnsOne("Identity.Api.Identity.Domain.Structure.StructureInfo", "StructureInfo", b1 =>
+                    b.OwnsOne("Identity.Api.Identity.Domain.Structures.StructureInfo", "StructureInfo", b1 =>
                         {
                             b1.Property<Guid>("StructureId");
 
@@ -711,9 +778,9 @@ namespace Identity.Api.Migrations
 
                             b1.ToTable("Structures","Identity");
 
-                            b1.HasOne("Identity.Api.Identity.Domain.Structure.Structure")
+                            b1.HasOne("Identity.Api.Identity.Domain.Structures.Structure")
                                 .WithOne("StructureInfo")
-                                .HasForeignKey("Identity.Api.Identity.Domain.Structure.StructureInfo", "StructureId")
+                                .HasForeignKey("Identity.Api.Identity.Domain.Structures.StructureInfo", "StructureId")
                                 .OnDelete(DeleteBehavior.Cascade);
                         });
 
@@ -730,13 +797,13 @@ namespace Identity.Api.Migrations
                                 .IsRequired()
                                 .ValueGeneratedOnAdd()
                                 .HasColumnName("CreatedOn")
-                                .HasDefaultValue(new DateTime(2020, 5, 17, 17, 3, 52, 948, DateTimeKind.Local).AddTicks(6070));
+                                .HasDefaultValue(new DateTime(2020, 6, 13, 22, 7, 26, 349, DateTimeKind.Local).AddTicks(5450));
 
                             b1.HasKey("StructureId");
 
                             b1.ToTable("Structures","Identity");
 
-                            b1.HasOne("Identity.Api.Identity.Domain.Structure.Structure")
+                            b1.HasOne("Identity.Api.Identity.Domain.Structures.Structure")
                                 .WithOne("CreateInfo")
                                 .HasForeignKey("Identity.Api.Identity.Domain.CreateInfo", "StructureId")
                                 .OnDelete(DeleteBehavior.Cascade);
@@ -771,7 +838,7 @@ namespace Identity.Api.Migrations
 
                             b1.ToTable("Structures","Identity");
 
-                            b1.HasOne("Identity.Api.Identity.Domain.Structure.Structure")
+                            b1.HasOne("Identity.Api.Identity.Domain.Structures.Structure")
                                 .WithOne("DeleteInfo")
                                 .HasForeignKey("Identity.Api.Identity.Domain.DeleteInfo", "StructureId")
                                 .OnDelete(DeleteBehavior.Cascade);
@@ -800,16 +867,16 @@ namespace Identity.Api.Migrations
 
                             b1.ToTable("Structures","Identity");
 
-                            b1.HasOne("Identity.Api.Identity.Domain.Structure.Structure")
+                            b1.HasOne("Identity.Api.Identity.Domain.Structures.Structure")
                                 .WithOne("DisableInfo")
                                 .HasForeignKey("Identity.Api.Identity.Domain.DisabeleInfo", "StructureId")
                                 .OnDelete(DeleteBehavior.Cascade);
                         });
                 });
 
-            modelBuilder.Entity("Identity.Api.Identity.Domain.Structure.StructureUsers", b =>
+            modelBuilder.Entity("Identity.Api.Identity.Domain.Structures.StructureUsers", b =>
                 {
-                    b.HasOne("Identity.Api.Identity.Domain.Structure.Structure", "Structure")
+                    b.HasOne("Identity.Api.Identity.Domain.Structures.Structure", "Structure")
                         .WithMany("StructureUsers")
                         .HasForeignKey("StructureId")
                         .OnDelete(DeleteBehavior.Restrict);

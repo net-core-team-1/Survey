@@ -13,6 +13,9 @@ namespace Identity.Api.Data.Mapping
         {
             builder.ToTable("Civility", DatabaseSchema.IdentitySchema);
             builder.HasKey(x => x.Id);
+            builder
+                .Property(et => et.Id)
+                .ValueGeneratedNever();
             builder.Property(x => x.Name).HasMaxLength(10).Metadata.AfterSaveBehavior = Microsoft.EntityFrameworkCore.Metadata.PropertySaveBehavior.Ignore;
             builder.Property(x => x.Description).HasMaxLength(25).Metadata.AfterSaveBehavior = Microsoft.EntityFrameworkCore.Metadata.PropertySaveBehavior.Ignore;
         }

@@ -29,6 +29,17 @@ namespace Survey.Common.Messages
             else return Result.Failure("Insupported handler result type");
         }
 
+        internal async Task<Result> DispatchAsync(ICommand command)
+        {
+            Type type = typeof(ICommandHandler<>);
+            Type[] typeArgs = { command.GetType() };
+            Type handlerType = type.MakeGenericType(typeArgs);
+
+            dynamic handler = _provider.GetService(handlerType);
+            var result = await handler.Handle((dynamic)command);
+            return result;
+        }
+
         public T Dispatch<T>(IQuery<T> query)
         {
             Type type = typeof(IQueryHandler<,>);

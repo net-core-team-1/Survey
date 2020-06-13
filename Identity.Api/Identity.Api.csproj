@@ -8,12 +8,16 @@
   <ItemGroup>
     <Compile Remove="Exceptions\CustomExceptions\**" />
     <Compile Remove="Identity\Domain\Users\Exceptions\**" />
+    <Compile Remove="Services\Authentications\**" />
     <Content Remove="Exceptions\CustomExceptions\**" />
     <Content Remove="Identity\Domain\Users\Exceptions\**" />
+    <Content Remove="Services\Authentications\**" />
     <EmbeddedResource Remove="Exceptions\CustomExceptions\**" />
     <EmbeddedResource Remove="Identity\Domain\Users\Exceptions\**" />
+    <EmbeddedResource Remove="Services\Authentications\**" />
     <None Remove="Exceptions\CustomExceptions\**" />
     <None Remove="Identity\Domain\Users\Exceptions\**" />
+    <None Remove="Services\Authentications\**" />
   </ItemGroup>
 
 
@@ -38,12 +42,12 @@
     <Folder Include="Identity\Domain\Civilities\Queries\" />
     <Folder Include="Identity\Services\Civilities\" />
     <Folder Include="Infrastructure\Data\Configuration\" />
-    <Folder Include="Services\Authentications\CommandHandlers\" />
-    <Folder Include="Services\Authentications\Queries\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 
   <ItemGroup>
+    <ProjectReference Include="..\Survey.Authentication\Survey.Authentication.csproj" />
     <ProjectReference Include="..\Survey.Common\Survey.Common.csproj" />
   </ItemGroup>
 

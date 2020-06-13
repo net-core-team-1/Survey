@@ -4,6 +4,7 @@ using Survey.Common.Types;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Survey.Common.Messages
 {
@@ -18,6 +19,12 @@ namespace Survey.Common.Messages
         {
             _busPublisher.SendAsync(command);
             return Result.Ok<ICommand>(command);
+        }
+
+        public async Task<Result> SendAsync(ICommand command)
+        {
+            _busPublisher.SendAsync(command);
+            return await Task.FromResult(Result.Ok<ICommand>(command));
         }
     }
 }

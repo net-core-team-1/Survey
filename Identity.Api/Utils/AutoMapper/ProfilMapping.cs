@@ -4,10 +4,12 @@ using Identity.Api.Contrat.Features.Requests;
 using Identity.Api.Contrat.Roles.Requests;
 using Identity.Api.Contrat.Structures.Requests;
 using Identity.Api.Contrat.Users.Requests;
+using Identity.Api.Contrats.Authentication.Requests;
 using Identity.Api.Contrats.Roles.Requests;
 using Identity.Api.Contrats.Structures.Requests;
 using Identity.Api.Contrats.Users.Requests;
 using Identity.Api.Identity.Domain.AppServices.Commands;
+using Identity.Api.Identity.Domain.Authentication.Commands;
 using Identity.Api.Identity.Domain.Features.Commands;
 using Identity.Api.Identity.Domain.Roles.Commands;
 using Identity.Api.Identity.Domain.Structures.Commands;
@@ -24,6 +26,8 @@ namespace Identity.Api.Utils.AutoMapper
     {
         public ProfilMapping()
         {
+            CreateMap<SignInRequest, SignInCommand>();
+
             CreateMap<RegisterUserRequest, RegisterUserCommand>();
             CreateMap<EditUserRequest, EditUserCommand>();
             CreateMap<UnregisterUserRequest, UnregisterUserCommand>();
