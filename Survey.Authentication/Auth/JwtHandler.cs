@@ -35,19 +35,23 @@ namespace Survey.Authentication.Auth
         public JsonWebToken Create(Guid userId)
         {
             var nowUtc = DateTime.UtcNow;
-            var expires = nowUtc.AddMinutes(_options.ExpiryMinutes);
+            var expiresAt = nowUtc.AddMinutes(_options.ExpiryMinutes);
             var centuryBegin = new DateTime(1970, 1, 1).ToUniversalTime();
-            var exp = (long)(new TimeSpan(expires.Ticks - centuryBegin.Ticks).TotalSeconds);
-            var now = (long)(new TimeSpan(nowUtc.Ticks - centuryBegin.Ticks).TotalSeconds);
-            var payload = new JwtPayload
-            {
-                {"sub", userId},
-                {"iss", _options.Issuer},
-                {"iat", now},
-                {"exp", exp},
-                {"unique_name", userId}
-            };
-            var jwt = new JwtSecurityToken(_jwtHeader, payload);
+            var exp = (long)(new TimeSpan(expiresAt.Ticks - centuryBegin.Ticks).TotalSeconds);
+            var claims = new[]
+                {
+                    new Claim(ClaimTypes.NameIdentifier, userId.ToString())
+                };
+
+            var jwt = new JwtSecurityToken(
+                    
+                    issuer: _options.Issuer,
+                    audience: _options.Issuer,
+                    claims: claims,
+                    notBefore: nowUtc,
+                    expires: expiresAt,
+                    signingCredentials: _signingCredentials);
+
             var token = _jwtSecurityTokenHandler.WriteToken(jwt);
 
             return new JsonWebToken
@@ -55,7 +59,7 @@ namespace Survey.Authentication.Auth
                 Token = token,
                 Expires = exp,
                 CreatedOn = nowUtc,
-                ExpiryDate = expires,
+                ExpiryDate = expiresAt,
                 JwtId = jwt.Id,
                 UserId = userId
             };

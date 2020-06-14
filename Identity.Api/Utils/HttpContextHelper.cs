@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Identity.Api.Utils
@@ -16,7 +17,7 @@ namespace Identity.Api.Utils
         public System.Guid GetUserId()
         {
             return System.Guid.Parse(_httpContextAccessor.HttpContext.User.
-                Claims.Single(x => x.Type == "sub").Value);
+                Claims.Single(x => x.Type == ClaimTypes.NameIdentifier).Value);
         }
 
 

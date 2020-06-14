@@ -38,14 +38,12 @@ namespace Identity.Api.Extensions.IdentityServiceRegistration
                 .AddUserStore<AppUserStore>()
                 .AddRoleStore<AppRoleStore>();
 
-            services.AddAuth(configuration);
-
-            services.Configure<CookiePolicyOptions>(options =>
-            {
-                options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
-
+            //services.Configure<CookiePolicyOptions>(options =>
+            //{
+            //    options.CheckConsentNeeded = context => true;
+            //    options.MinimumSameSitePolicy = SameSiteMode.None;
+            //});
+           
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IRoleService, RoleService>();
         }

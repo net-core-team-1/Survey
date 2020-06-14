@@ -14,7 +14,7 @@ namespace Identity.Api.Data.Repositories.Features
         void Update(Feature entity);
         IEnumerable<Feature> FindByInclude(Expression<Func<Feature, bool>> predicate, params Expression<Func<Feature, object>>[] includeProperties);
         IEnumerable<Feature> FindBy(Expression<Func<Feature, bool>> predicate);
-
+        bool DoesUseHaveAccesTo(Guid userId, string actionName, string controllerName, Guid AppServiceId);
         bool Save();
     }
 }

@@ -5,8 +5,10 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Common.Types.Types.ServiceBus;
 using Identity.Api.Contrat.AppServices.Requests;
+using Identity.Api.Filters;
 using Identity.Api.Identity.Domain.AppServices.Commands;
 using Identity.Api.Identity.Domain.AppServices.Queries;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Survey.Common.Messages;
@@ -15,6 +17,7 @@ namespace Identity.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [AuthorizeAccesAttribute]
     public class AppServiceController : ControllerBase
     {
         private readonly IMapper _mapper;

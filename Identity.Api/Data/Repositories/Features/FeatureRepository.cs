@@ -46,5 +46,15 @@ namespace Identity.Api.Data.Repositories.Features
         {
             return base.FindByInclude(predicate, includeProperties);
         }
+
+        public bool DoesUseHaveAccesTo(Guid userId, string actionName, string controllerName, Guid appServiceId)
+        {
+            return _context.Users.Any(u => u.UserRoles
+                                 .Any(ur => ur.Role.RoleFeatures
+                                        .Any(rf => rf.Feature.FeatureInfo.Controller == controllerName
+                                                  && rf.Feature.FeatureInfo.ControllerActionName == actionName
+                                                  && rf.Feature.ServiceId == appServiceId)));
+
+        }
     }
 }

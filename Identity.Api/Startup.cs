@@ -36,6 +36,9 @@ using FluentValidation.AspNetCore;
 using Identity.Api.IdentityServices.Authentication;
 using Identity.Api.Identity.Domain.Authentication;
 using Identity.Api.Data.Repositories.Authentication;
+using Identity.Api.Utils;
+using Identity.Api.Filters;
+using Survey.Authentication.Auth;
 
 namespace Identity.Api
 {
@@ -68,7 +71,15 @@ namespace Identity.Api
             // Custom services injections
             services.AddEventMapper();
             services.AddFluentValidations();
+           
             services.AddIdentityServices(Configuration);
+          
+            services.AddTransient<HttpContextHelper, HttpContextHelper>();
+            services.AddHttpContextAccessor();
+            services.AddAuth(Configuration);
+            services.AddTransient<AuthorizeAccesAttribute, AuthorizeAccesAttribute>();
+
+           
             services.AddAutoMapper();
             services.ConfigureServiceBus(Configuration);
             services.AddScoped<Dispatcher>();
@@ -87,6 +98,7 @@ namespace Identity.Api
                 var dabaseInitializer = scope.ServiceProvider.GetRequiredService<IDatabaseInitializer>();
                 dabaseInitializer.InitializeAsync();
             }
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -103,7 +115,7 @@ namespace Identity.Api
                 app.UseHsts();
             }
 
-
+            app.UseAuthentication();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
