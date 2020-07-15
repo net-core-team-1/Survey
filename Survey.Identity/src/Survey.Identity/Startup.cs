@@ -25,13 +25,20 @@ using Survey.Indentity.Domain.Roles.Commands;
 using Survey.Auth;
 using Survey.Identity.Domain.Entities;
 using Survey.Identity.Services.Entities;
-using Survey.Identity.Domain.Entities.Levels.Commands;
-using Survey.Identity.Handlers.EntityLevels;
 using Survey.Identity.Handlers.Entities;
 using Survey.Identity.Domain.Entities.Commands;
 using Survey.Identity.Domain.Services;
 using Survey.Identity.Data.Repositories;
 using Microsoft.Extensions.Hosting;
+using Survey.Identity.Services.MicroServices;
+using Survey.Identity.Domain.Services.Commands;
+using Survey.Identity.Handlers.MicroServices;
+using Survey.Identity.Data.Seeding;
+using Survey.Identity.Data.Seeding.Entities;
+using Survey.Identity.Data.Seeding.Features;
+using Survey.Identity.Data.Seeding.MicroServices;
+using Survey.Identity.Data.Seeding.Roles;
+using Survey.Identity.Data.Seeding.Users;
 
 namespace Survey.Identity
 {
@@ -63,7 +70,6 @@ namespace Survey.Identity
 
 
             services.AddScoped<IFeatureRepository, FeatureRepository>();
-            //services.AddScoped<IEntityLevelRepository, EntityLevelRepository>();
             services.AddScoped<IEntityRepository, EntityRepository>();
             services.AddScoped<IMicroServiceRepository, MicroServiceRepository>();
 
@@ -72,9 +78,8 @@ namespace Survey.Identity
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<IFeatureService, FeatureService>();
-
-            //services.AddScoped<IEntityLevelService, EntityLevelService>();
-            //services.AddScoped<IEntityService, EntityService>();
+            services.AddScoped<IMicroServiceService, MicroServiceService>();
+            services.AddScoped<IEntityService, EntityService>();
 
             //user commands
             services.AddScoped<ICommandHandler<RegisterUserCommand>, RegisterUserHandler>();
@@ -112,9 +117,25 @@ namespace Survey.Identity
             services.AddScoped<ICommandHandler<EditInfoEntityCommand>, EditInfoEntityHandler>();
             services.AddScoped<ICommandHandler<DeleteEntityCommand>, DeleteEntityHandler>();
 
+            //MicroService
+            services.AddScoped<ICommandHandler<CreateMicroServiceCommand>, CreateMicroServiceHandler>();
 
             services.AddScoped<DispatcherAsync>();
             services.AddScoped<Dispatcher>();
+
+            //
+            services.AddScoped<IIdentitySeeder, EntitySeeder>();
+            services.AddScoped<IIdentitySeeder, MicroServiceSeeder>();
+            services.AddScoped<IIdentitySeeder, FeatureSeeder>();
+
+            services.AddScoped<IIdentitySeeder, RoleSeeder>();
+            services.AddScoped<IIdentitySeeder, UserSeeder>();
+
+            services.AddScoped<IDatabaseSeeder, DataBaseSeeder>();
+
+
+
+
             //services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
             services.AddRazorPages();
         }
@@ -127,13 +148,21 @@ namespace Survey.Identity
                 app.UseDeveloperExceptionPage();
             }
             app.UseAuthentication();
+
             //var subscriberBus = app.ApplicationServices.GetRequiredService<IBusSubscriber>();
             //var exchangeInitializer = app.ApplicationServices.GetRequiredService<ExchangeInitializer>();
             //exchangeInitializer.Initialize();
 
             //subscriberBus.SubscribeCommand<RegisterUserCommand>();
+
+
+            var dabaseInitializer = app.ApplicationServices.GetService<IDatabaseSeeder>();
+            dabaseInitializer.SeedAsync();
+
+
             app.UseRouting();
-            app.UseEndpoints(endpoints => {
+            app.UseEndpoints(endpoints =>
+            {
                 endpoints.MapControllers();
             });
 

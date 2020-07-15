@@ -21,10 +21,7 @@ namespace Survey.Identity.Data.Mapping
                 a.Property(aa => aa.Description).HasColumnName("Description").HasMaxLength(255).IsRequired();
             });
 
-            builder.OwnsOne(a => a.FuncCode, a =>
-            {
-                a.Property(aa => aa.Code).HasColumnName("Code").HasMaxLength(6).IsRequired();
-            });
+       
 
             builder.OwnsOne(a => a.CreateInfo, a =>
             {
@@ -42,14 +39,7 @@ namespace Survey.Identity.Data.Mapping
             });
 
 
-            //builder.HasOne<EntityLevel>(a => a.EntityLevel)
-            //        .WithMany()
-            //        .OnDelete(DeleteBehavior.Restrict);
-
-            //builder.HasOne<Entity>(a => a.ParentEntity)
-            //       .WithMany()
-            //       .HasForeignKey(a => a.ParentId)
-            //       .OnDelete(DeleteBehavior.Restrict);
+       
 
         }
 

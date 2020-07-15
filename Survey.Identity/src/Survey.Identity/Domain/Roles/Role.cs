@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Survey.Identity.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,7 @@ namespace Survey.Identity.Domain.Roles
         public virtual DisableInfo DisableInfo { get; private set; }
 
         public virtual DeleteInfo DeleteInfo { get; private set; }
+        public virtual Entity Entity { get; private set; }
 
         public byte[] Timestamp { get; private set; }
 
@@ -24,12 +26,13 @@ namespace Survey.Identity.Domain.Roles
 
         }
 
-        public Role(string name,CreateInfo creationInfo, List<Guid> features = null)
+        public Role(string name, CreateInfo creationInfo,Entity entity, List<Guid> features = null)
         {
             Name = name;
             CreateInfo = creationInfo;
             DeleteInfo = DeleteInfo.Create().Value;
             DisableInfo = DisableInfo.Create().Value;
+            Entity = entity;
 
             LinkFeatures(features);
         }
@@ -44,12 +47,12 @@ namespace Survey.Identity.Domain.Roles
             DisableInfo.EmptyObject();
         }
 
-      
-        public void Update( List<Guid> features = null)
+
+        public void Update(List<Guid> features = null)
         {
             UpdateFeatures(features);
         }
-     
+
         private void UpdateFeatures(List<Guid> features)
         {
             DisconnectFeaturesBasedOnNewOnes(features);

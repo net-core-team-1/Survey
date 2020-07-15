@@ -11,19 +11,12 @@ namespace Survey.Identity.Domain.Entities.Commands
         public Guid Id { get; }
         public string Name { get; }
         public string Description { get; }
-        public Guid? ParentId { get; }
-        public Guid LevelId { get; }
-        public string Code { get; }
 
-        public EditInfoEntityCommand(Guid id, string name, string description, string code,Guid levelId, Guid? parentId = null)
+        public EditInfoEntityCommand(Guid id, string name, string description)
         {
             Id = id;
             Name = name;
             Description = description;
-            Code = code;
-            ParentId = parentId;
-            LevelId = levelId;
-            ParentId = parentId;
         }
     }
 }

@@ -9,7 +9,7 @@ namespace Survey.Identity.Data.Mapping
     {
         public void Configure(EntityTypeBuilder<Role> builder)
         {
-            builder.ToTable("ROLES",schema:DbSchemaNames.Identity);
+            builder.ToTable("ROLES", schema: DbSchemaNames.Identity);
             builder.HasKey(a => a.Id);
 
             builder.Property(a => a.Timestamp).IsRowVersion();
@@ -39,6 +39,10 @@ namespace Survey.Identity.Data.Mapping
                 a.Property(aa => aa.DeletedOn).HasColumnName("DeletedOn").HasDefaultValue(null).IsRequired(false);
             });
 
+            builder.HasOne(a => a.Entity)
+                    .WithMany()
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .IsRequired(false);
 
         }
     }

@@ -20,6 +20,12 @@ namespace Survey.Identity.Domain.Services
         {
 
         }
+        public MicroService(string name,string description,CreateInfo createInfo)
+        {
+            Name = name;
+            Description = description;
+            CreateInfo = createInfo;
+        }
         #endregion
     }
 }

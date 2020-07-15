@@ -20,7 +20,8 @@ namespace Survey.Identity.Services.Users
             _userManager = userManager;
             _entityRepository = entityRepository;
         }
-        public async Task<Result> RegisterUser(string firstName, string lastName, string email, string password, Guid entityId, List<Guid> roles)
+        public async Task<Result> RegisterUser(string firstName, string lastName, string email, 
+                                               string password, Guid entityId, List<Guid> roles)
         {
             var user = await _userManager.FindByEmailAsync(email);
             if (user != null)
@@ -68,7 +69,7 @@ namespace Survey.Identity.Services.Users
         public async Task<Result> EditInfo(Guid userId, string firstName, string lastName, Guid entityId, List<Guid> roles = null)
         {
             var user = await _userManager.FindByIdAsync(userId.ToString());
-;
+            
             if (user == null)
                 return await Task<Result>.FromResult(Result.Failure($"user_not_exist "));
 
@@ -91,9 +92,9 @@ namespace Survey.Identity.Services.Users
 
             var result = await _userManager.UpdateAsync(user);
             if (!result.Succeeded)
-                return await Task<Result>.FromResult(Result.Failure("user_editInfo_save_error"));
+                return Result.Failure("user_editInfo_save_error");
 
-            return await Task<Result>.FromResult(Result.Ok());
+           return Result.Success();
         }
 
 
@@ -114,9 +115,9 @@ namespace Survey.Identity.Services.Users
             var result = await _userManager.UpdateAsync(user);
             if (!result.Succeeded)
             {
-                return await Task<Result>.FromResult(Result.Failure("user_unregister_error"));
+                return Result.Failure("user_unregister_error");
             }
-            return await Task<Result>.FromResult(Result.Ok());
+            return Result.Success();
         }
     }
 }

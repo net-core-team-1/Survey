@@ -3,7 +3,6 @@ using Survey.Identity.Contracts;
 using Survey.Identity.Contracts.EntityLevels.Requests;
 using Survey.Identity.Domain.Authentication.Commands;
 using Survey.Identity.Domain.Entities.Commands;
-using Survey.Identity.Domain.Entities.Levels.Commands;
 using Survey.Identity.Domain.Features.Commands;
 using Survey.Identity.Domain.Users.Commands;
 using Survey.Indentity.Domain.Roles.Commands;
@@ -46,10 +45,7 @@ namespace Survey.Identity.API.Automapper
             CreateMap<EditInfoEntityRequest, EditInfoEntityCommand>();
             CreateMap<DeleteEntityRequest, DeleteEntityCommand>();
 
-            //EntityLevels
-            //CreateMap<AddEntityLevelRequest, AddEntityLevelCommand>();
-            //CreateMap<EditInfoEntityLevelRequest, EditInfoEntityLevelCommand>();
-            //CreateMap<DeleteEntityRequest, DeleteEntityCommand>();
+
 
         }
     }

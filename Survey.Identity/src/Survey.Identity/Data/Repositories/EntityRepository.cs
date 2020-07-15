@@ -18,19 +18,17 @@ namespace Survey.Identity.Infrastracture.Data.Repositories
             _context = context;
         }
 
-        public Entity FindByCode(string code)
-        {
-            var data = (from x in _context.Entities
-                        where x.FuncCode.Code == code
-                        select x).FirstOrDefault();
-            return data;
-        }
 
         public Entity FindByKey(Guid? id)
         {
             if (id == null)
                 return null;
-            return _context.Entities.Find(id);
+            return _context.Entities.FirstOrDefault(a => a.Id == id);
+        }
+
+        public List<Entity> GetAll()
+        {
+            return _context.Entities.ToList();
         }
 
         public void Insert(Entity entity)
@@ -38,16 +36,6 @@ namespace Survey.Identity.Infrastracture.Data.Repositories
             _context.Entities.Add(entity);
         }
 
-        public bool IsCodeUsed(string code)
-        {
-            var data = (from x in _context.Entities
-                        where x.FuncCode.Code == code
-                        select new
-                        {
-                            x.Id
-                        }).Count();
-            return data > 0;
-        }
 
         public bool Save()
         {
@@ -63,6 +51,8 @@ namespace Survey.Identity.Infrastracture.Data.Repositories
             }
             return returnValue;
         }
+
+
 
 
 

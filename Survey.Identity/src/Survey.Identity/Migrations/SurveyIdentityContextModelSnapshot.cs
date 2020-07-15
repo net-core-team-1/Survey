@@ -24,7 +24,7 @@ namespace Survey.Identity.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
-                        .HasDefaultValue(new Guid("b6db6f6c-4199-43fd-a888-b9e0cc7e923b"));
+                        .HasDefaultValue(new Guid("0e5259c7-273b-4599-ac63-85295f01f9e5"));
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -128,6 +128,9 @@ namespace Survey.Identity.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid?>("EntityId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
@@ -142,6 +145,8 @@ namespace Survey.Identity.Migrations
                         .HasColumnType("rowversion");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EntityId");
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
@@ -404,7 +409,7 @@ namespace Survey.Identity.Migrations
                                 .ValueGeneratedOnAdd()
                                 .HasColumnName("CreatedOn")
                                 .HasColumnType("datetime2")
-                                .HasDefaultValue(new DateTime(2020, 6, 4, 9, 44, 11, 347, DateTimeKind.Local).AddTicks(5528));
+                                .HasDefaultValue(new DateTime(2020, 6, 29, 19, 54, 55, 670, DateTimeKind.Local).AddTicks(9134));
 
                             b1.HasKey("EntityId");
 
@@ -437,25 +442,6 @@ namespace Survey.Identity.Migrations
                                 .HasColumnName("DeletedOn")
                                 .HasColumnType("datetime2")
                                 .HasDefaultValue(null);
-
-                            b1.HasKey("EntityId");
-
-                            b1.ToTable("ENTITIES");
-
-                            b1.WithOwner()
-                                .HasForeignKey("EntityId");
-                        });
-
-                    b.OwnsOne("Survey.Identity.Domain.Entities.FunctionalCode", "FuncCode", b1 =>
-                        {
-                            b1.Property<Guid>("EntityId")
-                                .HasColumnType("uniqueidentifier");
-
-                            b1.Property<string>("Code")
-                                .IsRequired()
-                                .HasColumnName("Code")
-                                .HasColumnType("nvarchar(6)")
-                                .HasMaxLength(6);
 
                             b1.HasKey("EntityId");
 
@@ -514,7 +500,7 @@ namespace Survey.Identity.Migrations
                                 .ValueGeneratedOnAdd()
                                 .HasColumnName("CreatedOn")
                                 .HasColumnType("datetime2")
-                                .HasDefaultValue(new DateTime(2020, 6, 4, 9, 44, 11, 303, DateTimeKind.Local).AddTicks(3701));
+                                .HasDefaultValue(new DateTime(2020, 6, 29, 19, 54, 55, 637, DateTimeKind.Local).AddTicks(9063));
 
                             b1.HasKey("FeatureId");
 
@@ -632,6 +618,11 @@ namespace Survey.Identity.Migrations
 
             modelBuilder.Entity("Survey.Identity.Domain.Roles.Role", b =>
                 {
+                    b.HasOne("Survey.Identity.Domain.Entities.Entity", "Entity")
+                        .WithMany()
+                        .HasForeignKey("EntityId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.OwnsOne("Survey.Identity.Domain.CreateInfo", "CreateInfo", b1 =>
                         {
                             b1.Property<Guid>("RoleId")
@@ -648,7 +639,7 @@ namespace Survey.Identity.Migrations
                                 .ValueGeneratedOnAdd()
                                 .HasColumnName("CreatedOn")
                                 .HasColumnType("datetime2")
-                                .HasDefaultValue(new DateTime(2020, 6, 4, 9, 44, 11, 320, DateTimeKind.Local).AddTicks(8444));
+                                .HasDefaultValue(new DateTime(2020, 6, 29, 19, 54, 55, 644, DateTimeKind.Local).AddTicks(6606));
 
                             b1.HasKey("RoleId");
 
@@ -758,7 +749,7 @@ namespace Survey.Identity.Migrations
                                 .ValueGeneratedOnAdd()
                                 .HasColumnName("CreatedOn")
                                 .HasColumnType("datetime2")
-                                .HasDefaultValue(new DateTime(2020, 6, 4, 9, 44, 11, 358, DateTimeKind.Local).AddTicks(4280));
+                                .HasDefaultValue(new DateTime(2020, 6, 29, 19, 54, 55, 673, DateTimeKind.Local).AddTicks(3574));
 
                             b1.HasKey("MicroServiceId");
 
@@ -823,7 +814,7 @@ namespace Survey.Identity.Migrations
                                 .ValueGeneratedOnAdd()
                                 .HasColumnName("CreatedOn")
                                 .HasColumnType("datetime2")
-                                .HasDefaultValue(new DateTime(2020, 6, 4, 9, 44, 11, 243, DateTimeKind.Local).AddTicks(935));
+                                .HasDefaultValue(new DateTime(2020, 6, 29, 19, 54, 55, 631, DateTimeKind.Local).AddTicks(2657));
 
                             b1.HasKey("UserId");
 

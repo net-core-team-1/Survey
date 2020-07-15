@@ -9,8 +9,8 @@ namespace Survey.Identity.Domain.Users.Commands
     public class ChangeEmailCommand:ICommand
     {
 
-        public Guid Id { get; set; }
-        public string Email { get; set; }
+        public Guid Id { get;  }
+        public string Email { get;  }
         public ChangeEmailCommand(Guid id,string email)
         {
             Id = id;

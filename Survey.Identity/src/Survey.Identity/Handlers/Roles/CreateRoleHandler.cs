@@ -3,6 +3,7 @@ using Survey.CQRS.Commands;
 using Survey.Identity.Services.Roles;
 using Survey.Indentity.Domain.Roles.Commands;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
 namespace Survey.Identity.Handlers.Roles
@@ -17,7 +18,7 @@ namespace Survey.Identity.Handlers.Roles
         }
         public async Task<Result> Handle(CreateRoleCommand command)
         {
-            return await _roleService.Create(command.Name, command.CreatedBy, command.Features);
+            return await _roleService.Create(command.Name, command.EntityId, command.CreatedBy, command.Features);
         }
     }
 }

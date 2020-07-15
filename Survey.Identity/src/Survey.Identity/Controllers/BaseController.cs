@@ -33,7 +33,7 @@ namespace Survey.Identity.Controllers
         protected IActionResult FromResult(Result result)
         {
 
-            return  result.IsSuccess ? Ok(result) : Error(result.Error);
+            return  result.IsSuccess ? Ok() : Error(result.Error);
         }
         protected IActionResult NotFound(string errorMessage)
         {

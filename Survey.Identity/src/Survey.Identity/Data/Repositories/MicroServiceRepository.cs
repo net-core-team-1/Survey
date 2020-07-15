@@ -19,5 +19,21 @@ namespace Survey.Identity.Data.Repositories
         {
             return _context.MicroServices.FirstOrDefault(a => a.Id == id);
         }
+
+        public List<MicroService> GetAll()
+        {
+            return _context.MicroServices
+                           .ToList();
+        }
+
+        public void Insert(MicroService microService)
+        {
+            _context.MicroServices.Add(microService);
+        }
+
+        public bool Save()
+        {
+            return _context.SaveChanges() > 0;
+        }
     }
 }

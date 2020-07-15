@@ -16,7 +16,7 @@ namespace Survey.Identity.Controllers
         private readonly LinkGenerator _linkGenerator;
         private readonly DispatcherAsync _dispatcher;
 
-        public UsersController(IMapper mapper,LinkGenerator linkGenerator,DispatcherAsync dispatcher)
+        public UsersController(IMapper mapper, LinkGenerator linkGenerator, DispatcherAsync dispatcher)
         {
             _mapper = mapper;
             _linkGenerator = linkGenerator;
@@ -33,7 +33,7 @@ namespace Survey.Identity.Controllers
         }
 
         [HttpPost(ApiRoutes.Users.EditeInfo)]
-        public async Task<IActionResult> Edit(Guid id,EditUserInfoRequest editInfoRequest)
+        public async Task<IActionResult> Edit(Guid id, EditUserInfoRequest editInfoRequest)
         {
             editInfoRequest.Id = id;
             var editInfoCommand = _mapper.Map<EditUserInfoCommand>(editInfoRequest);
@@ -53,7 +53,7 @@ namespace Survey.Identity.Controllers
         }
 
         [HttpPost(ApiRoutes.Users.Unregister)]
-        public async Task<IActionResult> Unregister(Guid id,UnregisterRequest request)
+        public async Task<IActionResult> Unregister(Guid id, UnregisterRequest request)
         {
             request.Id = id;
             var command = _mapper.Map<UnregisterUserCommand>(request);

@@ -12,11 +12,11 @@ namespace Survey.Identity.Domain.Features.Commands
         public string Action { get; }
         public string Controller { get; }
         public string ControllerActionName { get; }
-        public Guid CreatedBy { get; }
-        public Guid MicroServiceId { get; set; }
+        public Guid? CreatedBy { get; }
+        public Guid? MicroServiceId { get; set; }
 
         public CreateFeatureCommand(string label, string description, string action, string controller,
-                                 string controllerActionName, Guid createdBy,Guid microServiceId)
+                                 string controllerActionName, Guid? createdBy=null,Guid? microServiceId=null)
         {
             Label = label;
             Description = description;

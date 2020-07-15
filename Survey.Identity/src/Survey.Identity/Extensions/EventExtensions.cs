@@ -7,8 +7,8 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddEvents(this IServiceCollection services)
         {
 
-            services.AddSingleton<OutBoxPublisher>();
-            services.AddHostedService<OutBoxPublisherBackgroundService>();
+            //services.AddSingleton<OutBoxPublisher>();
+            //services.AddHostedService<OutBoxPublisherBackgroundService>();
 
             return services;
         }

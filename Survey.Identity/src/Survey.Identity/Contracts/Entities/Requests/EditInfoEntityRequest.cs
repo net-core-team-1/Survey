@@ -10,8 +10,5 @@ namespace Survey.Identity.Contracts.EntityLevels.Requests
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public string Code { get; set; }
-        //public Guid? ParentId { get; set; }
-        //public Guid LevelId { get; set; }
     }
 }

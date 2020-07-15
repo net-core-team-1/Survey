@@ -8,7 +8,7 @@ namespace Survey.Identity.Services.Roles
 {
     public interface IRoleService
     {
-        Task<Result> Create(string name, Guid by, List<Guid> features);
+        Task<Result> Create(string name,Guid entityId, Guid? by, List<Guid> features);
         Task<Result> EditName(Guid id,string name);
         Task<Result> UpdateFeatures(Guid id, List<Guid> features);
         Task<Result> Deactivate(Guid id, Guid by);

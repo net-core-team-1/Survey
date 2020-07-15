@@ -7,7 +7,7 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="9.0.0" />
-    <PackageReference Include="CSharpFunctionalExtensions" Version="2.2.2" />
+    <PackageReference Include="CSharpFunctionalExtensions" Version="2.8.1" />
     <PackageReference Include="Dapper" Version="2.0.35" />
     <PackageReference Include="FluentValidation" Version="8.6.2" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.4" />
@@ -24,10 +24,9 @@
 
   <ItemGroup>
     <Folder Include="Contracts\Entities\Responses\" />
-    <Folder Include="Contracts\EntityLevels\Responses\" />
+    <Folder Include="Data\Cleaning\" />
     <Folder Include="Domain\Authentication\Events\" />
     <Folder Include="Domain\Entities\Events\" />
-    <Folder Include="Domain\Entities\Levels\Events\" />
   </ItemGroup>
 
   <ItemGroup>

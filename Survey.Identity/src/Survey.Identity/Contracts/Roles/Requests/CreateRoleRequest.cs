@@ -9,7 +9,7 @@ namespace Survey.Identity.Contracts
     {
         public string Name { get; set; }
         public Guid CreatedBy { get; set; }
-
+        public Guid EntityId { get; set; }
         public List<Guid> Features { get; set; }
 
         public CreateRoleRequest()

@@ -1,6 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.AspNetCore.Identity;
 using Survey.Identity.Domain;
+using Survey.Identity.Domain.Entities;
 using Survey.Identity.Domain.Roles;
 using System;
 using System.Collections.Generic;
@@ -12,13 +13,15 @@ namespace Survey.Identity.Services.Roles
     public class RoleService : IRoleService
     {
         private readonly RoleManager<Role> _roleManager;
+        private readonly IEntityRepository _entityRepository;
 
-        public RoleService(RoleManager<Role> roleManager)
+        public RoleService(RoleManager<Role> roleManager, IEntityRepository entityRepository)
         {
             _roleManager = roleManager;
+            _entityRepository = entityRepository;
         }
 
-        public async Task<Result> Create(string name, Guid by, List<Guid> features)
+        public async Task<Result> Create(string name, Guid entityId, Guid? by, List<Guid> features)
         {
             var role = await _roleManager.FindByNameAsync(name);
             if (role != null)
@@ -28,7 +31,12 @@ namespace Survey.Identity.Services.Roles
             if (createInfoResult.IsFailure)
                 return await Task<Result>.FromResult(Result.Failure($"Role_create_info_invalid"));
 
-            role = new Role(name, createInfoResult.Value, features);
+            var entity = _entityRepository.FindByKey(entityId);
+            if (entity == null)
+                return await Task<Result>.FromResult(Result.Failure("invalid_entity_to_set"));
+
+
+            role = new Role(name, createInfoResult.Value, entity, features);
             var result = await _roleManager.CreateAsync(role);
             if (!result.Succeeded)
                 return await Task<Result>.FromResult(Result.Failure("Role could not be saved"));

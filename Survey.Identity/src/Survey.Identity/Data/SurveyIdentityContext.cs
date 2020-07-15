@@ -60,8 +60,8 @@ namespace Survey.Identity.Data
 
         public override int SaveChanges()
         {
-            var eventsDetected = GetEvents();
-            AddEventsIfAny(eventsDetected);
+            //var eventsDetected = GetEvents();
+            //AddEventsIfAny(eventsDetected);
 
             var result = base.SaveChanges();
 
@@ -70,8 +70,8 @@ namespace Survey.Identity.Data
         }
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            var eventsDetected = GetEvents();
-            AddEventsIfAny(eventsDetected);
+            //var eventsDetected = GetEvents();
+            //AddEventsIfAny(eventsDetected);
 
             var result = base.SaveChangesAsync(cancellationToken);
 

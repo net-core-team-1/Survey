@@ -20,7 +20,7 @@ namespace Survey.Identity.Services.Features
             _serviceRepository = serviceRepository;
         }
         public async Task<Result> Create(string label, string description, string controller, string actionName,
-                                         string action, Guid createdby, Guid microServiceId)
+                                         string action, Guid? createdby, Guid? microServiceId)
         {
             Result<FeatureInfo> featureInfoResult = FeatureInfo.Create(label, description, controller, actionName, action);
             if (featureInfoResult.IsFailure)
@@ -30,7 +30,7 @@ namespace Survey.Identity.Services.Features
             if (creatInfoResult.IsFailure)
                 return await Task<Result>.FromResult(Result.Failure($"Feature_Create_Info_not_valid"));
 
-            var service = _serviceRepository.FindByKey(microServiceId);
+            var service = _serviceRepository.FindByKey(microServiceId.Value);
             if (service == null)
                 return await Task<Result>.FromResult(Result.Failure($"MicroService_not_valid"));
 
@@ -86,7 +86,7 @@ namespace Survey.Identity.Services.Features
             {
                 return await Task<Result>.FromResult(Result.Failure("Feature could not be updated"));
             }
-            return await Task<Result>.FromResult(Result.Ok());
+            return await Task<Result>.FromResult(Result.Success());
         }
 
         public async Task<Result> Remove(Guid id, Guid by, string reason)

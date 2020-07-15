@@ -8,9 +8,8 @@ namespace Survey.Identity.Domain.Entities
     public interface IEntityRepository
     {
         Entity FindByKey(Guid? id);
-        Entity FindByCode(string code);
         void Insert(Entity entity);
-        bool IsCodeUsed(string code);
         bool Save();
+        public List<Entity> GetAll();
     }
 }
